@@ -81,14 +81,14 @@
                                     </option>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <input type="submit" value="Filtrar" class="btn btn-success">
-                            <input type="button" value="Adicionar Novo Usuário" class="btn btn-warning"
-                                   onclick="location.href='{{ url('/usuarios/adicionar') }}'">
-                            <a href="{{ url('/dashboard') }}" class="btn btn-secondary">Fechar</a>
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="submit" value="Filtrar" class="btn btn-success">
+                                    <input type="button" value="Adicionar Novo Usuário" class="btn btn-warning"
+                                           onclick="location.href='{{ url('/usuarios/adicionar') }}'">
+                                    <a href="{{ url('/dashboard') }}" class="btn btn-secondary">Fechar</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

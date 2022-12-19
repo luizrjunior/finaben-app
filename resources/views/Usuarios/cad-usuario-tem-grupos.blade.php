@@ -34,7 +34,11 @@
                         <thead>
                         <tr>
                             <td align="center">
-                                <input type="checkbox" class="minimal" id="checkTodos" name="checkTodos">
+                                <div class="icheck-primary d-inline">
+                                    <input type="checkbox" id="checkTodos" name="checkTodos" class="minimal">
+                                    <label for="checkTodos">
+                                    </label>
+                                </div>
                             </td>
                             <th>Grupo</th>
                             <th>Permissões</th>
@@ -50,8 +54,11 @@
                             @endphp
                             <tr>
                                 <td align="center">
-                                    <input type="checkbox" name="role_ids[]"
-                                           value="{{ $role->id }}" class="minimal" {{ $checked }}>
+                                    <div class="icheck-primary d-inline">
+                                        <input type="checkbox" id="checkboxPrimary{{ $role->id }}" name="role_ids[]" class="minimal" {{ $checked }}>
+                                        <label for="checkboxPrimary{{ $role->id }}">
+                                        </label>
+                                    </div>
                                 </td>
                                 <td>{{ $role->name }}</td>
                                 <td>
@@ -72,16 +79,16 @@
                     </table>
                 @endif
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <button type="submit" class="btn btn-success" onclick="validar()" {{ $disabled }}>
-                Salvar
-            </button>
-            <a href="{{ $urlVoltar }}" class="btn btn-secondary" onclick="return validar();">
-                Voltar
-            </a>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success" onclick="validar()" {{ $disabled }}>
+                        Salvar
+                    </button>
+                    <a href="{{ $urlVoltar }}" class="btn btn-secondary" onclick="return validar();">
+                        Voltar
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </form>

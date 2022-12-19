@@ -32,18 +32,6 @@
         <script src="{{ asset('/js/usuarios/cad-usuario.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $('#checkTodos').on('ifChecked', function(event){
-                    $('.minimal').iCheck('check');
-                });
-
-                $('#checkTodos').on('ifUnchecked', function(event){
-                    $('.minimal').iCheck('uncheck');
-                });
-
-                //iCheck for checkbox and radio inputs
-                $('input[type="checkbox"].minimal').iCheck({
-                    checkboxClass: 'icheckbox_minimal-blue'
-                })
                 @if ($usuario_id != "")
                 $("#email_usuario").prop('disabled', true);
                 @endif
@@ -55,13 +43,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">{!! $breadcrumb !!}</h1>
+                        <h1 class="m-0">{!! $breadcrumb !!} <small>Usuário</small></h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                             <li class="breadcrumb-item">Usuários</li>
-                            <li class="breadcrumb-item active">{!! $breadcrumb !!}</li>
+                            <li class="breadcrumb-item active">{!! $breadcrumb !!} Usuário</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -76,7 +64,7 @@
                           autocomplete="off">
                     @csrf
 
-                        <!-- Default box -->
+                    <!-- Default box -->
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Cadastro de Usuário</h3>
@@ -94,11 +82,12 @@
                             <div class="card-body">
 
                                 @if (Session('success'))
-                                <div class="alert alert-success alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h5><i class="icon fas fa-check"></i> Sucesso!</h5>
-                                    {!! Session('success') !!}
-                                </div>
+                                    <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+                                        </button>
+                                        <h5><i class="icon fas fa-check"></i> Sucesso!</h5>
+                                        {!! Session('success') !!}
+                                    </div>
                                 @endif
 
                                 <input type="hidden" id="usuario_id" name="usuario_id" value="{{ $usuario_id }}">
@@ -126,7 +115,8 @@
                                         <input type="email" id="email_usuario" name="email_usuario"
                                                class="form-control {{ $errors->has('email_usuario') ? 'is-invalid' : '' }}"
                                                placeholder="E-mail do Usuário" value="{{ $email_usuario }}">
-                                        <span class="error invalid-feedback">{{ $errors->first('email_usuario') }}</span>
+                                        <span
+                                            class="error invalid-feedback">{{ $errors->first('email_usuario') }}</span>
                                     </div>
                                 </div>
 
@@ -136,7 +126,8 @@
                                         <input type="password"
                                                class="form-control {{ $errors->has('senha_usuario') ? 'is-invalid' : '' }}"
                                                id="senha_usuario" name="senha_usuario" placeholder="Senha de Acesso">
-                                        <span class="error invalid-feedback">{{ $errors->first('senha_usuario') }}</span>
+                                        <span
+                                            class="error invalid-feedback">{{ $errors->first('senha_usuario') }}</span>
                                     </div>
 
                                     <div class="form-group">
@@ -145,27 +136,27 @@
                                                class="form-control {{ $errors->has('confirm_senha_usuario') ? 'is-invalid' : '' }}"
                                                id="confirm_senha_usuario" name="confirm_senha_usuario"
                                                placeholder="Repetir Senha de Acesso">
-                                        <span class="error invalid-feedback">{{ $errors->first('confirm_senha_usuario') }}</span>
+                                        <span
+                                            class="error invalid-feedback">{{ $errors->first('confirm_senha_usuario') }}</span>
                                     </div>
                                 @endif
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <input type="submit" value="Salvar" class="btn btn-success" {{ $disabled }}>
-                                <input type="button" value="Limpar" class="btn btn-warning"
-                                       onclick="location.href='{{ url('/usuarios/adicionar') }}'">
-                                <a href="{{ url('/usuarios') }}" class="btn btn-secondary">Voltar</a>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="submit" value="Salvar" class="btn btn-success" {{ $disabled }}>
+                                        <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
+                                               onclick="location.href='{{ $urlAdicionar }}'">
+                                        <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
                 </div>
 
                 @if ($usuario_id != "")
-                <div class="col-md-9">
-                    @include('usuarios.cad-usuario-tem-grupos')
-                </div>
+                    <div class="col-md-9">
+                        @include('usuarios.cad-usuario-tem-grupos')
+                    </div>
                 @endif
 
             </div>
