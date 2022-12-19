@@ -3,7 +3,7 @@
 
 <x-app-layout>
     <x-slot name="javascript">
-        <script src="{{ asset('/js/usuario/filt-usuarios.js') }}"></script>
+        <script src="{{ asset('/js/usuarios/filt-usuarios.js') }}"></script>
     </x-slot>
     <x-slot name="header">
         <div class="content-header">
@@ -87,7 +87,7 @@
                         <div class="col-12">
                             <input type="submit" value="Filtrar" class="btn btn-success">
                             <input type="button" value="Adicionar Novo Usuário" class="btn btn-warning"
-                                   onclick="location.href='{{ url('/usuarios/usuario/adicionar') }}'">
+                                   onclick="location.href='{{ url('/usuarios/adicionar') }}'">
                             <a href="{{ url('/dashboard') }}" class="btn btn-secondary">Fechar</a>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                                 @if (count($usuarios) > 0)
                                     @foreach ($usuarios as $usuario)
                                         @php
-                                            $user_has_roles = $usuario->roles->where('system_id', Session::get('session_sistema_id'));
+                                            $user_has_roles = $usuario->roles;
                                         @endphp
                                         <tr>
                                             <td>#</td>
@@ -145,7 +145,7 @@
                                             </td>
                                             <td align="center">
                                                 @if ($usuario->id != 1)
-                                                    <a class="btn btn-info btn-sm" href="{{ url("/usuarios/usuario/{$usuario->id}/edit") }}">
+                                                    <a class="btn btn-info btn-sm" href="{{ url("/usuarios/{$usuario->id}/editar") }}">
                                                         <i class="fas fa-pencil-alt">
                                                         </i>
                                                         Editar
