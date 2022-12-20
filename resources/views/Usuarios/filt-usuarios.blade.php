@@ -1,3 +1,9 @@
+@php
+    $urlFechar = url('/dashboard');
+    $urlAdicionar = url('/usuarios/adicionar');
+    $urlLocalizar = url('/usuarios');
+@endphp
+
 @section('title', 'FINABEN')
 @section('sub-title', 'Usuários')
 
@@ -25,7 +31,7 @@
     <section class="content">
         <div class="container-fluid">
             <form class="form-horizontal" role="form" method="POST"
-                  action="{{ url('/usuarios') }}" autocomplete="off">
+                  action="{{ $urlLocalizar }}" autocomplete="off">
                 @csrf
 
             <div class="row">
@@ -85,8 +91,8 @@
                                 <div class="col-12">
                                     <input type="submit" value="Filtrar" class="btn btn-success">
                                     <input type="button" value="Adicionar Novo Usuário" class="btn btn-warning"
-                                           onclick="location.href='{{ url('/usuarios/adicionar') }}'">
-                                    <a href="{{ url('/dashboard') }}" class="btn btn-secondary">Fechar</a>
+                                           onclick="location.href='{{ $urlAdicionar }}'">
+                                    <a href="{{ $urlFechar }}" class="btn btn-secondary">Fechar</a>
                                 </div>
                             </div>
                         </div>
