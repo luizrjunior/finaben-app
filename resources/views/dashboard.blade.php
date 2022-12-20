@@ -33,19 +33,18 @@
                         </div>
                         <div class="card-body">
                             <a href="{{ url('/usuarios') }}" class="btn btn-app bg-success">
-                                <span class="badge bg-purple">891</span>
+                                <span class="badge bg-purple">{{ $totalUsers }}</span>
                                 <i class="fas fa-users"></i> Usuários
                             </a>
                             <a class="btn btn-app bg-secondary">
-                                <span class="badge bg-success">300</span>
+                                <span class="badge bg-success">{{ $totalCongregacoes }}</span>
                                 <i class="fas fa-barcode"></i> Congregações
                             </a>
                             <a class="btn btn-app bg-danger">
-                                <span class="badge bg-teal">67</span>
+                                <span class="badge bg-teal">{{ $totalLancamentos }}</span>
                                 <i class="fas fa-inbox"></i> Lançamentos
                             </a>
                             <a class="btn btn-app bg-warning">
-                                <span class="badge bg-info">12</span>
                                 <i class="fas fa-envelope"></i> Cálculo Saídas
                             </a>
                         </div>

@@ -87,14 +87,12 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <input type="submit" value="Filtrar" class="btn btn-success">
-                                    <input type="button" value="Adicionar Novo Usuário" class="btn btn-warning"
-                                           onclick="location.href='{{ $urlAdicionar }}'">
-                                    <a href="{{ $urlFechar }}" class="btn btn-secondary">Fechar</a>
-                                </div>
-                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <input type="submit" value="Filtrar" class="btn btn-primary">
+                            <input type="button" value="Adicionar Novo Usuário" class="btn btn-warning"
+                                   onclick="location.href='{{ $urlAdicionar }}'">
+                            <a href="{{ $urlFechar }}" class="btn btn-secondary">Fechar</a>
                         </div>
                     </div>
                 </div>
@@ -114,6 +112,7 @@
                             </div>
                         </div>
                         <div class="card-body p-0">
+                            <div class="box-body table-responsive no-padding">
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -186,6 +185,7 @@
                                     </td>
                                 </tr>
                             </table>
+                        </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

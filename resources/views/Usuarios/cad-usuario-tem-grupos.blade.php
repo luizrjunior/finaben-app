@@ -30,6 +30,7 @@
             <span class="text-danger">{{ $errors->first('role_ids') }}</span>
             <div class="DocumentListItensVendas">
                 @if (count($roles) > 0)
+                    <div class="box-body table-responsive no-padding">
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
@@ -77,11 +78,12 @@
                         </tr>
                         </tfoot>
                     </table>
+                    </div>
                 @endif
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-success" onclick="validar()" {{ $disabled }}>
+                    <button type="submit" class="btn btn-primary" onclick="validar()" {{ $disabled }}>
                         Salvar
                     </button>
                     <a href="{{ $urlVoltar }}" class="btn btn-secondary" onclick="return validar();">

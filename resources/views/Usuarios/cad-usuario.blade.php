@@ -35,6 +35,11 @@
                 @if ($usuario_id != "")
                 $("#email_usuario").prop('disabled', true);
                 @endif
+
+                // Forma 1
+                $("#checkTodos").click(function(){
+                    $('input:checkbox').not(this).prop('checked', this.checked);
+                });
             })
         </script>
     </x-slot>
@@ -140,14 +145,12 @@
                                             class="error invalid-feedback">{{ $errors->first('confirm_senha_usuario') }}</span>
                                     </div>
                                 @endif
-                                <div class="row">
-                                    <div class="col-12">
-                                        <input type="submit" value="Salvar" class="btn btn-success" {{ $disabled }}>
-                                        <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
-                                               onclick="location.href='{{ $urlAdicionar }}'">
-                                        <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" value="Salvar" class="btn btn-primary" {{ $disabled }}>
+                                <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
+                                       onclick="location.href='{{ $urlAdicionar }}'">
+                                <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
                             </div>
                         </div>
                     </form>

@@ -17,11 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-Route::get('/permissao-negada', 'DashboardController@permissaoNegada');
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'dashboard'])->name('dashboard');
+Route::get('/permissao-negada', [\App\Http\Controllers\DashboardController::class, 'permissaoNegada']);
 
 Route::group(['prefix' => 'usuarios'], function () {
     Route::any('/', [\App\Http\Controllers\Usuarios\UsuarioController::class, 'index']);
