@@ -1,3 +1,4 @@
 $(document).ready(function () {
-    $("#itemMenuUsuarios").addClass('active');
+    $("#itemMenuAcl").addClass('menu-open');
+    $("#itemMenuPermissoes").addClass('active');
 });

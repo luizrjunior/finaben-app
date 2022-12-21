@@ -15,14 +15,14 @@
                 <p>Usuários</p>
             </a>
         </li>
-        <li class="nav-item">
+        <li id="itemMenuAcl" class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-lock"></i>
                 <p>ACL<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a id="itemMenuPermissoes" href="{{ url('/acl/permissoes') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Permissões</p>
                     </a>

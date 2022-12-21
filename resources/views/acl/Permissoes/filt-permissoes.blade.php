@@ -1,27 +1,28 @@
 @php
     $urlFechar = url('/dashboard');
-    $urlAdicionar = url('/usuarios/adicionar');
-    $urlLocalizar = url('/usuarios');
+    $urlAdicionar = url('/acl/permissoes/adicionar');
+    $urlLocalizar = url('/acl/permissoes');
 @endphp
 
 @section('title', 'FINABEN')
-@section('sub-title', 'Usuários')
+@section('sub-title', 'Permissões')
 
 <x-app-layout>
     <x-slot name="javascript">
-        <script src="{{ asset('/js/usuarios/filt-usuarios.js') }}"></script>
+        <script src="{{ asset('/js/acl/permissoes/filt-permissoes.js') }}"></script>
     </x-slot>
     <x-slot name="header">
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Usuários</h1>
+                        <h1 class="m-0">Permissões</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Usuários</li>
+                            <li class="breadcrumb-item active">ACL</li>
+                            <li class="breadcrumb-item active">Permissões</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -39,7 +40,7 @@
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Filtro de Usuários</h3>
+                            <h3 class="card-title">Filtro de Permissões</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -100,7 +101,7 @@
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Tabela de Usuários</h3>
+                            <h3 class="card-title">Tabela de Permissões</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -125,8 +126,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if (count($usuarios) > 0)
-                                    @foreach ($usuarios as $usuario)
+                                @if (count($permissoes) > 0)
+                                    @foreach ($permissoes as $usuario)
                                         @php
                                             $user_has_roles = $usuario->roles;
                                         @endphp
@@ -150,7 +151,7 @@
                                             </td>
                                             <td align="center">
                                                 @if ($usuario->id != 1)
-                                                    <a class="btn btn-info btn-sm" href="{{ url("/usuarios/{$usuario->id}/editar") }}">
+                                                    <a class="btn btn-info btn-sm" href="{{ url("/permissoes/{$usuario->id}/editar") }}">
                                                         <i class="fas fa-pencil-alt">
                                                         </i>
                                                         Editar
@@ -178,9 +179,9 @@
                                 <tr>
                                     <td>
                                         @if (isset($data))
-                                            {{ $usuarios->appends($data)->links() }}
+                                            {{ $permissoes->appends($data)->links() }}
                                         @else
-                                            {{ $usuarios->links() }}
+                                            {{ $permissoes->links() }}
                                         @endif
                                     </td>
                                 </tr>
