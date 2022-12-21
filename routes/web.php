@@ -29,6 +29,13 @@ Route::group(['prefix' => 'usuarios'], function () {
     Route::post('/usuario-tem-grupos/salvar', [\App\Http\Controllers\Usuarios\UsuarioTemGruposController::class, 'salvar']);
 });
 
+Route::group(['prefix' => 'acl'], function () {
+    Route::any('/permissoes', [\App\Http\Controllers\Acl\PermissaoController::class, 'index']);
+    Route::get('/permissoes/adicionar', [\App\Http\Controllers\Acl\PermissaoController::class, 'adicionar']);
+    Route::post('/permissoes/inserir', [\App\Http\Controllers\Acl\PermissaoController::class, 'inserir']);
+    Route::get('/permissoes/{permissao_id}/editar', [\App\Http\Controllers\Acl\PermissaoController::class, 'editar']);
+});
+
 require __DIR__.'/auth.php';
 
 
