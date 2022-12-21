@@ -56,7 +56,8 @@
                             <tr>
                                 <td align="center">
                                     <div class="icheck-primary d-inline">
-                                        <input type="checkbox" id="checkboxPrimary{{ $role->id }}" name="role_ids[]" class="minimal" {{ $checked }}>
+                                        <input type="checkbox" name="role_ids[]"
+                                               value="{{ $role->id }}" class="minimal" {{ $checked }}>
                                         <label for="checkboxPrimary{{ $role->id }}">
                                         </label>
                                     </div>

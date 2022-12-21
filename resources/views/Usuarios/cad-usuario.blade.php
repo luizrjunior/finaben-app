@@ -6,6 +6,12 @@
     $senha_usuario = null;
     $confirm_senha_usuario = null;
 
+    $usuario_id = retornaValorAntigo($usuario_id, 'usuario_id');
+    $nome_usuario = retornaValorAntigo($nome_usuario, 'nome_usuario');
+    $email_usuario = retornaValorAntigo($email_usuario, 'email_usuario');
+    $senha_usuario = retornaValorAntigo($senha_usuario, 'senha_usuario');
+    $confirm_senha_usuario = retornaValorAntigo($confirm_senha_usuario, 'confirm_senha_usuario');
+
     $breadcrumb = 'Adicionar Novo';
     $btnAdicionar = 'Limpar';
     $disabled = "";

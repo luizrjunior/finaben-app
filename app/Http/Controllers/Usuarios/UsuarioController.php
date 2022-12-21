@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Usuarios;
 
-use App\Models\Role;
 use Gate;
-use App\Http\Controllers\Controller;
-use App\Models\Usuario;
 use Illuminate\Http\Request;
+use App\Models\Role;
+use App\Models\Usuario;
+use App\Http\Controllers\Controller;
 
 class UsuarioController extends Controller
 {
@@ -59,10 +59,10 @@ class UsuarioController extends Controller
     {
         return Usuario::where(function ($query) use ($data) {
             if ($data['nome_usuario_psq'] != null) {
-                $query->where('users.name', 'LIKE', "%" . $data['nome_usuario_psq'] . "%");
+                $query->where('name', 'LIKE', "%" . $data['nome_usuario_psq'] . "%");
             }
             if ($data['email_usuario_psq'] != null) {
-                $query->where('users.email', 'LIKE', "%" . $data['email_usuario_psq'] . "%");
+                $query->where('email', 'LIKE', "%" . $data['email_usuario_psq'] . "%");
             }
         })->paginate($data['totalPage']);
     }
@@ -114,7 +114,7 @@ class UsuarioController extends Controller
             return redirect('/permissao-negada');
         }
 
-        $roles = $this->retornarPerfisPorSistema();
+        $roles = $this->retornaGrupos();
         $perfis_usuario = [];
 
         $usuario = Usuario::find($id);
@@ -127,7 +127,7 @@ class UsuarioController extends Controller
             compact('usuario', 'roles', 'perfis_usuario'));
     }
 
-    private function retornarPerfisPorSistema()
+    private function retornaGrupos()
     {
         return Role::select('roles.id', 'roles.name')
             ->orderBy("roles.name", "ASC")->get();
