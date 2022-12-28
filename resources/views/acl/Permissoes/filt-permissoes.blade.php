@@ -53,14 +53,9 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="nome_usuario_psq" class="control-label">Nome</label>
-                                <input type="text" id="nome_usuario_psq" name="nome_usuario_psq"
-                                       class="form-control" value="{{ $data['nome_usuario_psq'] }}" autofocus>
-                            </div>
-                            <div class="form-group">
-                                <label for="email_usuario_psq" class="control-label">E-mail</label>
-                                <input type="text" id="email_usuario_psq" name="email_usuario_psq"
-                                       class="form-control" value="{{ $data['email_usuario_psq'] }}">
+                                <label for="name_psq" class="control-label">Nome</label>
+                                <input type="text" id="name_psq" name="name_psq"
+                                       class="form-control" value="{{ $data['name_psq'] }}" autofocus>
                             </div>
                             <div class="form-group">
                                 <label for="totalPage" class="control-label">Qtde. Itens por Página</label>
@@ -91,7 +86,7 @@
                         </div>
                         <div class="card-footer">
                             <input type="submit" value="Filtrar" class="btn btn-primary">
-                            <input type="button" value="Adicionar Novo Usuário" class="btn btn-warning"
+                            <input type="button" value="Adicionar Nova Permissão" class="btn btn-warning"
                                    onclick="location.href='{{ $urlAdicionar }}'">
                             <a href="{{ $urlFechar }}" class="btn btn-secondary">Fechar</a>
                         </div>
@@ -118,51 +113,26 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Cadastrado em</th>
-                                    <th>Nome</th>
-                                    <th>E-mail</th>
-                                    <th>Grupo(s)</th>
+                                    <th>Criado em</th>
+                                    <th>Ordem Nº</th>
+                                    <th>Nome Permissão</th>
                                     <th>Ações</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @if (count($permissoes) > 0)
-                                    @foreach ($permissoes as $usuario)
-                                        @php
-                                            $user_has_roles = $usuario->roles;
-                                        @endphp
+                                    @foreach ($permissoes as $permissao)
                                         <tr>
                                             <td>#</td>
-                                            <td>{{ date('d/m/Y H:i:s', strtotime($usuario->created_at)) }}</td>
-                                            <td>{{ $usuario->name }}</td>
-                                            <td>{{ $usuario->email }}</td>
+                                            <td align="center">{{ date('d/m/Y H:i:s', strtotime($permissao->created_at)) }}</td>
+                                            <td align="right">{{ $permissao->permission_order }}</td>
+                                            <td>{{ $permissao->name }}</td>
                                             <td align="center">
-                                                @if(count($user_has_roles) > 0)
-                                                    @foreach($user_has_roles as $role)
-                                                        <span class="right badge badge-warning">{{ $role->name }}</span>
-                                                    @endforeach
-                                                @else
-                                                    @if ($usuario->id != 1)
-                                                        <span class="right badge badge-danger">Sem_Perfil</span>
-                                                    @else
-                                                        <span class="right badge badge-primary">Administrador_Master</span>
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td align="center">
-                                                @if ($usuario->id != 1)
-                                                    <a class="btn btn-info btn-sm" href="{{ url("/permissoes/{$usuario->id}/editar") }}">
-                                                        <i class="fas fa-pencil-alt">
-                                                        </i>
-                                                        Editar
-                                                    </a>
-                                                @else
-                                                    <button class="btn btn-info btn-sm" disabled>
-                                                        <i class="fas fa-pencil-alt">
-                                                        </i>
-                                                        Editar
-                                                    </button>
-                                                @endif
+                                                <a class="btn btn-info btn-sm" href="{{ url("/acl/permissoes/{$permissao->id}/editar") }}">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Editar
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -175,20 +145,17 @@
                                 @endif
                                 </tbody>
                             </table>
-                            <table class="table table-hover table-bordered">
-                                <tr>
-                                    <td>
-                                        @if (isset($data))
-                                            {{ $permissoes->appends($data)->links() }}
-                                        @else
-                                            {{ $permissoes->links() }}
-                                        @endif
-                                    </td>
-                                </tr>
-                            </table>
                         </div>
+
                         </div>
                         <!-- /.card-body -->
+                        <div class="card-footer">
+                            @if (isset($data))
+                                {{ $permissoes->appends($data)->links() }}
+                            @else
+                                {{ $permissoes->links() }}
+                            @endif
+                        </div>
                     </div>
                     <!-- /.card -->
                 </div>

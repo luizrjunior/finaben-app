@@ -13,19 +13,13 @@ class PermissaoController extends Controller
         'nome_permissao.required' => 'O campo Nome precisa ser informado.',
         'nome_permissao.max' => 'Ops, o campo Nome não precisa ter mais que 190 caracteres. '
             . 'Por favor, você pode verificar isso?',
+        'nome_permissao.unique' => 'Ops, o Nome informado já está em uso.',
 
-        'email_permissao.required' => 'O campo E-mail precisa ser informado.',
-        'email_permissao.max' => 'Ops, o campo E-mail não precisa ter mais que 190 caracteres.',
-        'email_permissao.unique' => 'Ops, o E-mail informado já está em uso.',
-
-        'senha_permissao.required' => 'O campo Senha precisa ser informado.',
-        'senha_permissao.max' => 'Ops, o campo Senha não precisa ter mais que 20 caracteres.',
-
-        'confirm_senha_permissao.required' => 'O campo Repetir Senha precisa ser informado.',
-        'confirm_senha_permissao.same' => 'O campo Repetir Senha não corresponde ao campo Senha.',
+        'ordem_permissao.required' => 'O campo E-mail precisa ser informado.',
+        'ordem_permissao.max' => 'Ops, o campo E-mail não precisa ter mais que 8 caracteres.',
     ];
-    const MESSAGE_INSERT_SUCCESS = "Usuário Cadastrado com Sucesso!";
-    const MESSAGE_UPDATE_SUCCESS = "Usuário Alterado com Sucesso!";
+    const MESSAGE_INSERT_SUCCESS = "Permissão cadastrada com Sucesso!";
+    const MESSAGE_UPDATE_SUCCESS = "Permissão alterada com Sucesso!";
 
     /**
      * Method Construtor
@@ -44,8 +38,7 @@ class PermissaoController extends Controller
         }
 
         $data = $request->except('_token');
-        $data['nome_usuario_psq'] = isset($data['nome_usuario_psq']) ? $data['nome_usuario_psq'] : null;
-        $data['email_usuario_psq'] = isset($data['email_usuario_psq']) ? $data['email_usuario_psq'] : null;
+        $data['name_psq'] = isset($data['name_psq']) ? $data['name_psq'] : null;
         $data['totalPage'] = isset($data['totalPage']) ? $data['totalPage'] : $this->session_total_page;
 
         $permissoes = $this->retornarPermissoes($data);
@@ -57,13 +50,10 @@ class PermissaoController extends Controller
     private function retornarPermissoes($data)
     {
         return Permission::where(function ($query) use ($data) {
-            if ($data['nome_usuario_psq'] != null) {
-                $query->where('name', 'LIKE', "%" . $data['nome_usuario_psq'] . "%");
+            if ($data['name_psq']) {
+                $query->where('name', 'LIKE', "%" . $data['name_psq'] . "%");
             }
-            if ($data['email_usuario_psq'] != null) {
-                $query->where('email', 'LIKE', "%" . $data['email_usuario_psq'] . "%");
-            }
-        })->paginate($data['totalPage']);
+        })->orderBy('permission_order')->paginate($data['totalPage']);
     }
 
     public function adicionar()
@@ -89,21 +79,20 @@ class PermissaoController extends Controller
         $msg = self::MESSAGE_INSERT_SUCCESS;
         $permissao = new Permission();
         $permissao->name = $request->nome_permissao;
-        $permissao->email = $request->email_permissao;
-        $permissao->password = bcrypt($request->senha_permissao);
+        $permissao->permission_order = $request->ordem_permissao;
+        $permissao->description = $request->descrissao_permissao;
+        $permissao->permission_url = $request->url_permissao;
         $permissao->save();
 
-        return redirect('/permissoes/' . $permissao->id . '/editar')
+        return redirect('/acl/permissoes/' . $permissao->id . '/editar')
             ->with('success', $msg);
     }
 
     private function validarRequestInserir(Request $request)
     {
         $this->validate($request, [
-            'nome_permissao' => 'required|max:190',
-            'email_permissao' => 'required|email|max:190|unique:users,email',
-            'senha_permissao' => 'required|min:6|max:8',
-            'confirm_senha_permissao' => 'required|min:6|max:8|same:senha_permissao',
+            'nome_permissao' => 'required|max:190|unique:permissions,name',
+            'ordem_permissao' => 'required|max:8'
         ], self::MESSAGES_ERRORS);
     }
 
@@ -129,18 +118,20 @@ class PermissaoController extends Controller
 
         $permissao = Permission::find($request->permissao_id);
         $permissao->name = $request->nome_permissao;
-        $permissao->email = $request->email_permissao;
+        $permissao->permission_order = $request->ordem_permissao;
+        $permissao->description = $request->descrissao_permissao;
+        $permissao->permission_url = $request->url_permissao;
         $permissao->save();
 
-        return redirect('/permissoes/' . $permissao->id . '/editar')
+        return redirect('/acl/permissoes/' . $permissao->id . '/editar')
             ->with('success', self::MESSAGE_UPDATE_SUCCESS);
     }
 
     private function validarRequestAtualizar(Request $request)
     {
         $this->validate($request, [
-            'nome_permissao' => 'required|string|max:190',
-            'email_permissao' => 'required|string|email|max:190|unique:users,email,' . $request->permissao_id,
+            'nome_permissao' => 'required|max:190|unique:permissions,name,' . $request->permissao_id,
+            'ordem_permissao' => 'required|max:8',
         ], self::MESSAGES_ERRORS);
     }
 }

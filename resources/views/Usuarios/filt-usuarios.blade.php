@@ -174,20 +174,16 @@
                                 @endif
                                 </tbody>
                             </table>
-                            <table class="table table-hover table-bordered">
-                                <tr>
-                                    <td>
-                                        @if (isset($data))
-                                            {{ $usuarios->appends($data)->links() }}
-                                        @else
-                                            {{ $usuarios->links() }}
-                                        @endif
-                                    </td>
-                                </tr>
-                            </table>
                         </div>
                         </div>
                         <!-- /.card-body -->
+                        <div class="card-footer">
+                            @if (isset($data))
+                                {{ $usuarios->appends($data)->links() }}
+                            @else
+                                {{ $usuarios->links() }}
+                            @endif
+                        </div>
                     </div>
                     <!-- /.card -->
                 </div>

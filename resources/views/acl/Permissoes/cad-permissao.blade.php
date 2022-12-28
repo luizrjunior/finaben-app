@@ -2,15 +2,15 @@
     $permissao = isset($permissao) ? $permissao : null;
     $permissao_id = isset($permissao->id) ? $permissao->id : null;
     $nome_permissao = isset($permissao->name) ? $permissao->name : null;
-    $email_permissao = isset($permissao->email) ? $permissao->email : null;
-    $senha_permissao = null;
-    $confirm_senha_permissao = null;
+    $ordem_permissao = isset($permissao->permission_order) ? $permissao->permission_order : null;
+    $descrissao_permissao = isset($permissao->description) ? $permissao->description : null;
+    $url_permissao = isset($permissao->permission_url) ? $permissao->permission_url : null;
 
     $permissao_id = retornaValorAntigo($permissao_id, 'permissao_id');
     $nome_permissao = retornaValorAntigo($nome_permissao, 'nome_permissao');
-    $email_permissao = retornaValorAntigo($email_permissao, 'email_permissao');
-    $senha_permissao = retornaValorAntigo($senha_permissao, 'senha_permissao');
-    $confirm_senha_permissao = retornaValorAntigo($confirm_senha_permissao, 'confirm_senha_permissao');
+    $ordem_permissao = retornaValorAntigo($ordem_permissao, 'ordem_permissao');
+    $descrissao_permissao = retornaValorAntigo($descrissao_permissao, 'descrissao_permissao');
+    $url_permissao = retornaValorAntigo($url_permissao, 'url_permissao');
 
     $breadcrumb = 'Adicionar Novo';
     $btnAdicionar = 'Limpar';
@@ -64,7 +64,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    <form id="formCadastroUsuario" class="form-horizontal" method="POST" action="{{ $url }}"
+                    <form id="formCadastroPermissao" class="form-horizontal" method="POST" action="{{ $url }}"
                           autocomplete="off">
                     @csrf
 
@@ -98,30 +98,33 @@
 
                                 <div class="form-group">
                                     <label for="nome_permissao" class="control-label">Nome <span class="text-red">*</span></label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">@</span>
-                                        </div>
-                                        <input type="text" id="nome_permissao" name="nome_permissao"
-                                               class="form-control {{ $errors->has('nome_permissao') ? 'is-invalid' : '' }}"
-                                               placeholder="Nome do Permissão" value="{{ $nome_permissao }}" autofocus>
-                                        <span class="error invalid-feedback">{{ $errors->first('nome_permissao') }}</span>
-                                    </div>
+                                    <input type="text" id="nome_permissao" name="nome_permissao"
+                                           class="form-control {{ $errors->has('nome_permissao') ? 'is-invalid' : '' }}"
+                                           placeholder="Nome do Permissão" value="{{ $nome_permissao }}" autofocus>
+                                    <span class="error invalid-feedback">{{ $errors->first('nome_permissao') }}</span>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="email_permissao" class="control-label">E-mail <span
+                                    <label for="ordem_permissao" class="control-label">Nº Ordem <span
                                             class="text-red">*</span></label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                        </div>
-                                        <input type="email" id="email_permissao" name="email_permissao"
-                                               class="form-control {{ $errors->has('email_permissao') ? 'is-invalid' : '' }}"
-                                               placeholder="E-mail do Permissão" value="{{ $email_permissao }}">
-                                        <span
-                                            class="error invalid-feedback">{{ $errors->first('email_permissao') }}</span>
-                                    </div>
+                                    <input type="text" id="ordem_permissao" name="ordem_permissao"
+                                           class="form-control {{ $errors->has('ordem_permissao') ? 'is-invalid' : '' }}"
+                                           placeholder="Nº Ordem da Permissão" value="{{ $ordem_permissao }}">
+                                    <span class="error invalid-feedback">{{ $errors->first('ordem_permissao') }}</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="descrissao_permissao" class="control-label">Descrição</label>
+                                    <textarea id="descrissao_permissao" name="descrissao_permissao"
+                                              class="form-control {{ $errors->has('descrissao_permissao') ? 'is-invalid' : '' }}"
+                                              rows="3" placeholder="Descrição...">{{ $descrissao_permissao }}</textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="url_permissao" class="control-label">Url</label>
+                                    <input type="text" id="url_permissao" name="url_permissao"
+                                           class="form-control {{ $errors->has('url_permissao') ? 'is-invalid' : '' }}"
+                                           placeholder="Url da Permissão" value="{{ $url_permissao }}">
                                 </div>
 
                             </div>

@@ -34,6 +34,7 @@ Route::group(['prefix' => 'acl'], function () {
     Route::get('/permissoes/adicionar', [\App\Http\Controllers\Acl\PermissaoController::class, 'adicionar']);
     Route::post('/permissoes/inserir', [\App\Http\Controllers\Acl\PermissaoController::class, 'inserir']);
     Route::get('/permissoes/{permissao_id}/editar', [\App\Http\Controllers\Acl\PermissaoController::class, 'editar']);
+    Route::post('/permissoes/atualizar', [\App\Http\Controllers\Acl\PermissaoController::class, 'atualizar']);
 });
 
 require __DIR__.'/auth.php';
