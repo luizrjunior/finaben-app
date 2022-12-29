@@ -41,11 +41,10 @@
                                 <i class="fas fa-barcode"></i> Congregações
                             </a>
                             <a class="btn btn-app bg-danger">
-                                <span class="badge bg-teal">{{ $totalLancamentos }}</span>
-                                <i class="fas fa-inbox"></i> Lançamentos
+                                <i class="fas fa-plus-circle"></i> Entradas
                             </a>
                             <a class="btn btn-app bg-warning">
-                                <i class="fas fa-envelope"></i> Cálculo Saídas
+                                <i class="fas fa-minus-circle"></i> Saídas
                             </a>
                         </div>
 
