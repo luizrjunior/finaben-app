@@ -1,4 +1,4 @@
 $(document).ready(function () {
     $("#itemMenuAcl").addClass('menu-open');
-    $("#itemMenuPermissoes").addClass('active');
+    $("#itemMenuGrupos").addClass('active');
 });
