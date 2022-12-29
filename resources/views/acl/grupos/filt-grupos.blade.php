@@ -1,28 +1,28 @@
 @php
     $urlFechar = url('/dashboard');
-    $urlAdicionar = url('/acl/permissoes/adicionar');
-    $urlLocalizar = url('/acl/permissoes');
+    $urlAdicionar = url('/acl/grupos/adicionar');
+    $urlLocalizar = url('/acl/grupos');
 @endphp
 
 @section('title', 'FINABEN')
-@section('sub-title', 'Permissões')
+@section('sub-title', 'grupos de Usuários')
 
 <x-app-layout>
     <x-slot name="javascript">
-        <script src="{{ asset('/js/acl/permissoes/filt-permissoes.js') }}"></script>
+        <script src="{{ asset('/js/acl/grupos/filt-grupos.js') }}"></script>
     </x-slot>
     <x-slot name="header">
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Permissões</h1>
+                        <h1 class="m-0">Grupos de Usuários</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                             <li class="breadcrumb-item active">ACL</li>
-                            <li class="breadcrumb-item active">Permissões</li>
+                            <li class="breadcrumb-item active">Grupos de Usuários</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -40,7 +40,7 @@
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Filtro de Permissões</h3>
+                            <h3 class="card-title">Filtro de Grupos de Usuários</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -86,7 +86,7 @@
                         </div>
                         <div class="card-footer">
                             <input type="submit" value="Filtrar" class="btn btn-primary">
-                            <input type="button" value="Adicionar Nova Permissão" class="btn btn-warning"
+                            <input type="button" value="Adicionar Novo Grupo" class="btn btn-warning"
                                    onclick="location.href='{{ $urlAdicionar }}'">
                             <a href="{{ $urlFechar }}" class="btn btn-secondary">Fechar</a>
                         </div>
@@ -96,7 +96,7 @@
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Tabela de Permissões</h3>
+                            <h3 class="card-title">Tabela de Grupos de Usuários</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -114,25 +114,28 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Criado em</th>
-                                    <th>Ordem Nº</th>
-                                    <th>Nome Permissão</th>
+                                    <th>Nome Grupo de Usuários</th>
                                     <th>Ações</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if (count($permissoes) > 0)
-                                    @foreach ($permissoes as $permissao)
+                                @if (count($grupos) > 0)
+                                    @foreach ($grupos as $grupo)
                                         <tr>
                                             <td>#</td>
-                                            <td align="center">{{ date('d/m/Y H:i:s', strtotime($permissao->created_at)) }}</td>
-                                            <td align="right">{{ $permissao->permission_order }}</td>
-                                            <td>{{ $permissao->name }}</td>
+                                            <td align="center">{{ date('d/m/Y H:i:s', strtotime($grupo->created_at)) }}</td>
+                                            <td>{{ $grupo->name }}</td>
                                             <td align="center">
-                                                <a class="btn btn-info btn-sm" href="{{ url("/acl/permissoes/{$permissao->id}/editar") }}">
-                                                    <i class="fas fa-pencil-alt">
-                                                    </i>
-                                                    Editar
-                                                </a>
+                                                @php
+                                                    $disabled = "";
+                                                    if ($grupo->id == 1) {
+                                                        $disabled = "disabled";
+                                                    }
+                                                @endphp
+                                                <button type="button" class="btn btn-info btn-sm"
+                                                        onclick="location.href='{{ url("/acl/grupos/{$grupo->id}/editar") }}';" {{ $disabled }}>
+                                                    <i class="fas fa-pencil-alt"></i> Editar
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -151,9 +154,9 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             @if (isset($data))
-                                {{ $permissoes->appends($data)->links() }}
+                                {{ $grupos->appends($data)->links() }}
                             @else
-                                {{ $permissoes->links() }}
+                                {{ $grupos->links() }}
                             @endif
                         </div>
                     </div>
