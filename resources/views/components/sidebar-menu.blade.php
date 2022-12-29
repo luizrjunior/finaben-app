@@ -9,12 +9,15 @@
                 <p>Dashboard</p>
             </a>
         </li>
+        @can('Menu_Usuarios')
         <li class="nav-item">
             <a id="itemMenuUsuarios" href="{{ url('/usuarios') }}" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
                 <p>Usuários</p>
             </a>
         </li>
+        @endcan
+        @can('Menu_ACL')
         <li id="itemMenuAcl" class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-lock"></i>
@@ -28,19 +31,21 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a id="itemMenuGrupos" href="{{ url('/acl/grupos') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Grupos de Usuários</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a id="itemMenuCongregacoes" href="{{ url('/acl/congregacoes') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Congregações</p>
                     </a>
                 </li>
             </ul>
         </li>
+        @endcan
+        @can('Menu_Financeiro')
         <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-landmark"></i>
@@ -67,6 +72,7 @@
                 </li>
             </ul>
         </li>
+        @endcan
     </ul>
 </nav>
 <!-- /.sidebar-menu -->
