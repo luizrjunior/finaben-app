@@ -149,19 +149,16 @@
                                                 @endif
                                             </td>
                                             <td align="center">
-                                                @if ($usuario->id != 1)
-                                                    <a class="btn btn-info btn-sm" href="{{ url("/usuarios/{$usuario->id}/editar") }}">
-                                                        <i class="fas fa-pencil-alt">
-                                                        </i>
-                                                        Editar
-                                                    </a>
-                                                @else
-                                                    <button class="btn btn-info btn-sm" disabled>
-                                                        <i class="fas fa-pencil-alt">
-                                                        </i>
-                                                        Editar
-                                                    </button>
-                                                @endif
+                                                @php
+                                                $disabled = "";
+                                                if ($usuario->id == 1) {
+                                                    $disabled = "disabled";
+                                                }
+                                                @endphp
+                                                <button type="button" class="btn btn-info btn-sm"
+                                                        onclick="location.href='{{ url("/usuarios/{$usuario->id}/editar") }}';" {{ $disabled }}>
+                                                    <i class="fas fa-pencil-alt"></i> Editar
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach

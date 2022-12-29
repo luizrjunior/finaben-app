@@ -42,7 +42,6 @@
                 $("#email_usuario").prop('disabled', true);
                 @endif
 
-                // Forma 1
                 $("#checkTodos").click(function(){
                     $('input:checkbox').not(this).prop('checked', this.checked);
                 });
