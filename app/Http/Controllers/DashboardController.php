@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Congregacao;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,9 +16,8 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $totalUsers = User::count();
-        $totalCongregacoes = 0;
-        $totalLancamentos = 0;
-        return view('dashboard', compact('totalUsers', 'totalCongregacoes', 'totalLancamentos'));
+        $totalCongregacoes = Congregacao::count();
+        return view('dashboard', compact('totalUsers', 'totalCongregacoes'));
     }
 
     public function permissaoNegada()
