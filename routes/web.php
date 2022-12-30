@@ -39,9 +39,16 @@ Route::group(['prefix' => 'acl'], function () {
     Route::any('/grupos', [\App\Http\Controllers\Acl\GrupoController::class, 'index']);
     Route::get('/grupos/adicionar', [\App\Http\Controllers\Acl\GrupoController::class, 'adicionar']);
     Route::post('/grupos/inserir', [\App\Http\Controllers\Acl\GrupoController::class, 'inserir']);
-    Route::get('/grupos/{permissao_id}/editar', [\App\Http\Controllers\Acl\GrupoController::class, 'editar']);
+    Route::get('/grupos/{grupo_id}/editar', [\App\Http\Controllers\Acl\GrupoController::class, 'editar']);
     Route::post('/grupos/atualizar', [\App\Http\Controllers\Acl\GrupoController::class, 'atualizar']);
     Route::post('/grupos-tem-permissoes/salvar', [\App\Http\Controllers\Acl\GrupoTemPermissoesController::class, 'salvar']);
+
+    Route::any('/congregacoes', [\App\Http\Controllers\Acl\CongregacaoController::class, 'index']);
+    Route::get('/congregacoes/adicionar', [\App\Http\Controllers\Acl\CongregacaoController::class, 'adicionar']);
+    Route::post('/congregacoes/inserir', [\App\Http\Controllers\Acl\CongregacaoController::class, 'inserir']);
+    Route::get('/congregacoes/{congregacao_id}/editar', [\App\Http\Controllers\Acl\CongregacaoController::class, 'editar']);
+    Route::post('/congregacoes/atualizar', [\App\Http\Controllers\Acl\CongregacaoController::class, 'atualizar']);
+    Route::post('/congregacoes-tem-usuarios/salvar', [\App\Http\Controllers\Acl\CongregacaoTemUsuariosController::class, 'salvar']);
 });
 
 require __DIR__.'/auth.php';

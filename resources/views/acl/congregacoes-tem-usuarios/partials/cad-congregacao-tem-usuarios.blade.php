@@ -1,6 +1,6 @@
 @php
     $disabled = '';
-    //$roleHaspermissions_role = [];
+    //$roleHasusuarios_role = [];
 @endphp
 
 <style>
@@ -11,15 +11,15 @@
     }
 </style>
 
-<form class="form-horizontal" method="POST" action="{{ url('/acl/grupos-tem-permissoes/salvar') }}"
+<form class="form-horizontal" method="POST" action="{{ url('/acl/congregacoes-tem-usuarios/salvar') }}"
       autocomplete="off">
     {{ csrf_field() }}
-    <input type="hidden" id="grupo_id" name="grupo_id" value="{{ $grupo_id }}">
+    <input type="hidden" id="congregacao_id" name="congregacao_id" value="{{ $congregacao_id }}">
 
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Cadastro do(s) Grupo(s) do Usuário</h3>
+            <h3 class="card-title">Cadastro do(s) Usuários da Congregação</h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="card-body">
-            <span class="text-danger">{{ $errors->first('permission_ids') }}</span>
+            <span class="text-danger">{{ $errors->first('usuario_ids') }}</span>
             <div class="DocumentListItensVendas">
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -44,29 +44,29 @@
                                 </label>
                             </div>
                         </td>
-                        <th>Nº Ordem</th>
-                        <th>Permissão</th>
+                        <th>Usuário</th>
+                        <th>E-mail</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @if (count($permissions) > 0)
-                        @foreach ($permissions as $permission)
+                    @if (count($usuarios) > 0)
+                        @foreach ($usuarios as $usuario)
                             @php
                                 $checked = "";
-                                if (in_array($permission->id, $permissions_role)) {
+                                if (in_array($usuario->id, $usuarios_congregacao)) {
                                     $checked = "checked";
                                 }
                             @endphp
                             <tr>
                                 <td align="center">
                                     <div class="icheck-primary d-inline">
-                                        <input type="checkbox" id="checkboxPrimary{{ $permission->id }}" name="permission_ids[]"
-                                               value="{{ $permission->id }}" {{ $checked }}>
-                                        <label for="checkboxPrimary{{ $permission->id }}"></label>
+                                        <input type="checkbox" id="checkboxPrimary{{ $usuario->id }}" name="usuario_ids[]"
+                                               value="{{ $usuario->id }}" {{ $checked }}>
+                                        <label for="checkboxPrimary{{ $usuario->id }}"></label>
                                     </div>
                                 </td>
-                                <td align="right">{{$permission->permission_order}}</td>
-                                <td>{{$permission->name}}</td>
+                                <td>{{$usuario->name}}</td>
+                                <td>{{$usuario->email}}</td>
                             </tr>
                         @endforeach
                     @else
@@ -78,8 +78,8 @@
                     <tfoot>
                     <tr>
                         <th>&nbsp;</th>
-                        <th>Nº Ordem</th>
-                        <th>Permissão</th>
+                        <th>Usuário</th>
+                        <th>E-mail</th>
                     </tr>
                     </tfoot>
                 </table>
