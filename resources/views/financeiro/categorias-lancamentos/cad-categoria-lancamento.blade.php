@@ -1,42 +1,36 @@
 @php
-    $grupo = isset($grupo) ? $grupo : null;
-    $grupo_id = isset($grupo->id) ? $grupo->id : null;
-    $nome_grupo = isset($grupo->name) ? $grupo->name : null;
-    $descrissao_grupo = isset($grupo->description) ? $grupo->description : null;
+    $categoria = isset($categoria) ? $categoria : null;
+    $categoria_id = isset($categoria->id) ? $categoria->id : null;
+    $nome_categoria = isset($categoria->nome) ? $categoria->nome : null;
+    $tipo_categoria = isset($categoria->tipo) ? $categoria->tipo : 'E';
 
-    $grupo_id = retornaValorAntigo($grupo_id, 'grupo_id');
-    $nome_grupo = retornaValorAntigo($nome_grupo, 'nome_grupo');
-    $descrissao_grupo = retornaValorAntigo($descrissao_grupo, 'descrissao_grupo');
+    $categoria_id = retornaValorAntigo($categoria_id, 'categoria_id');
+    $nome_categoria = retornaValorAntigo($nome_categoria, 'nome_categoria');
+    $tipo_categoria = retornaValorAntigo($tipo_categoria, 'tipo_categoria');
 
-    $breadcrumb = 'Adicionar Novo';
+    $breadcrumb = 'Adicionar Nova';
     $btnAdicionar = 'Limpar';
     $disabled = "";
 
-    $urlAdicionar = url('/acl/grupos/adicionar');
-    $urlVoltar = url('/acl/grupos');
-    $url = url('/acl/grupos/inserir');
+    $urlAdicionar = url('/financeiro/categorias-lancamentos/adicionar');
+    $urlVoltar = url('/financeiro/categorias-lancamentos');
+    $url = url('/financeiro/categorias-lancamentos/inserir');
 
-    if ($grupo_id != null) {
+    if ($categoria_id != null) {
         $breadcrumb = 'Editar';
-        $btnAdicionar = 'Adicionar Novo';
-        $url = url('/acl/grupos/atualizar');
-        if ($grupo_id == 1) {
-            $disabled = "disabled";
-        }
+        $btnAdicionar = 'Adicionar Nova';
+        $url = url('/financeiro/categorias-lancamentos/atualizar');
     }
 @endphp
 
 @section('title', 'FINABEN')
-@section('sub-title', 'Grupos de Usuários')
+@section('sub-title', 'Categorias de Lançamentos')
 
 <x-app-layout>
     <x-slot name="javascript">
-        <script src="{{ asset('/js/acl/grupos/cad-grupo.js') }}"></script>
+        <script src="{{ asset('/js/financeiro/categorias/cad-categoria-lancamento.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#checkTodos").click(function(){
-                    $('input:checkbox').not(this).prop('checked', this.checked);
-                });
             })
         </script>
     </x-slot>
@@ -45,14 +39,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">{!! $breadcrumb !!} <small>Grupo de Usuários</small></h1>
+                        <h1 class="m-0">{!! $breadcrumb !!} <small>Categoria de Lançamento</small></h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                            <li class="breadcrumb-item">ACL</li>
-                            <li class="breadcrumb-item">Grupos de Usuários</li>
-                            <li class="breadcrumb-item active">{!! $breadcrumb !!} Grupo de Usuários</li>
+                            <li class="breadcrumb-item">Financeiro</li>
+                            <li class="breadcrumb-item">Categorias de Lançamentos</li>
+                            <li class="breadcrumb-item active">{!! $breadcrumb !!} Categoria de Lançamento</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -69,7 +63,7 @@
                         <!-- Default box -->
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Cadastro de Grupo de Usuários</h3>
+                                <h3 class="card-title">Cadastro de Categorias de Lançamentos</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -89,24 +83,29 @@
                                     {!! Session('success') !!}
                                 </div>
                                 @endif
-                                <input type="hidden" id="grupo_id" name="grupo_id" value="{{ $grupo_id }}">
+                                <input type="hidden" id="categoria_id" name="categoria_id" value="{{ $categoria_id }}">
                                 <div class="form-group">
-                                    <label for="nome_grupo" class="control-label">Nome <span class="text-red">*</span></label>
-                                    <input type="text" id="nome_grupo" name="nome_grupo"
-                                           class="form-control {{ $errors->has('nome_grupo') ? 'is-invalid' : '' }}"
-                                           placeholder="Nome do Grupo de Usuários" value="{{ $nome_grupo }}" autofocus>
-                                    <span class="error invalid-feedback">{{ $errors->first('nome_grupo') }}</span>
+                                    <label for="nome_categoria" class="control-label">Nome <span class="text-red">*</span></label>
+                                    <input type="text" id="nome_categoria" name="nome_categoria"
+                                           class="form-control {{ $errors->has('nome_categoria') ? 'is-invalid' : '' }}"
+                                           placeholder="Nome do Categorias de Lançamentos" value="{{ $nome_categoria }}" autofocus>
+                                    <span class="error invalid-feedback">{{ $errors->first('nome_categoria') }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="descrissao_grupo" class="control-label">Descrição</label>
-                                    <textarea id="descrissao_grupo" name="descrissao_grupo"
-                                              class="form-control {{ $errors->has('descrissao_grupo') ? 'is-invalid' : '' }}"
-                                              rows="3" placeholder="Descrição...">{{ $descrissao_grupo }}</textarea>
-                                    <span class="error invalid-feedback">{{ $errors->first('descrissao_grupo') }}</span>
+                                    <label for="tipo_categoria" class="control-label">Tipo <span class="text-red">*</span></label><br />
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary2" name="tipo_categoria" value="E" @if ($tipo_categoria == 'E') checked @endif>
+                                        <label for="radioPrimary2">Entrada</label>
+                                    </div>
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary3" name="tipo_categoria" value="S" @if ($tipo_categoria == 'S') checked @endif>
+                                        <label for="radioPrimary3">Saída</label>
+                                    </div><br />
+                                    <span class="error invalid-feedback">{{ $errors->first('tipo_categoria') }}</span>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <input type="submit" value="Salvar" class="btn btn-primary" {{ $disabled }}>
+                                <input type="submit" value="Salvar" class="btn btn-primary">
                                 <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
                                        onclick="location.href='{{ $urlAdicionar }}'">
                                 <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
@@ -114,12 +113,6 @@
                         </div>
                     </form>
                 </div>
-
-                @if ($grupo_id != null)
-                <div class="col-md-9">
-                    @include('acl.grupos-tem-permissoes.partials.cad-grupo-tem-permissoes')
-                </div>
-                @endif
 
             </div>
         </div><!-- /.container-fluid -->

@@ -1,28 +1,28 @@
 @php
     $urlFechar = url('/dashboard');
-    $urlAdicionar = url('/acl/grupos/adicionar');
-    $urlLocalizar = url('/acl/grupos');
+    $urlAdicionar = url('/financeiro/categorias-lancamentos/adicionar');
+    $urlLocalizar = url('/financeiro/categorias-lancamentos');
 @endphp
 
 @section('title', 'FINABEN')
-@section('sub-title', 'grupos de Usuários')
+@section('sub-title', 'Categorias de Lançamentos')
 
 <x-app-layout>
     <x-slot name="javascript">
-        <script src="{{ asset('/js/acl/grupos/filt-grupos.js') }}"></script>
+        <script src="{{ asset('/js/financeiro/categorias-lancamentos/filt-categorias-lancamentos.js') }}"></script>
     </x-slot>
     <x-slot name="header">
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Grupos de Usuários</h1>
+                        <h1 class="m-0">Categorias de Lançamentos</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                            <li class="breadcrumb-item active">ACL</li>
-                            <li class="breadcrumb-item active">Grupos de Usuários</li>
+                            <li class="breadcrumb-item active">Financeiro</li>
+                            <li class="breadcrumb-item active">Categorias de Lançamentos</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -40,7 +40,7 @@
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Filtro de Grupos de Usuários</h3>
+                            <h3 class="card-title">Filtro de Categorias de Lançamentos</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -53,9 +53,9 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name_psq" class="control-label">Nome</label>
-                                <input type="text" id="name_psq" name="name_psq"
-                                       class="form-control" value="{{ $data['name_psq'] }}" autofocus>
+                                <label for="nome_psq" class="control-label">Nome</label>
+                                <input type="text" id="nome_psq" name="nome_psq"
+                                       class="form-control" value="{{ $data['nome_psq'] }}" autofocus>
                             </div>
                             <div class="form-group">
                                 <label for="totalPage" class="control-label">Qtde. Itens por Página</label>
@@ -86,7 +86,7 @@
                         </div>
                         <div class="card-footer">
                             <input type="submit" value="Filtrar" class="btn btn-primary">
-                            <input type="button" value="Adicionar Novo Grupo" class="btn btn-warning"
+                            <input type="button" value="Adicionar Nova Categoria" class="btn btn-warning"
                                    onclick="location.href='{{ $urlAdicionar }}'">
                             <a href="{{ $urlFechar }}" class="btn btn-secondary">Fechar</a>
                         </div>
@@ -96,7 +96,7 @@
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Tabela de Grupos de Usuários</h3>
+                            <h3 class="card-title">Tabela de Categorias de Lançamentos</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -114,26 +114,28 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Criado em</th>
-                                    <th>Nome Grupo de Usuários</th>
+                                    <th>Nome Categoria</th>
+                                    <th>Tipo</th>
                                     <th>Ações</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if (count($grupos) > 0)
-                                    @foreach ($grupos as $grupo)
+                                @if (count($categorias) > 0)
+                                    @foreach ($categorias as $categoria)
+                                        @php
+                                        $tipo = "Entrada";
+                                        if ($categoria->tipo == "S") {
+                                            $tipo = "Saída";
+                                        }
+                                        @endphp
                                         <tr>
                                             <td>#</td>
-                                            <td align="center">{{ date('d/m/Y H:i:s', strtotime($grupo->created_at)) }}</td>
-                                            <td>{{ $grupo->name }}</td>
+                                            <td align="center">{{ date('d/m/Y H:i:s', strtotime($categoria->created_at)) }}</td>
+                                            <td>{{ $categoria->nome }}</td>
+                                            <td>{{ $tipo }}</td>
                                             <td align="center">
-                                                @php
-                                                    $disabled = "";
-                                                    if ($grupo->id == 1) {
-                                                        $disabled = "disabled";
-                                                    }
-                                                @endphp
                                                 <button type="button" class="btn btn-info btn-sm"
-                                                        onclick="location.href='{{ url("/acl/grupos/{$grupo->id}/editar") }}';" {{ $disabled }}>
+                                                        onclick="location.href='{{ url("/financeiro/categorias-lancamentos/{$categoria->id}/editar") }}';">
                                                     <i class="fas fa-pencil-alt"></i> Editar
                                                 </button>
                                             </td>
@@ -154,9 +156,9 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             @if (isset($data))
-                                {{ $grupos->appends($data)->links() }}
+                                {{ $categorias->appends($data)->links() }}
                             @else
-                                {{ $grupos->links() }}
+                                {{ $categorias->links() }}
                             @endif
                         </div>
                     </div>

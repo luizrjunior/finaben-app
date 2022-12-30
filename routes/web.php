@@ -51,6 +51,14 @@ Route::group(['prefix' => 'acl'], function () {
     Route::post('/congregacoes-tem-usuarios/salvar', [\App\Http\Controllers\Acl\CongregacaoTemUsuariosController::class, 'salvar']);
 });
 
+Route::group(['prefix' => 'financeiro'], function () {
+    Route::any('/categorias-lancamentos', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'index']);
+    Route::get('/categorias-lancamentos/adicionar', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'adicionar']);
+    Route::post('/categorias-lancamentos/inserir', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'inserir']);
+    Route::get('/categorias-lancamentos/{categoria_id}/editar', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'editar']);
+    Route::post('/categorias-lancamentos/atualizar', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'atualizar']);
+});
+
 require __DIR__.'/auth.php';
 
 

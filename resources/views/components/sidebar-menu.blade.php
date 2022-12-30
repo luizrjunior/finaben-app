@@ -46,28 +46,22 @@
         </li>
         @endcan
         @can('Menu_Financeiro')
-        <li class="nav-item">
+        <li id="itemMenuFinanceiro" class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-landmark"></i>
                 <p>Financeiro<i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a id="itemMenuCategoriasLancamentos" href="{{ url('/financeiro/categorias-lancamentos') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Categorias de Contas</p>
+                        <p>Categorias</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="pages/lancamentos.html" class="nav-link">
+                    <a id="itemMenuLancamentos" href="{{ url('/financeiro/lancamentos') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Lançamentos</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Cálculo de Saídas</p>
                     </a>
                 </li>
             </ul>

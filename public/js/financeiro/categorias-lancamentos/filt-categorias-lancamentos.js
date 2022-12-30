@@ -1,4 +1,4 @@
 $(document).ready(function () {
-    $("#itemMenuAcl").addClass('menu-open');
-    $("#itemMenuGrupos").addClass('active');
+    $("#itemMenuFinanceiro").addClass('menu-open');
+    $("#itemMenuCategoriasLancamentos").addClass('active');
 });
