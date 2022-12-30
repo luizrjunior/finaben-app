@@ -36,7 +36,7 @@
                                 <span class="badge bg-purple">{{ $totalUsers }}</span>
                                 <i class="fas fa-users"></i> Usuários
                             </a>
-                            <a class="btn btn-app bg-secondary">
+                            <a href="{{ url('/acl/congregacoes') }}" class="btn btn-app bg-secondary">
                                 <span class="badge bg-success">{{ $totalCongregacoes }}</span>
                                 <i class="fas fa-barcode"></i> Congregações
                             </a>
