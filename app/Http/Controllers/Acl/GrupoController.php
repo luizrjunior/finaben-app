@@ -133,7 +133,7 @@ class GrupoController extends Controller
             'descrissao_grupo' => 'required|max:200'
         ], self::MESSAGES_ERRORS);
 
-        $msg = "Gurpo de Usuário alterado com Sucesso!";
+        $msg = "Grupo de Usuário alterado com Sucesso!";
 
         $role = Role::find($request->grupo_id);
         $this->setDatasRole($role, $request);
