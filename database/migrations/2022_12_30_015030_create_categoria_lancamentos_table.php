@@ -17,6 +17,10 @@ class CreateCategoriaLancamentosTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nome')->unique();
+            /**
+             * E - ENTRADA;
+             * S - SAÍDA;
+             */
             $table->string('tipo', 1);
             $table->timestamps();
         });

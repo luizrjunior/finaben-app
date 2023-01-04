@@ -96,14 +96,5 @@ class PermissionsTableSeeder extends Seeder
             'updated_at' => date('2022-01-01 H:i:s'),
         ]);
 
-        $this->command->info('Inserindo Permissao: Manter_Calculo_Saida');
-        DB::table('permissions')->insert([
-            'name' => 'Manter_Calculo_Saida',
-            'permission_order' => '03.03',
-            'description' => 'Permissão de acesso para filtrar, adicionar e editar usuários.',
-            'created_at' => date('2022-01-01 H:i:s'),
-            'updated_at' => date('2022-01-01 H:i:s'),
-        ]);
-
     }
 }
