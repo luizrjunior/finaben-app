@@ -57,6 +57,12 @@ Route::group(['prefix' => 'financeiro'], function () {
     Route::post('/categorias-lancamentos/inserir', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'inserir']);
     Route::get('/categorias-lancamentos/{categoria_id}/editar', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'editar']);
     Route::post('/categorias-lancamentos/atualizar', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'atualizar']);
+
+    Route::any('/lancamentos', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'index']);
+    Route::get('/lancamentos/adicionar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'adicionar']);
+    Route::post('/lancamentos/inserir', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'inserir']);
+    Route::get('/lancamentos/{lancamento_id}/editar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'editar']);
+    Route::post('/lancamentos/atualizar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'atualizar']);
 });
 
 require __DIR__.'/auth.php';
