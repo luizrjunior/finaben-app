@@ -17,6 +17,14 @@ class CreateLancamentosTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             /**
+             * CONGREGACAO FK
+            */
+            $table->integer('congregacao_id')->unsigned();
+            $table->foreign('congregacao_id')
+                ->references('id')
+                ->on('congregacoes')
+                ->onDelete('cascade');
+            /**
              * CATEGORIA DE LANÇAMENTO FK
             */
             $table->integer('categoria_lancamento_id')->unsigned();
@@ -25,6 +33,7 @@ class CreateLancamentosTable extends Migration
                 ->on('categorias_lancamentos')
                 ->onDelete('cascade');
             /**
+             * TIPO DE LANÇAMENTO:
              * E - ENTRADA;
              * S - SAÍDA;
              */

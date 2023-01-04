@@ -17,4 +17,9 @@ class Lancamento extends Model implements AuditableContract
         return $this->belongsTo(\App\Models\CategoriaLancamento::class, 'categoria_lancamento_id');
     }
 
+    public function congregacao()
+    {
+        return $this->belongsTo(\App\Models\Congregacao::class, 'congregacao_id');
+    }
+
 }

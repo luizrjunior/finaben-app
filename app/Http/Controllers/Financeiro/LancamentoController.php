@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Financeiro;
 
+use App\Models\CategoriaLancamento;
 use App\Models\Congregacao;
 use Gate;
 use App\Models\Lancamento;
@@ -36,16 +37,30 @@ class LancamentoController extends Controller
         $data = $request->except('_token');
         $data['data_inicio_psq'] = isset($data['data_inicio_psq']) ? $data['data_inicio_psq'] : $data_inicial_psq;
         $data['data_final_psq'] = isset($data['data_final_psq']) ? $data['data_final_psq'] : $data_termino_psq;
-        $data['uf_psq'] = isset($data['uf_psq']) ? $data['uf_psq'] : null;
         $data['tipo_psq'] = isset($data['tipo_psq']) ? $data['tipo_psq'] : null;
+        $data['categoria_lancamento_id_psq'] = isset($data['categoria_lancamento_id_psq']) ? $data['categoria_lancamento_id_psq'] : null;
+        $data['uf_psq'] = isset($data['uf_psq']) ? $data['uf_psq'] : null;
+        $data['congregacao_id_psq'] = isset($data['congregacao_id_psq']) ? $data['congregacao_id_psq'] : null;
         $data['totalPage'] = isset($data['totalPage']) ? $data['totalPage'] : $this->session_total_page;
 
-        $lancamentos = Lancamento::where(function ($query) use ($data) {
-            $query->where('lancamentos.data', '>=', $data['data_inicio_psq']);
-            $query->where('lancamentos.data', '<=', $data['data_final_psq']);
-            if ($data['tipo_psq']) {
-                $query->where('tipo', $data['tipo_psq']);
-            }
+        $lancamentos = Lancamento::select('lancamentos.*')
+            ->join('categorias_lancamentos as categ', 'lancamentos.categoria_lancamento_id', 'categ.id')
+            ->join('congregacoes as congr', 'lancamentos.congregacao_id', 'congr.id')
+            ->where(function ($query) use ($data) {
+                $query->where('lancamentos.data', '>=', $data['data_inicio_psq']);
+                $query->where('lancamentos.data', '<=', $data['data_final_psq']);
+                if ($data['tipo_psq']) {
+                    $query->where('lancamentos.tipo', $data['tipo_psq']);
+                }
+                if ($data['categoria_lancamento_id_psq']) {
+                    $query->where('lancamentos.categoria_lancamento_id', $data['categoria_lancamento_id_psq']);
+                }
+                if ($data['uf_psq']) {
+                    $query->where('congr.uf', $data['uf_psq']);
+                }
+                if ($data['congregacao_id_psq']) {
+                    $query->where('congr.id', $data['congregacao_id_psq']);
+                }
         })->paginate($data['totalPage']);
 
         $data['data_inicio_psq'] = \DateTime::createFromFormat('Y-m-d', $data['data_inicio_psq'])
@@ -55,6 +70,19 @@ class LancamentoController extends Controller
             ->format('d/m/Y');
 
         return view('financeiro.lancamentos.filt-lancamentos', compact('lancamentos', 'data'));
+    }
+
+    public function adicionar($ds_tipo)
+    {
+        $tipo = "E";
+        if ($ds_tipo == "saida") {
+            $tipo = "S";
+        }
+        $categorias = CategoriaLancamento::where('tipo', $tipo)->get();
+        $lancamento = new Lancamento();
+        $lancamento->tipo = $tipo;
+
+        return view('financeiro.lancamentos.cad-lancamento', compact('lancamento', 'categorias'));
     }
 
 }

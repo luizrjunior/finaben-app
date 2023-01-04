@@ -10,24 +10,29 @@
 
 <x-app-layout>
     <x-slot name="javascript">
-        <script src="{{ asset('/js/financeiro/lancamentos/filt-lancamentos.js') }}"></script>
-        <script>
+        <script type="text/javascript" src="{{ url('/js/plugins/jquery.maskedinput.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/financeiro/lancamentos/filt-lancamentos.js') }}"></script>
+        <script type="text/javascript">
             $(function () {
-                    //Date picker
-                    $('#data_inicio_psq').datepicker({
-                        todayHighlight: true,
-                        autoclose: true,
-                        format: 'dd/mm/yyyy',
-                        todayHighLight: true
-                    });
-                    //Date picker
-                    $('#data_final_psq').datepicker({
-                        todayHighlight: true,
-                        autoclose: true,
-                        format: 'dd/mm/yyyy',
-                        todayHighLight: true
-                    });
-                })
+                //Date picker
+                $("#data_inicio_psq").mask("99/99/9999");
+                $('#data_inicio_psq').datepicker({
+                    todayHighlight: true,
+                    autoclose: true,
+                    format: 'dd/mm/yyyy',
+                    todayHighLight: true,
+                    orientation: 'bottom'
+                });
+                //Date picker
+                $("#data_final_psq").mask("99/99/9999");
+                $('#data_final_psq').datepicker({
+                    todayHighlight: true,
+                    autoclose: true,
+                    format: 'dd/mm/yyyy',
+                    todayHighLight: true,
+                    orientation: 'bottom'
+                });
+            });
         </script>
     </x-slot>
     <x-slot name="header">
@@ -72,25 +77,13 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>Periodo de</label>
-                                    <div class='input-group date'>
-                                            <span class="input-group-addon">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </span>
-                                        <input type='text' id="data_inicio_psq" name="data_inicio_psq"
-                                               class="form-control"
-                                               value="{{ $data['data_inicio_psq'] }}">
-                                    </div>
+                                    <input type="text" id="data_inicio_psq" name="data_inicio_psq"
+                                           class="form-control" value="{{ $data['data_inicio_psq'] }}">
                                 </div>
                                 <div class="form-group">
                                     <label>até</label>
-                                    <div class="input-group date" id="data_final_psq" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input"
-                                               data-target="#data_final_psq" value="{{ $data['data_final_psq'] }}">
-                                        <div class="input-group-append" data-target="#data_final_psq"
-                                             data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                    </div>
+                                    <input type="text" id="data_final_psq" name="data_final_psq"
+                                           class="form-control" value="{{ $data['data_final_psq'] }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="tipo_psq">Tipo</label>
@@ -168,8 +161,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputCongregacao">Congregação</label>
-                                    <select id="inputCongregacao" class="form-control custom-select">
+                                    <label for="categoria_lancamento_id_psq">Congregação</label>
+                                    <select id="categoria_lancamento_id_psq" class="form-control custom-select">
                                         <option value="" selected> -- TODAS --</option>
                                     </select>
                                 </div>
