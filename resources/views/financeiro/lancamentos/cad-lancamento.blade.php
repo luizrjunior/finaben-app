@@ -1,0 +1,121 @@
+@php
+    $lancamento = isset($lancamento) ? $lancamento : null;
+    $lancamento_id = isset($lancamento->id) ? $lancamento->id : null;
+    $nome_lancamento = isset($lancamento->nome) ? $lancamento->nome : null;
+    $tipo_lancamento = isset($lancamento->tipo) ? $lancamento->tipo : 'E';
+
+    $lancamento_id = retornaValorAntigo($lancamento_id, 'lancamento_id');
+    $nome_lancamento = retornaValorAntigo($nome_lancamento, 'nome_lancamento');
+    $tipo_lancamento = retornaValorAntigo($tipo_lancamento, 'tipo_lancamento');
+
+    $breadcrumb = 'Adicionar Nova';
+    $btnAdicionar = 'Limpar';
+    $disabled = "";
+
+    $urlAdicionar = url('/financeiro/lancamentos/adicionar');
+    $urlVoltar = url('/financeiro/lancamentos');
+    $url = url('/financeiro/lancamentos/inserir');
+
+    if ($lancamento_id != null) {
+        $breadcrumb = 'Editar';
+        $btnAdicionar = 'Adicionar Nova';
+        $url = url('/financeiro/lancamentos/atualizar');
+    }
+@endphp
+
+@section('title', 'FINABEN')
+@section('sub-title', 'Lançamentos')
+
+<x-app-layout>
+    <x-slot name="javascript">
+        <script src="{{ asset('/js/financeiro/lancamentos/cad-lancamento.js') }}"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+            })
+        </script>
+    </x-slot>
+    <x-slot name="header">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">{!! $breadcrumb !!} <small>Lançamento</small></h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+                            <li class="breadcrumb-item">Financeiro</li>
+                            <li class="breadcrumb-item">Lançamentos</li>
+                            <li class="breadcrumb-item active">{!! $breadcrumb !!} Lançamento</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+    </x-slot>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <form id="formCadastroGrupo" class="form-horizontal" method="POST" action="{{ $url }}"
+                          autocomplete="off">
+                        @csrf
+                        <!-- Default box -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Cadastro de Lançamentos</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                            title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                @if (Session('success'))
+                                <div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+                                    </button>
+                                    <h5><i class="icon fas fa-check"></i> Sucesso!</h5>
+                                    {!! Session('success') !!}
+                                </div>
+                                @endif
+                                <input type="hidden" id="lancamento_id" name="lancamento_id" value="{{ $lancamento_id }}">
+                                <div class="form-group">
+                                    <label for="nome_lancamento" class="control-label">Nome <span class="text-red">*</span></label>
+                                    <input type="text" id="nome_lancamento" name="nome_lancamento"
+                                           class="form-control {{ $errors->has('nome_lancamento') ? 'is-invalid' : '' }}"
+                                           placeholder="Nome do Lançamentos" value="{{ $nome_lancamento }}" autofocus>
+                                    <span class="error invalid-feedback">{{ $errors->first('nome_lancamento') }}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tipo_lancamento" class="control-label">Tipo <span class="text-red">*</span></label><br />
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary2" name="tipo_lancamento" value="E" @if ($tipo_lancamento == 'E') checked @endif>
+                                        <label for="radioPrimary2">Entrada</label>
+                                    </div>
+                                    <div class="icheck-primary d-inline">
+                                        <input type="radio" id="radioPrimary3" name="tipo_lancamento" value="S" @if ($tipo_lancamento == 'S') checked @endif>
+                                        <label for="radioPrimary3">Saída</label>
+                                    </div><br />
+                                    <span class="error invalid-feedback">{{ $errors->first('tipo_lancamento') }}</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" value="Salvar" class="btn btn-primary">
+                                <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
+                                       onclick="location.href='{{ $urlAdicionar }}'">
+                                <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+</x-app-layout>
