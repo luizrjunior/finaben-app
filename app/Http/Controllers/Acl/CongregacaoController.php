@@ -148,4 +148,12 @@ class CongregacaoController extends Controller
             'uf_congregacao' => 'required|max:8',
         ], self::MESSAGES_ERRORS);
     }
+
+    public function carregar(Request $request)
+    {
+        $uf = $request->uf_psq;
+        $congregacoes = Congregacao::where('uf', $uf)->pluck('nome', 'id')->all();
+
+        return response()->json($congregacoes, 200);
+    }
 }
