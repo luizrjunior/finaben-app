@@ -139,4 +139,12 @@ class CategoriaLancamentoController extends Controller
         $categoria->tipo = $request->tipo_categoria;
     }
 
+    public function carregar(Request $request)
+    {
+        $tipo = $request->tipo_psq;
+        $categorias = CategoriaLancamento::where('tipo', $tipo)->pluck('nome', 'id')->all();
+
+        return response()->json($categorias, 200);
+    }
+
 }
