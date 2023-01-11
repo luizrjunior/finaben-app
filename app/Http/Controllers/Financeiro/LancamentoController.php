@@ -78,11 +78,17 @@ class LancamentoController extends Controller
         if ($ds_tipo == "saida") {
             $tipo = "S";
         }
+
+        $session_congregacao_id = 1;
+        $uf_session = "df";
+
         $categorias = CategoriaLancamento::where('tipo', $tipo)->get();
+        $congregacoes = Congregacao::where('uf', $uf_session)->get();
         $lancamento = new Lancamento();
         $lancamento->tipo = $tipo;
 
-        return view('financeiro.lancamentos.cad-lancamento', compact('lancamento', 'categorias'));
+        return view('financeiro.lancamentos.cad-lancamento',
+            compact('lancamento', 'categorias', 'congregacoes', 'uf_session', 'session_congregacao_id'));
     }
 
 }

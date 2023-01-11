@@ -26,6 +26,7 @@ Route::group(['prefix' => 'usuarios'], function () {
     Route::post('/inserir', [\App\Http\Controllers\Usuarios\UsuarioController::class, 'inserir']);
     Route::get('/{usuario_id}/editar', [\App\Http\Controllers\Usuarios\UsuarioController::class, 'editar']);
     Route::post('/atualizar', [\App\Http\Controllers\Usuarios\UsuarioController::class, 'atualizar']);
+
     Route::post('/usuario-tem-grupos/salvar', [\App\Http\Controllers\Usuarios\UsuarioTemGruposController::class, 'salvar']);
 });
 
@@ -41,6 +42,7 @@ Route::group(['prefix' => 'acl'], function () {
     Route::post('/grupos/inserir', [\App\Http\Controllers\Acl\GrupoController::class, 'inserir']);
     Route::get('/grupos/{grupo_id}/editar', [\App\Http\Controllers\Acl\GrupoController::class, 'editar']);
     Route::post('/grupos/atualizar', [\App\Http\Controllers\Acl\GrupoController::class, 'atualizar']);
+
     Route::post('/grupos-tem-permissoes/salvar', [\App\Http\Controllers\Acl\GrupoTemPermissoesController::class, 'salvar']);
 
     Route::any('/congregacoes', [\App\Http\Controllers\Acl\CongregacaoController::class, 'index']);
@@ -48,6 +50,8 @@ Route::group(['prefix' => 'acl'], function () {
     Route::post('/congregacoes/inserir', [\App\Http\Controllers\Acl\CongregacaoController::class, 'inserir']);
     Route::get('/congregacoes/{congregacao_id}/editar', [\App\Http\Controllers\Acl\CongregacaoController::class, 'editar']);
     Route::post('/congregacoes/atualizar', [\App\Http\Controllers\Acl\CongregacaoController::class, 'atualizar']);
+    Route::post('/congregacoes/carregar', [\App\Http\Controllers\Acl\CongregacaoController::class, 'carregar']);
+
     Route::post('/congregacoes-tem-usuarios/salvar', [\App\Http\Controllers\Acl\CongregacaoTemUsuariosController::class, 'salvar']);
 });
 
@@ -57,6 +61,7 @@ Route::group(['prefix' => 'financeiro'], function () {
     Route::post('/categorias-lancamentos/inserir', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'inserir']);
     Route::get('/categorias-lancamentos/{categoria_id}/editar', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'editar']);
     Route::post('/categorias-lancamentos/atualizar', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'atualizar']);
+    Route::post('/categorias-lancamentos/carregar', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'carregar']);
 
     Route::any('/lancamentos', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'index']);
     Route::get('/lancamentos/{tipo}/adicionar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'adicionar']);

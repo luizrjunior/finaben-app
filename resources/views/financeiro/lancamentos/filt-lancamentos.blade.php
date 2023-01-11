@@ -10,30 +10,12 @@
 
 <x-app-layout>
     <x-slot name="javascript">
+        <script type="text/javascript">
+            top.urlCarregarCategorias = '{{ url('/financeiro/categorias-lancamentos') }}';
+            top.urlCarregarCongregacoes = '{{ url('/acl/congregacoes') }}';
+        </script>
         <script type="text/javascript" src="{{ url('/js/plugins/jquery.maskedinput.js') }}"></script>
         <script type="text/javascript" src="{{ asset('/js/financeiro/lancamentos/filt-lancamentos.js') }}"></script>
-        <script type="text/javascript">
-            $(function () {
-                //Date picker
-                $("#data_inicio_psq").mask("99/99/9999");
-                $('#data_inicio_psq').datepicker({
-                    todayHighlight: true,
-                    autoclose: true,
-                    format: 'dd/mm/yyyy',
-                    todayHighLight: true,
-                    orientation: 'bottom'
-                });
-                //Date picker
-                $("#data_final_psq").mask("99/99/9999");
-                $('#data_final_psq').datepicker({
-                    todayHighlight: true,
-                    autoclose: true,
-                    format: 'dd/mm/yyyy',
-                    todayHighLight: true,
-                    orientation: 'bottom'
-                });
-            });
-        </script>
     </x-slot>
     <x-slot name="header">
         <div class="content-header">
@@ -89,15 +71,15 @@
                                     <label for="tipo_psq">Tipo</label>
                                     <select id="tipo_psq" name="tipo_psq" class="form-control custom-select">
                                         <option value="" selected> -- TODOS --</option>
-                                        <option value="ac" @if ($data['tipo_psq'] == 'E') selected @endif>ENTRADAS
+                                        <option value="E" @if ($data['tipo_psq'] == 'E') selected @endif>ENTRADAS
                                         </option>
-                                        <option value="al" @if ($data['tipo_psq'] == 'S') selected @endif>SAÍDAS
+                                        <option value="S" @if ($data['tipo_psq'] == 'S') selected @endif>SAÍDAS
                                         </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="tipo_psq">Categorias</label>
-                                    <select id="tipo_psq" name="tipo_psq" class="form-control custom-select">
+                                    <label for="categoria_lancamento_id_psq">Categorias</label>
+                                    <select id="categoria_lancamento_id_psq" name="categoria_lancamento_id_psq" class="form-control custom-select">
                                         <option value="" selected> -- TODAS --</option>
                                     </select>
                                 </div>
@@ -161,8 +143,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="categoria_lancamento_id_psq">Congregação</label>
-                                    <select id="categoria_lancamento_id_psq" class="form-control custom-select">
+                                    <label for="congregacao_id_psq">Congregação</label>
+                                    <select id="congregacao_id_psq" name="congregacao_id_psq" class="form-control custom-select">
                                         <option value="" selected> -- TODAS --</option>
                                     </select>
                                 </div>
