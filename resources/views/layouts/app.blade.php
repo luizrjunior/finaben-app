@@ -156,6 +156,8 @@
 {{--<script src="{{ asset('dist/js/demo.js') }}"></script>--}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+<!-- JavaScript General Functions -->
+<script src="{{ asset('js/general.js') }}"></script>
 {{ $javascript }}
 </body>
 </html>
