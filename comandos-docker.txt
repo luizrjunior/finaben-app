@@ -1,0 +1,69 @@
+- Criar um Migrate
+php artisan make:migration $NOME_MIGRATE
+
+- Criar um Model com Migrate
+php artisan make:model Models\$NOME_MODEL -m
+Exemplo: docker exec -ti finaben-app sh -c "php artisan make:model Models/ItemAtendimento -m"
+
+- Criar um Controller com Recusros
+php artisan make:controller APP\$NOME_CONTROLLER --resource
+Exemplo: docker exec -ti finaben-app sh -c "php artisan make:controller AppVendas/SelecionarFormaVendaController"
+
+- Criar um Seed
+php artisan make:controller APP\$NOME_CONTROLLER --resource
+Exemplo: docker exec -ti finaben-app sh -c "php artisan make:seeder AgendasSeeder"
+
+- Levantar o ambiente com Docker
+docker-compose up -d
+
+- Parar o ambiente
+docker-compose stop
+
+- Matar os containers do projeto
+docker-compose down
+
+- Entrar no Container:
+docker exec -ti finaben-app bash
+
+- Instalar dependencias do Composer:
+docker exec -ti finaben-app sh -c "composer install"
+
+- Gerar chave do App:
+docker exec -ti finaben-app sh -c "php artisan key:generate"
+
+- Gerar autoload da aplicação
+docker exec -ti finaben-app sh -c "composer dump-autoload --ignore-platform-reqs"
+
+- Executa as migrations
+docker exec -ti finaben-app sh -c "php artisan migrate"
+
+- Popular as primeiras tabelas do sistema
+docker exec -ti finaben-app sh -c "php artisan db:seed"
+
+- Atualizar as Migrations e popular as primeiras tabelas
+docker exec -ti finaben-app sh -c "php artisan migrate:refresh --seed"
+
+- Criar storage link para armazenar os arquivos anexos
+docker exec -ti finaben-app sh -c "php artisan storage:link"
+
+- Remover storage link
+docker exec -ti finaben-app sh -c "rmd storage"
+
+- Limpar cache de configuração
+docker exec -ti finaben-app sh -c "php artisan config:clear"
+
+- Limpar cache de views
+docker exec -ti finaben-app sh -c "php artisan view:clear"
+
+- Apresentar a versão do Framework (Laravel)
+docker exec -ti finaben-app sh -c "php artisan --version"
+
+- Limpar Cache de Rotas do sistema
+docker exec -ti finaben-app sh -c "php artisan route:cache"
+
+- Listar Rotas do sistema
+docker exec -ti finaben-app sh -c "php artisan route:list"
+
+- Limpar Tudo
+php artisan route:clear && php artisan view:clear && php artisan config:clear && php artisan cache:clear && php artisan clear-compiled
+

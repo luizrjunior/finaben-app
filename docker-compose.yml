@@ -1,0 +1,26 @@
+version: '3.5'
+services:
+  db-finaben-app:
+    image: mariadb
+    container_name: mysql_finaben_app
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: finaben
+
+  apps-custom:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: finaben-app
+    volumes:
+      - ./:/var/www/html
+      - ./storage:/var/www/html/storage
+    ports:
+      - "80:80"
+    privileged: true
+    links:
+      - "db-finaben-app:database"
