@@ -152,7 +152,7 @@
                                 @endif
                             </div>
                             <div class="card-footer">
-                                <input type="submit" value="Salvar" class="btn btn-primary" {{ $disabled }}>
+                                <input type="submit" value="Salvar" class="btn btn-primary" {{ $disabled }} onclick="return validarFormUsuario();">
                                 <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
                                        onclick="location.href='{{ $urlAdicionar }}'">
                                 <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
