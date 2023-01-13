@@ -1,4 +1,4 @@
-function validar() {
+function validarFormLancamento() {
     $("#uf_lancamento").prop('disabled', false);
     $("#congregacao_id").prop('disabled', false);
     return true;

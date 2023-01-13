@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Financeiro;
 
-use App\Models\CategoriaLancamento;
-use App\Models\Congregacao;
 use Gate;
+
 use App\Models\Lancamento;
+use App\Models\Congregacao;
+use App\Models\CategoriaLancamento;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class LancamentoController extends Controller
 {
     const MESSAGES_ERRORS = [
-        'nome_categoria.required' => 'O Nome precisa ser informado.',
+        'congregacao_id.required' => 'O Nome precisa ser informado.',
         'nome_categoria.max' => 'Ops, o Nome não precisa ter mais que 190 caracteres.',
         'nome_categoria.unique' => 'Ops, O Nome já está em uso.',
         'tipo_categoria.required' => 'O Tipo precisa ser informado.',
@@ -89,6 +91,57 @@ class LancamentoController extends Controller
 
         return view('financeiro.lancamentos.cad-lancamento',
             compact('lancamento', 'categorias', 'congregacoes', 'uf_session', 'session_congregacao_id'));
+    }
+
+    public function inserir(Request $request)
+    {
+        if (Gate::denies('Manter_Lancamentos')) {
+            return redirect('/permissao-negada');
+        }
+
+//        dd($request->all());
+
+        $this->validate($request, [
+            'congregacao_id' => 'required',
+            'data_lancamento' => 'required|date_format:d/m/Y|after_or_equal:today',
+            'tipo_lancamento' => 'required',
+            'titulo_lancamento' => 'nullable|max:190',
+            'valor_lancamento' => 'required',
+        ], self::MESSAGES_ERRORS);
+
+        dd('dsfasd');
+
+        $msg = "Lançamento cadastrado com Sucesso!";
+
+        $lancamento = new Lancamento();
+        $this->setDataLancamento($lancamento, $request);
+        $lancamento->save();
+
+        return redirect('/financeiro/lancamentos/' . $lancamento->id . '/editar')->with('success', $msg);
+    }
+
+    private function setDataLancamento($lancamento, $request)
+    {
+        $data_lancamento_format = \DateTime::createFromFormat('d/m/Y', $request->data_lancamento)->format('Y-m-d');
+
+        $lancamento->congregacao_id = $request->congregacao_id;
+        $lancamento->categoria_lancamento_id = $request->categoria_lancamento_id;
+        $lancamento->tipo = $request->tipo_lancamento;
+        $lancamento->data = $data_lancamento_format;
+        $lancamento->valor = (float)$this->retornaValorFormatado($request->valor_lancamento);
+        $lancamento->titulo = $request->titulo_lancamento;
+        $lancamento->observacao = $request->observacao_lancamento;
+        $lancamento->url_comprovante = $request->url_comprovante;
+    }
+
+    private function retornaValorFormatado($valor)
+    {
+        $valor1 = explode(' ', $valor);
+        if (count($valor1) > 1) {
+            $valor2 = str_replace('.', '', $valor1[1]);
+            return str_replace(',', '.', $valor2);
+        }
+        return $valor;
     }
 
 }

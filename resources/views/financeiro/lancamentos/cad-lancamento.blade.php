@@ -167,6 +167,7 @@
                                             <option value="{{ $congregacao->id }}" {{ $selected }}>{{ $congregacao->nome }}</option>
                                         @endforeach
                                     </select>
+                                    <span class="error invalid-feedback">{{ $errors->first('congregacao_id') }}</span>
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -197,15 +198,17 @@
                                         {!! Session('success') !!}
                                     </div>
                                 @endif
+
                                 <input type="hidden" id="lancamento_id" name="lancamento_id"
                                        value="{{ $lancamento_id }}">
                                 <input type="hidden" id="tipo_lancamento" name="tipo_lancamento"
                                        value="{{ $tipo_lancamento }}">
+
                                 <div class="form-group">
                                     <label for="categoria_lancamento_id">Categoria Lançamento</label>
                                     <select id="categoria_lancamento_id" name="categoria_lancamento_id"
                                             class="form-control custom-select">
-                                        <option value=""> - - SEM CATEGORIA - -</option>
+                                        <option value=""> - - SELECIONE - - </option>
                                         @foreach ($categorias as $categoria)
                                             @php
                                             $selected = "";
@@ -215,20 +218,26 @@
                                             @endphp
                                             <option value="{{ $categoria->id }}" {{ $selected }}>{{ $categoria->nome }}</option>
                                         @endforeach
+                                            <option value="">SEM CATEGORIA</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Titulo</label>
-                                    <input class="form-control" type="text">
+                                    <input class="form-control" type="text" id="titulo_lancamento" name="titulo_lancamento"
+                                        value="{{ $titulo_lancamento }}">
+                                    <span class="error invalid-feedback">{{ $errors->first('titulo_lancamento') }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <label>Data Lançamento</label>
+                                    <label>Data Lançamento <span class="text-red">*</span></label>
                                     <input type="text" id="data_lancamento" name="data_lancamento"
                                            class="form-control" value="{{ $data_lancamento }}">
+                                    <span class="error invalid-feedback">{{ $errors->first('data_lancamento') }}</span>
                                 </div>
                                 <div class="form-group">
-                                    <label>Valor Lançamento</label>
-                                    <input type="text" id="valor_lancamento" name="valor_lancamento" class="guiMoneyMask form-control">
+                                    <label>Valor Lançamento <span class="text-red">*</span></label>
+                                    <input type="text" id="valor_lancamento" name="valor_lancamento"
+                                           class="guiMoneyMask form-control" value="{{ $valor_lancamento }}">
+                                    <span class="error invalid-feedback">{{ $errors->first('valor_lancamento') }}</span>
                                 </div>
                                 <div class="form-group">
                                     <label>Comprovante</label>
@@ -239,7 +248,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <input type="submit" value="Salvar" class="btn btn-primary">
+                                <input type="submit" value="Salvar" class="btn btn-primary" onclick="return validarFormLancamento();">
                                 <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
                                        onclick="location.href='{{ $urlAdicionar }}'">
                                 <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
