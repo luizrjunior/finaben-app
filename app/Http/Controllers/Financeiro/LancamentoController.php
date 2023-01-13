@@ -10,14 +10,14 @@ use App\Models\CategoriaLancamento;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class LancamentoController extends Controller
 {
     const MESSAGES_ERRORS = [
-        'congregacao_id.required' => 'O Nome precisa ser informado.',
-        'nome_categoria.max' => 'Ops, o Nome não precisa ter mais que 190 caracteres.',
-        'nome_categoria.unique' => 'Ops, O Nome já está em uso.',
-        'tipo_categoria.required' => 'O Tipo precisa ser informado.',
+        'congregacao_id.required' => 'A Congregação precisa ser selecionada.',
+        'data_lancamento.required' => 'O campo Data precisa ser informado.',
+        'valor_lancamento.required' => 'O campo Valor precisa ser informado.',
     ];
 
     public function __construct()
@@ -74,10 +74,21 @@ class LancamentoController extends Controller
         return view('financeiro.lancamentos.filt-lancamentos', compact('lancamentos', 'data'));
     }
 
-    public function adicionar($ds_tipo)
+    public function adicionarLancamento($ds_tipo)
     {
         $tipo = "E";
         if ($ds_tipo == "saida") {
+            $tipo = "S";
+        }
+        Session::put('session_tipo_lancamento', $tipo);
+
+        return redirect('/financeiro/lancamentos/adicionar');
+    }
+
+    public function adicionar()
+    {
+        $tipo = "E";
+        if (Session::get('session_tipo_lancamento') == "S") {
             $tipo = "S";
         }
 
@@ -99,13 +110,11 @@ class LancamentoController extends Controller
             return redirect('/permissao-negada');
         }
 
-//        dd($request->all());
-
         $this->validate($request, [
-            'congregacao_id' => 'required',
+//            'congregacao_id' => 'required',
             'data_lancamento' => 'required|date_format:d/m/Y|after_or_equal:today',
-            'tipo_lancamento' => 'required',
-            'titulo_lancamento' => 'nullable|max:190',
+//            'tipo_lancamento' => 'required',
+//            'titulo_lancamento' => 'nullable|max:190',
             'valor_lancamento' => 'required',
         ], self::MESSAGES_ERRORS);
 

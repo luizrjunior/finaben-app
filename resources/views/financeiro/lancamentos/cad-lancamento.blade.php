@@ -80,6 +80,7 @@
     </x-slot>
     <section class="content">
         <div class="container-fluid">
+            {{ $errors->first('valor_lancamento') }}
             <form id="formCadastroGrupo" class="form-horizontal" method="POST" action="{{ $url }}"
                   autocomplete="off">
                 @csrf
@@ -155,7 +156,7 @@
                                 <div class="form-group">
                                     <label for="congregacao_id">Congregação</label>
                                     <select id="congregacao_id" name="congregacao_id"
-                                            class="form-control custom-select">
+                                            class="form-control custom-select {{ $errors->has('congregacao_id') ? 'is-invalid' : '' }}">
                                         <option value="" selected> -- SELECIONE UMA UF --</option>
                                         @foreach ($congregacoes as $congregacao)
                                             @php
@@ -167,13 +168,16 @@
                                             <option value="{{ $congregacao->id }}" {{ $selected }}>{{ $congregacao->nome }}</option>
                                         @endforeach
                                     </select>
-                                    <span class="error invalid-feedback">{{ $errors->first('congregacao_id') }}</span>
+                                    <div>
+                                        <span class="error invalid-feedback">{{ $errors->first('congregacao_id') }}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <!-- Default box -->
                         <div class="card">
@@ -199,13 +203,20 @@
                                     </div>
                                 @endif
 
-                                <input type="hidden" id="lancamento_id" name="lancamento_id"
-                                       value="{{ $lancamento_id }}">
-                                <input type="hidden" id="tipo_lancamento" name="tipo_lancamento"
-                                       value="{{ $tipo_lancamento }}">
+                                <input type="hidden" id="lancamento_id" name="lancamento_id" value="{{ $lancamento_id }}">
+                                <input type="hidden" id="tipo_lancamento" name="tipo_lancamento" value="{{ $tipo_lancamento }}">
 
                                 <div class="form-group">
-                                    <label for="categoria_lancamento_id">Categoria Lançamento</label>
+                                    <label for="tipo_lancamento">Tipo</label>
+                                    <select id="tipo_lancamento" name="tipo_lancamento" class="form-control custom-select" disabled>
+                                        <option value=""> -- SELECIONE --</option>
+                                        <option value="E" @if ($tipo_lancamento == 'E') selected @endif>ENTRADA</option>
+                                        <option value="S" @if ($tipo_lancamento == 'S') selected @endif>SAÍDA</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="categoria_lancamento_id">Categoria</label>
                                     <select id="categoria_lancamento_id" name="categoria_lancamento_id"
                                             class="form-control custom-select">
                                         <option value=""> - - SELECIONE - - </option>
@@ -221,24 +232,28 @@
                                             <option value="">SEM CATEGORIA</option>
                                     </select>
                                 </div>
+
                                 <div class="form-group">
                                     <label>Titulo</label>
-                                    <input class="form-control" type="text" id="titulo_lancamento" name="titulo_lancamento"
+                                    <input class="form-control {{ $errors->has('titulo_lancamento') ? 'is-invalid' : '' }}" type="text" id="titulo_lancamento" name="titulo_lancamento"
                                         value="{{ $titulo_lancamento }}">
                                     <span class="error invalid-feedback">{{ $errors->first('titulo_lancamento') }}</span>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Data Lançamento <span class="text-red">*</span></label>
+                                    <label>Data <span class="text-red">*</span></label>
                                     <input type="text" id="data_lancamento" name="data_lancamento"
-                                           class="form-control" value="{{ $data_lancamento }}">
+                                           class="form-control {{ $errors->has('data_lancamento') ? 'is-invalid' : '' }}" value="{{ $data_lancamento }}">
                                     <span class="error invalid-feedback">{{ $errors->first('data_lancamento') }}</span>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Valor Lançamento <span class="text-red">*</span></label>
+                                    <label>Valor <span class="text-red">*</span></label>
                                     <input type="text" id="valor_lancamento" name="valor_lancamento"
-                                           class="guiMoneyMask form-control" value="{{ $valor_lancamento }}">
+                                           class="guiMoneyMask form-control {{ $errors->has('valor_lancamento') ? 'is-invalid' : '' }}" value="{{ $valor_lancamento }}">
                                     <span class="error invalid-feedback">{{ $errors->first('valor_lancamento') }}</span>
                                 </div>
+
                                 <div class="form-group">
                                     <label>Comprovante</label>
                                     <div class="custom-file">
@@ -246,13 +261,16 @@
                                         <label class="custom-file-label" for="customFile">Escolha o arquivo</label>
                                     </div>
                                 </div>
+
                             </div>
+
                             <div class="card-footer">
                                 <input type="submit" value="Salvar" class="btn btn-primary" onclick="return validarFormLancamento();">
                                 <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
                                        onclick="location.href='{{ $urlAdicionar }}'">
                                 <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
                             </div>
+
                         </div>
                     </div>
                 </div>

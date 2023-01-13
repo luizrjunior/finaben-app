@@ -64,7 +64,8 @@ Route::group(['prefix' => 'financeiro'], function () {
     Route::post('/categorias-lancamentos/carregar', [\App\Http\Controllers\Financeiro\CategoriaLancamentoController::class, 'carregar']);
 
     Route::any('/lancamentos', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'index']);
-    Route::get('/lancamentos/{tipo}/adicionar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'adicionar']);
+    Route::get('/lancamentos/{tipo}/adicionar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'adicionarLancamento']);
+    Route::get('/lancamentos/adicionar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'adicionar']);
     Route::post('/lancamentos/inserir', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'inserir']);
     Route::get('/lancamentos/{lancamento_id}/editar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'editar']);
     Route::post('/lancamentos/atualizar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'atualizar']);
