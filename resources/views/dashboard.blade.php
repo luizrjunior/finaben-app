@@ -32,20 +32,26 @@
                             <h3 class="card-title">Controles Principais</h3>
                         </div>
                         <div class="card-body">
+                            @can('Manter_Usuarios')
                             <a href="{{ url('/usuarios') }}" class="btn btn-app bg-success">
                                 <span class="badge bg-purple">{{ $totalUsers }}</span>
                                 <i class="fas fa-users"></i> Usuários
                             </a>
+                            @endcan
+                                @can('Manter_Congregacoes')
                             <a href="{{ url('/acl/congregacoes') }}" class="btn btn-app bg-secondary">
                                 <span class="badge bg-success">{{ $totalCongregacoes }}</span>
                                 <i class="fas fa-barcode"></i> Congregações
                             </a>
+                                @endcan
+                                    @can('Manter_Lancamentos')
                             <a class="btn btn-app bg-danger">
                                 <i class="fas fa-plus-circle"></i> Entradas
                             </a>
                             <a class="btn btn-app bg-warning">
                                 <i class="fas fa-minus-circle"></i> Saídas
                             </a>
+                                @endcan
                         </div>
 
                     </div>
