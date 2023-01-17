@@ -111,14 +111,12 @@ class LancamentoController extends Controller
         }
 
         $this->validate($request, [
-//            'congregacao_id' => 'required',
+            'congregacao_id' => 'required',
             'data_lancamento' => 'required|date_format:d/m/Y|after_or_equal:today',
-//            'tipo_lancamento' => 'required',
-//            'titulo_lancamento' => 'nullable|max:190',
+            'tipo_lancamento' => 'required',
             'valor_lancamento' => 'required',
         ], self::MESSAGES_ERRORS);
 
-        dd('dsfasd');
 
         $msg = "Lançamento cadastrado com Sucesso!";
 
@@ -139,7 +137,7 @@ class LancamentoController extends Controller
         $lancamento->data = $data_lancamento_format;
         $lancamento->valor = (float)$this->retornaValorFormatado($request->valor_lancamento);
         $lancamento->titulo = $request->titulo_lancamento;
-        $lancamento->observacao = $request->observacao_lancamento;
+        $lancamento->observacao = 'terttg';
         $lancamento->url_comprovante = $request->url_comprovante;
     }
 
@@ -153,4 +151,37 @@ class LancamentoController extends Controller
         return $valor;
     }
 
+    public function editar($id)
+    {
+        $session_congregacao_id = 1;
+        $uf_session = "df";
+
+        $lancamento = Lancamento::find($id);
+        $categorias = CategoriaLancamento::where('tipo', $lancamento->tipo)->get();
+        $congregacoes = Congregacao::where('uf', $uf_session)->get();
+
+        return view('financeiro.lancamentos.cad-lancamento',
+            compact('lancamento', 'categorias', 'congregacoes', 'uf_session', 'session_congregacao_id'));
+    }
+
+    public function atualizar(Request $request)
+    {
+        if (Gate::denies('Manter_Lancamentos')) {
+            return redirect('/permissao-negada');
+        }
+
+        $this->validate($request, [
+            'congregacao_id' => 'required',
+            'tipo_lancamento' => 'required',
+            'valor_lancamento' => 'required',
+        ], self::MESSAGES_ERRORS);
+
+        $msg = "Lançamento alterado com Sucesso!";
+
+        $lancamento = Lancamento::find($request->lancamento_id);
+        $this->setDataLancamento($lancamento, $request);
+        $lancamento->save();
+
+        return redirect('/financeiro/lancamentos/' . $lancamento->id . '/editar')->with('success', $msg);
+    }
 }

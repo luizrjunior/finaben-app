@@ -215,27 +215,33 @@
                                             <th>Data</th>
                                             <th>Categoria</th>
                                             <th>Tipo</th>
-                                            <th>Título</th>
                                             <th>Valor</th>
                                             <th>Ações</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @if (count($lancamentos) > 0)
+                                            @php
+                                            $valor_total_entradas = 0;
+                                            $valor_total_saidas = 0;
+                                            @endphp
                                             @foreach ($lancamentos as $lancamento)
                                                 @php
                                                     $tipo = "Entrada";
                                                     if ($lancamento->tipo == "S") {
                                                         $tipo = "Saída";
+                                                        $valor_total_saidas += $lancamento->valor;
+                                                    } else {
+                                                        $valor_total_entradas += $lancamento->valor;
                                                     }
                                                 @endphp
                                                 <tr>
                                                     <td>#</td>
                                                     <td align="center">{{ date('d/m/Y H:i:s', strtotime($lancamento->created_at)) }}</td>
-                                                    <td align="center">{{ date('d/m/Y', strtotime($lancamento->data_lancamento)) }}</td>
+                                                    <td align="center">{{ date('d/m/Y', strtotime($lancamento->data)) }}</td>
                                                     <td>{{ $lancamento->categoria->nome }}</td>
                                                     <td>{{ $tipo }}</td>
-                                                    <td>{{ $lacamento->titulo }}</td>
+                                                    <td>{{ $lancamento->valor }}</td>
                                                     <td align="center">
                                                         <button type="button" class="btn btn-info btn-sm"
                                                                 onclick="location.href='{{ url("/financeiro/lancamentos/{$lancamento->id}/editar") }}';">
@@ -267,7 +273,8 @@
                             <div class="col-lg-6 col-12">
                                 <div class="small-box bg-success">
                                     <div class="inner">
-                                        <h3>R$ 2.000,<sup style="font-size: 20px">00</sup></h3>
+{{--                                        <h3>R$ 2.000,<sup style="font-size: 20px">00</sup></h3>--}}
+                                        <h3>{{ $valor_total_entradas }}</h3>
                                         <p>Total Entradas</p>
                                     </div>
                                     <div class="icon">
@@ -278,7 +285,7 @@
                             <div class="col-lg-6 col-12">
                                 @php
                                     $class_saidas = "danger";
-                                    $total_saidas = 540;
+                                    $total_saidas = $valor_total_saidas;
                                     if ($total_saidas >= 620) {
                                         $class_saidas = "primary";
                                     }
