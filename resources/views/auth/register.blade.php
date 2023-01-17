@@ -14,23 +14,25 @@
                 <form action="{{ route('register') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" id="name" class="form-control" placeholder="Nome completo" name="name" :value="old('name')" required autofocus />
+                        <input type="text" id="name" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" placeholder="Nome completo" name="name" :value="old('name')" required autofocus />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
+                        <span class="error invalid-feedback">{{ $errors->first('name') }}</span>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="email" id="email" class="form-control" placeholder="Email" name="email" :value="old('email')" required />
+                        <input type="email" id="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" placeholder="Email" name="email" :value="old('email')" required />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
+                        <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" id="password" class="form-control" placeholder="Senha"
+                        <input type="password" id="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" placeholder="Senha"
                                name="password"
                                required autocomplete="new-password" />
                         <div class="input-group-append">
@@ -38,6 +40,7 @@
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
+                        <span class="error invalid-feedback">{{ $errors->first('password') }}</span>
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" id="password_confirmation" class="form-control" placeholder="Repetir a senha"
