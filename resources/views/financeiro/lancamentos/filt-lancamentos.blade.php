@@ -3,6 +3,8 @@
     $urlAdicionarEntrada = url('/financeiro/lancamentos/entrada/adicionar');
     $urlAdicionarSaida = url('/financeiro/lancamentos/saida/adicionar');
     $urlLocalizar = url('/financeiro/lancamentos');
+    $valor_total_entradas = 0;
+    $valor_total_saidas = 0;
 @endphp
 
 @section('title', 'FINABEN')
@@ -27,7 +29,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Financeiro</li>
+                            <li class="breadcrumb-item">Financeiro</li>
                             <li class="breadcrumb-item active">Lançamentos</li>
                         </ol>
                     </div><!-- /.col -->
@@ -221,10 +223,6 @@
                                         </thead>
                                         <tbody>
                                         @if (count($lancamentos) > 0)
-                                            @php
-                                            $valor_total_entradas = 0;
-                                            $valor_total_saidas = 0;
-                                            @endphp
                                             @foreach ($lancamentos as $lancamento)
                                                 @php
                                                     $tipo = "Entrada";
@@ -241,7 +239,7 @@
                                                     <td align="center">{{ date('d/m/Y', strtotime($lancamento->data)) }}</td>
                                                     <td>{{ $lancamento->categoria->nome }}</td>
                                                     <td>{{ $tipo }}</td>
-                                                    <td>{{ $lancamento->valor }}</td>
+                                                    <td>R$ {{ numberFormatFinaBen($lancamento->valor) }}</td>
                                                     <td align="center">
                                                         <button type="button" class="btn btn-info btn-sm"
                                                                 onclick="location.href='{{ url("/financeiro/lancamentos/{$lancamento->id}/editar") }}';">
@@ -273,8 +271,7 @@
                             <div class="col-lg-6 col-12">
                                 <div class="small-box bg-success">
                                     <div class="inner">
-{{--                                        <h3>R$ 2.000,<sup style="font-size: 20px">00</sup></h3>--}}
-                                        <h3>{{ $valor_total_entradas }}</h3>
+                                        <h3>R$ {{ numberFormatFinaBen($valor_total_entradas) }}</h3>
                                         <p>Total Entradas</p>
                                     </div>
                                     <div class="icon">
@@ -292,7 +289,7 @@
                                 @endphp
                                 <div class="small-box bg-{{ $class_saidas }}">
                                     <div class="inner">
-                                        <h3>R$ {{ $total_saidas }},<sup style="font-size: 20px">00</sup></h3>
+                                        <h3>R$ {{ numberFormatFinaBen($total_saidas) }}</h3>
                                         <p>Total Saídas</p>
                                     </div>
                                     <div class="icon">
@@ -343,7 +340,8 @@
                             </div>
                             <!-- card-body -->
                             <div class="card-footer text-right">
-                                <b>Valor Total: <span class="text-primary">R$ 620,00</span></b>
+                                <p><b>Valor Total: <span class="text-primary">R$ 620,00</span></b></p>
+                                <p><b>Valor Total Lançado: <span class="text-danger">R$ 460,00</span></b></p>
                             </div>
                         </div>
                     </div>

@@ -80,7 +80,6 @@
     </x-slot>
     <section class="content">
         <div class="container-fluid">
-            {{ $errors->first('valor_lancamento') }}
             <form id="formCadastroGrupo" class="form-horizontal" method="POST" action="{{ $url }}"
                   autocomplete="off">
                 @csrf
@@ -103,55 +102,38 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="uf_lancamento">UF Congregação <span class="text-red">*</span></label>
-                                    <select id="uf_lancamento" name="uf_lancamento" class="form-control custom-select">
+                                    <select id="uf_lancamento" name="uf_lancamento"
+                                            class="form-control custom-select {{ $errors->has('uf_lancamento') ? 'is-invalid' : '' }}">
                                         <option value="" selected> -- SELECIONE --</option>
                                         <option value="ac" @if ($uf_lancamento == 'ac') selected @endif>Acre</option>
                                         <option value="al" @if ($uf_lancamento == 'al') selected @endif>Alagoas</option>
-                                        <option value="am" @if ($uf_lancamento == 'am') selected @endif>Amazonas
-                                        </option>
+                                        <option value="am" @if ($uf_lancamento == 'am') selected @endif>Amazonas</option>
                                         <option value="ap" @if ($uf_lancamento == 'ap') selected @endif>Amapá</option>
                                         <option value="ba" @if ($uf_lancamento == 'ba') selected @endif>Bahia</option>
                                         <option value="ce" @if ($uf_lancamento == 'ce') selected @endif>Ceará</option>
-                                        <option value="df" @if ($uf_lancamento == 'df') selected @endif>Distrito
-                                            Federal
-                                        </option>
-                                        <option value="es" @if ($uf_lancamento == 'es') selected @endif>Espírito Santo
-                                        </option>
+                                        <option value="df" @if ($uf_lancamento == 'df') selected @endif>Distrito Federal</option>
+                                        <option value="es" @if ($uf_lancamento == 'es') selected @endif>Espírito Santo</option>
                                         <option value="go" @if ($uf_lancamento == 'go') selected @endif>Goiás</option>
-                                        <option value="ma" @if ($uf_lancamento == 'ma') selected @endif>Maranhão
-                                        </option>
-                                        <option value="mt" @if ($uf_lancamento == 'mt') selected @endif>Mato Grosso
-                                        </option>
-                                        <option value="ms" @if ($uf_lancamento == 'ms') selected @endif>Mato Grosso do
-                                            Sul
-                                        </option>
-                                        <option value="mg" @if ($uf_lancamento == 'mg') selected @endif>Minas Gerais
-                                        </option>
+                                        <option value="ma" @if ($uf_lancamento == 'ma') selected @endif>Maranhão</option>
+                                        <option value="mt" @if ($uf_lancamento == 'mt') selected @endif>Mato Grosso</option>
+                                        <option value="ms" @if ($uf_lancamento == 'ms') selected @endif>Mato Grosso do Sul</option>
+                                        <option value="mg" @if ($uf_lancamento == 'mg') selected @endif>Minas Gerais</option>
                                         <option value="pa" @if ($uf_lancamento == 'pa') selected @endif>Pará</option>
                                         <option value="pb" @if ($uf_lancamento == 'pb') selected @endif>Paraíba</option>
                                         <option value="pr" @if ($uf_lancamento == 'pr') selected @endif>Paraná</option>
-                                        <option value="pe" @if ($uf_lancamento == 'pe') selected @endif>Pernambuco
-                                        </option>
+                                        <option value="pe" @if ($uf_lancamento == 'pe') selected @endif>Pernambuco</option>
                                         <option value="pi" @if ($uf_lancamento == 'pi') selected @endif>Piauí</option>
-                                        <option value="rj" @if ($uf_lancamento == 'rj') selected @endif>Rio de Janeiro
-                                        </option>
-                                        <option value="rn" @if ($uf_lancamento == 'rn') selected @endif>Rio Grande do
-                                            Norte
-                                        </option>
-                                        <option value="ro" @if ($uf_lancamento == 'ro') selected @endif>Rondônia
-                                        </option>
-                                        <option value="rs" @if ($uf_lancamento == 'rs') selected @endif>Rio Grande do
-                                            Sul
-                                        </option>
+                                        <option value="rj" @if ($uf_lancamento == 'rj') selected @endif>Rio de Janeiro</option>
+                                        <option value="rn" @if ($uf_lancamento == 'rn') selected @endif>Rio Grande do Norte</option>
+                                        <option value="ro" @if ($uf_lancamento == 'ro') selected @endif>Rondônia</option>
+                                        <option value="rs" @if ($uf_lancamento == 'rs') selected @endif>Rio Grande do Sul</option>
                                         <option value="rr" @if ($uf_lancamento == 'rr') selected @endif>Roraima</option>
-                                        <option value="sc" @if ($uf_lancamento == 'sc') selected @endif>Santa Catarina
-                                        </option>
+                                        <option value="sc" @if ($uf_lancamento == 'sc') selected @endif>Santa Catarina</option>
                                         <option value="se" @if ($uf_lancamento == 'se') selected @endif>Sergipe</option>
-                                        <option value="sp" @if ($uf_lancamento == 'sp') selected @endif>São Paulo
-                                        </option>
-                                        <option value="to" @if ($uf_lancamento == 'to') selected @endif>Tocantins
-                                        </option>
+                                        <option value="sp" @if ($uf_lancamento == 'sp') selected @endif>São Paulo</option>
+                                        <option value="to" @if ($uf_lancamento == 'to') selected @endif>Tocantins</option>
                                     </select>
+                                    <span class="error invalid-feedback">{{ $errors->first('uf_lancamento') }}</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="congregacao_id">Congregação <span class="text-red">*</span></label>
@@ -169,17 +151,13 @@
                                                 value="{{ $congregacao->id }}" {{ $selected }}>{{ $congregacao->nome }}</option>
                                         @endforeach
                                     </select>
-                                    <div>
-                                        <span
-                                            class="error invalid-feedback">{{ $errors->first('congregacao_id') }}</span>
-                                    </div>
+                                    <span class="error invalid-feedback">{{ $errors->first('congregacao_id') }}</span>
                                 </div>
                             </div>
                             <div class="card-footer">
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <!-- Default box -->
                         <div class="card">
