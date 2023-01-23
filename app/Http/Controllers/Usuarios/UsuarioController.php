@@ -103,8 +103,8 @@ class UsuarioController extends Controller
         $this->validate($request, [
             'nome_usuario' => 'required|max:190',
             'email_usuario' => 'required|email|max:190|unique:users,email',
-            'senha_usuario' => 'required|min:6|max:8',
-            'confirm_senha_usuario' => 'required|min:6|max:8|same:senha_usuario',
+            'senha_usuario' => 'required|min:4|max:4',
+            'confirm_senha_usuario' => 'required|min:4|max:4|same:senha_usuario',
         ], self::MESSAGES_ERRORS);
     }
 
@@ -129,7 +129,7 @@ class UsuarioController extends Controller
 
     private function retornaGrupos()
     {
-        return Role::select('roles.id', 'roles.name')
+        return Role::select('roles.id', 'roles.name')->where('roles.id', '<>', 1)
             ->orderBy("roles.name", "ASC")->get();
     }
 
