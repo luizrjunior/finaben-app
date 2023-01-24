@@ -60,34 +60,10 @@
                                 <div class="form-group">
                                     <label for="uf_psq">UF</label>
                                     <select id="uf_psq" name="uf_psq" class="form-control custom-select">
-                                        <option value="" selected> -- TODOS -- </option>
-                                        <option value="ac" @if ($data['uf_psq'] == 'ac') selected @endif>Acre</option>
-                                        <option value="al" @if ($data['uf_psq'] == 'al') selected @endif>Alagoas</option>
-                                        <option value="am" @if ($data['uf_psq'] == 'am') selected @endif>Amazonas</option>
-                                        <option value="ap" @if ($data['uf_psq'] == 'ap') selected @endif>Amapá</option>
-                                        <option value="ba" @if ($data['uf_psq'] == 'ba') selected @endif>Bahia</option>
-                                        <option value="ce" @if ($data['uf_psq'] == 'ce') selected @endif>Ceará</option>
-                                        <option value="df" @if ($data['uf_psq'] == 'df') selected @endif>Distrito Federal</option>
-                                        <option value="es" @if ($data['uf_psq'] == 'es') selected @endif>Espírito Santo</option>
-                                        <option value="go" @if ($data['uf_psq'] == 'go') selected @endif>Goiás</option>
-                                        <option value="ma" @if ($data['uf_psq'] == 'ma') selected @endif>Maranhão</option>
-                                        <option value="mt" @if ($data['uf_psq'] == 'mt') selected @endif>Mato Grosso</option>
-                                        <option value="ms" @if ($data['uf_psq'] == 'ms') selected @endif>Mato Grosso do Sul</option>
-                                        <option value="mg" @if ($data['uf_psq'] == 'mg') selected @endif>Minas Gerais</option>
-                                        <option value="pa" @if ($data['uf_psq'] == 'pa') selected @endif>Pará</option>
-                                        <option value="pb" @if ($data['uf_psq'] == 'pb') selected @endif>Paraíba</option>
-                                        <option value="pr" @if ($data['uf_psq'] == 'pr') selected @endif>Paraná</option>
-                                        <option value="pe" @if ($data['uf_psq'] == 'pe') selected @endif>Pernambuco</option>
-                                        <option value="pi" @if ($data['uf_psq'] == 'pi') selected @endif>Piauí</option>
-                                        <option value="rj" @if ($data['uf_psq'] == 'rj') selected @endif>Rio de Janeiro</option>
-                                        <option value="rn" @if ($data['uf_psq'] == 'rn') selected @endif>Rio Grande do Norte</option>
-                                        <option value="ro" @if ($data['uf_psq'] == 'ro') selected @endif>Rondônia</option>
-                                        <option value="rs" @if ($data['uf_psq'] == 'rs') selected @endif>Rio Grande do Sul</option>
-                                        <option value="rr" @if ($data['uf_psq'] == 'rr') selected @endif>Roraima</option>
-                                        <option value="sc" @if ($data['uf_psq'] == 'sc') selected @endif>Santa Catarina</option>
-                                        <option value="se" @if ($data['uf_psq'] == 'se') selected @endif>Sergipe</option>
-                                        <option value="sp" @if ($data['uf_psq'] == 'sp') selected @endif>São Paulo</option>
-                                        <option value="to" @if ($data['uf_psq'] == 'to') selected @endif>Tocantins</option>
+                                        <option value="" selected> - - TODOS - - </option>
+                                        @foreach($array_estados_congregacoes as $key => $value)
+                                            <option value="{{ $key }}" @if ($data['uf_psq'] == $key) selected @endif>{{ $value }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -160,7 +136,7 @@
                                                     <td>#</td>
                                                     <td align="center">{{ date('d/m/Y H:i:s', strtotime($congregacao->created_at)) }}</td>
                                                     <td>{{ $congregacao->nome }}</td>
-                                                    <td align="center">{{ strtoupper($congregacao->uf) }}</td>
+                                                    <td align="center">{{ $congregacao->uf }}</td>
                                                     <td align="center">
                                                         <a class="btn btn-info btn-sm"
                                                            href="{{ url("/acl/congregacoes/{$congregacao->id}/editar") }}">

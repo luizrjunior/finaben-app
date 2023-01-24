@@ -43,10 +43,12 @@ class CongregacaoController extends Controller
         $data['uf_psq'] = isset($data['uf_psq']) ? $data['uf_psq'] : null;
         $data['totalPage'] = isset($data['totalPage']) ? $data['totalPage'] : $this->session_total_page;
 
+        $array_estados_congregacoes = $this->array_estados_congregacoes;
+
         $congregacoes = $this->retornarCongregacoes($data);
 
         return view('acl.congregacoes.filt-congregacoes',
-            compact('congregacoes', 'data'));
+            compact('congregacoes', 'array_estados_congregacoes', 'data'));
     }
 
     private function retornarCongregacoes($data)
@@ -58,7 +60,7 @@ class CongregacaoController extends Controller
             if ($data['uf_psq']) {
                 $query->where('uf', $data['uf_psq']);
             }
-        })->paginate($data['totalPage']);
+        })->orderBy('uf')->orderBy('nome')->paginate($data['totalPage']);
     }
 
     public function adicionar()
