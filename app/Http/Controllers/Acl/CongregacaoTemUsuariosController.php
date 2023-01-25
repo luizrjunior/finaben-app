@@ -42,11 +42,11 @@ class CongregacaoTemUsuariosController extends Controller
         }
 
         foreach ($request->usuario_ids as $key => $usuario_id) {
-            $roleHasPermission = new CongregacaoTemUsuario();
-            $roleHasPermission->congregacao_id = $request->congregacao_id;
-            $roleHasPermission->usuario_id = $usuario_id;
-            $roleHasPermission->save();
-            unset($roleHasPermission);
+            $congregacaoTemUsuario = new CongregacaoTemUsuario();
+            $congregacaoTemUsuario->congregacao_id = $request->congregacao_id;
+            $congregacaoTemUsuario->usuario_id = $usuario_id;
+            $congregacaoTemUsuario->save();
+            unset($congregacaoTemUsuario);
         }
 
         return redirect('/acl/congregacoes/' . $request->congregacao_id . '/editar')

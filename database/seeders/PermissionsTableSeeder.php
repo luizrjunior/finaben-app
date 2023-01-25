@@ -91,7 +91,25 @@ class PermissionsTableSeeder extends Seeder
         DB::table('permissions')->insert([
             'name' => 'Manter_Lancamentos',
             'permission_order' => '03.02',
-            'description' => 'Permissão de acesso para filtrar, adicionar e editar usuários.',
+            'description' => 'Permissão de acesso para filtrar lançamentos.',
+            'created_at' => date('2022-01-01 H:i:s'),
+            'updated_at' => date('2022-01-01 H:i:s'),
+        ]);
+
+        $this->command->info('Inserindo Permissao: Registrar_Entradas');
+        DB::table('permissions')->insert([
+            'name' => 'Registrar_Entradas',
+            'permission_order' => '03.03',
+            'description' => 'Permissão de acesso para adicionar e editar entradas.',
+            'created_at' => date('2022-01-01 H:i:s'),
+            'updated_at' => date('2022-01-01 H:i:s'),
+        ]);
+
+        $this->command->info('Inserindo Permissao: Registrar_Saidas');
+        DB::table('permissions')->insert([
+            'name' => 'Registrar_Saidas',
+            'permission_order' => '03.04',
+            'description' => 'Permissão de acesso para adicionar e editar saídas.',
             'created_at' => date('2022-01-01 H:i:s'),
             'updated_at' => date('2022-01-01 H:i:s'),
         ]);

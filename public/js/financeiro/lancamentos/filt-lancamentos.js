@@ -1,3 +1,9 @@
+function validar() {
+    $("#uf_psq").prop('disabled', false);
+    $("#congregacao_id_psq").prop('disabled', false);
+    return true;
+}
+
 $(document).ready(function () {
     $("#itemMenuFinanceiro").addClass('menu-open');
     $("#itemMenuLancamentos").addClass('active');
@@ -23,6 +29,6 @@ $(document).ready(function () {
         carregarInputCategoriasPsq();
     });
     $("#uf_psq").change(function () {
-        carregarInputCongregacoesPsq();
+        carregarInputCongregacoes("congregacao_id_psq", "uf_psq");
     });
 });

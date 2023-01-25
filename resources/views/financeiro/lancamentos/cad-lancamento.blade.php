@@ -9,7 +9,7 @@
     $observacao = isset($lancamento->observacao) ? $lancamento->observacao : null;
     $categoria_lancamento_id = isset($lancamento->categoria_lancamento_id) ? $lancamento->categoria_lancamento_id : null;
     $congregacao_id = isset($lancamento->congregacao_id) ? $lancamento->congregacao_id : $session_congregacao_id;
-    $uf_lancamento = isset($lancamento->congregacao->uf) ? $lancamento->congregacao->uf : $uf_session;
+    $uf_lancamento = isset($lancamento->congregacao->uf) ? $lancamento->congregacao->uf : $session_congregacao_uf;
 
     $lancamento_id = retornaValorAntigo($lancamento_id, 'lancamento_id');
     $tipo_lancamento = retornaValorAntigo($tipo_lancamento, 'tipo_lancamento');
@@ -222,8 +222,30 @@
                                 </div>
                             </div>
                             <div class="card-footer">
+                                @php
+                                $disabled_submit = "disabled";
+                                $st_permissao_entradas = false;
+                                @endphp
+                                @can('Registrar_Entradas')
+                                    @php
+                                        $st_permissao_entradas = true;
+                                    @endphp
+                                @endcan
+                                @php
+                                    $st_permissao_saidas = false;
+                                @endphp
+                                @can('Registrar_Saidas')
+                                    @php
+                                        $st_permissao_saidas = true;
+                                    @endphp
+                                @endcan
+                                @if ($st_permissao_entradas || $st_permissao_entradas)
+                                    @php
+                                        $disabled_submit = "";
+                                    @endphp
+                                @endif
                                 <input type="submit" value="Salvar" class="btn btn-primary"
-                                       onclick="return validarFormLancamento();">
+                                       onclick="return validarFormLancamento();" {{ $disabled_submit }}>
                                 <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
                                        onclick="location.href='{{ $urlAdicionar }}'">
                                 <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>

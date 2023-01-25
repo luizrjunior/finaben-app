@@ -22,12 +22,12 @@ function carregarInputCategoriasPsq() {
     });
 }
 
-function carregarInputCongregacoesPsq() {
-    $("#congregacao_id_psq").html('<option value="">CARREGANDO...</option>');
+function carregarInputCongregacoes(inputCongregacao, inputUfPsq, value = null) {
+    $("#" + inputCongregacao).html('<option value="">CARREGANDO...</option>');
     var formURL = top.urlCarregarCongregacoes + '/carregar';
     var postData = {
         _token: $("input[name='_token']").val(),
-        uf_psq: $("#uf_psq").val()
+        uf_psq: $("#" + inputUfPsq).val()
     };
     $.ajax({
         type: "POST",
@@ -37,11 +37,14 @@ function carregarInputCongregacoesPsq() {
         success: function (data) {
             console.log(data);
             var count = 0;
-            $("#congregacao_id_psq").html('<option value=""> - - SELECIONE - - </option>');
+            $("#" + inputCongregacao).html('<option value=""> - - SELECIONE - - </option>');
             $.each(data, function (index, item) {
-                $("#congregacao_id_psq").append('<option value="' + index + '">' + item + '</option>');
+                $("#" + inputCongregacao).append('<option value="' + index + '">' + item + '</option>');
                 count = 1;
             });
+            if (value !== null) {
+                $('#' + inputCongregacao).val(value);
+            }
         }
     });
 }

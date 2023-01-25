@@ -37,6 +37,11 @@
         </script>
         <script type="text/javascript" src="{{ url('/js/plugins/jquery.maskedinput.js') }}"></script>
         <script type="text/javascript" src="{{ asset('/js/financeiro/lancamentos/filt-lancamentos.js') }}"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                carregarInputCongregacoes("congregacao_id_psq", "uf_psq", {{ $data['congregacao_id_psq'] }});
+            });
+        </script>
     </x-slot>
     <x-slot name="header">
         <div class="content-header">
@@ -106,7 +111,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="uf_psq">UF</label>
-                                    <select id="uf_psq" name="uf_psq" class="form-control custom-select">
+                                    <select id="uf_psq" name="uf_psq" class="form-control custom-select" {{ $session_disabled }}>
                                         <option value="" selected> -- TODOS --</option>
                                         @foreach($array_estados_congregacoes as $key => $value)
                                             <option value="{{ $key }}" @if ($data['uf_psq'] == $key) selected @endif>{{ $value }}</option>
@@ -115,7 +120,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="congregacao_id_psq">Congregação</label>
-                                    <select id="congregacao_id_psq" name="congregacao_id_psq" class="form-control custom-select">
+                                    <select id="congregacao_id_psq" name="congregacao_id_psq" class="form-control custom-select" {{ $session_disabled }}>
                                         <option value="" selected> -- TODAS --</option>
                                     </select>
                                 </div>
@@ -129,15 +134,19 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <input type="submit" value="Filtrar" class="btn btn-primary">
+                                <input type="submit" value="Filtrar" class="btn btn-primary" onclick="return validar();">
+                                @can('Registrar_Entradas')
                                 <button type="button" class="btn btn-success" title="Adicionar Nova Entrada"
                                         onclick="location.href='{{ $urlAdicionarEntrada }}'"><i class="fas fa-plus"></i>
                                     Entrada
                                 </button>
+                                @endcan
+                                @can('Registrar_Saidas')
                                 <button type="button" class="btn btn-danger" title="Adicionar Nova Saída"
                                         onclick="location.href='{{ $urlAdicionarSaida }}'"><i class="fas fa-plus"></i>
                                     Saída
                                 </button>
+                                @endcan
                                 <a href="{{ $urlFechar }}" class="btn btn-secondary">Fechar</a>
                             </div>
                         </div>
@@ -196,7 +205,13 @@
                                                 <tr>
                                                     <td>#</td>
 {{--                                                    <td align="center">{{ date('d/m/Y H:i:s', strtotime($lancamento->created_at)) }}</td>--}}
-                                                    <td align="center">{{ date('d/m/Y', strtotime($lancamento->data)) }}</td>
+                                                    <td>
+                                                        <a>{{ $lancamento->congregacao->nome . " / " . $lancamento->congregacao->uf }}</a>
+                                                        <br/>
+                                                        <small>
+                                                            Lançado em {{ date('d/m/Y', strtotime($lancamento->data)) }}
+                                                        </small>
+                                                    </td>
                                                     <td>{{ $lancamento->categoria->nome }}</td>
                                                     <td>{{ $tipo }}</td>
                                                     <td align="right">R$ {{ numberFormatFinaBen($lancamento->valor) }}</td>

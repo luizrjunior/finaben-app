@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('/permissao-negada', [\App\Http\Controllers\DashboardController::class, 'permissaoNegada']);
+Route::post('/salvar-congregacao-usuario', [\App\Http\Controllers\DashboardController::class, 'salvarCongregacaoUsuario']);
 
 Route::group(['prefix' => 'usuarios'], function () {
     Route::any('/', [\App\Http\Controllers\Usuarios\UsuarioController::class, 'index']);

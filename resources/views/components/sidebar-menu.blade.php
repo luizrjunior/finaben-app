@@ -9,6 +9,7 @@
                 <p>Dashboard</p>
             </a>
         </li>
+        @if (Session::get('session_congregacao_id'))
         @can('Menu_Usuarios')
         <li class="nav-item">
             <a id="itemMenuUsuarios" href="{{ url('/usuarios') }}" class="nav-link">
@@ -77,6 +78,7 @@
             </ul>
         </li>
         @endcan
+        @endif
     </ul>
 </nav>
 <!-- /.sidebar-menu -->
