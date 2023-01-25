@@ -213,6 +213,8 @@
                                            value="{{ $valor_lancamento }}">
                                     <span class="error invalid-feedback">{{ $errors->first('valor_lancamento') }}</span>
                                 </div>
+                                @if ($lancamento_id != null)
+                                    @if ($tipo_lancamento == 'S')
                                 <div class="form-group">
                                     <label>Comprovante</label>
                                     <div class="custom-file">
@@ -220,6 +222,8 @@
                                         <label class="custom-file-label" for="customFile">Escolha o arquivo</label>
                                     </div>
                                 </div>
+                                    @endif
+                                @endif
                             </div>
                             <div class="card-footer">
                                 @php
