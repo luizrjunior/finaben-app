@@ -5,31 +5,34 @@
     $titulo_lancamento = isset($lancamento->titulo) ? $lancamento->titulo : null;
     $data_lancamento = isset($lancamento->data) ? \DateTime::createFromFormat('Y-m-d', $lancamento->data)->format('d/m/Y') : null;
     $valor_lancamento = isset($lancamento->valor) ? "R$ " . numberFormatFinaBen($lancamento->valor) : "R$ 0,00";
-    $url_comprovante = isset($lancamento->url_comprovante) ? $lancamento->url_comprovante : null;
+    $url_comprovante = isset($lancamento->url_comprovante) ? getUrl($lancamento->url_comprovante) : null;
     $observacao = isset($lancamento->observacao) ? $lancamento->observacao : null;
     $categoria_lancamento_id = isset($lancamento->categoria_lancamento_id) ? $lancamento->categoria_lancamento_id : null;
     $congregacao_id = isset($lancamento->congregacao_id) ? $lancamento->congregacao_id : $session_congregacao_id;
     $uf_lancamento = isset($lancamento->congregacao->uf) ? $lancamento->congregacao->uf : $session_congregacao_uf;
 
+    dd($url_comprovante);
+
+    $prefixo_url = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/";
+    $namePictureJpg = $prefixo_url . md5($lancamento_id) . ".jpg";
     $url_comprovante_view = "";
-    $namePictureJpg = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/" . md5($lancamento_id) . ".jpg";
     if (file_exists($namePictureJpg)) {
-        $url_comprovante_view = asset('storage/app/lancamentos-saidas/' . $url_comprovante);
+        $url_comprovante_view = asset('lancamentos-saidas/' . $url_comprovante);
     }
 
-    $namePictureJpeg = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/" . md5($lancamento_id) . ".jpeg";
+    $namePictureJpeg = $prefixo_url . md5($lancamento_id) . ".jpeg";
     if (file_exists($namePictureJpeg)) {
-        $url_comprovante_view = asset('storage/app/lancamentos-saidas/' . $url_comprovante);
+        $url_comprovante_view = asset('lancamentos-saidas/' . $url_comprovante);
     }
 
-    $namePicturePng = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/" . md5($lancamento_id) . ".png";
+    $namePicturePng = $prefixo_url . md5($lancamento_id) . ".png";
     if (file_exists($namePicturePng)) {
-        $url_comprovante_view = asset('storage/app/lancamentos-saidas/' . $url_comprovante);
+        $url_comprovante_view = asset('lancamentos-saidas/' . $url_comprovante);
     }
 
-    $namePicturePdf = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/" . md5($lancamento_id) . ".pdf";
+    $namePicturePdf = $prefixo_url . md5($lancamento_id) . ".pdf";
     if (file_exists($namePicturePdf)) {
-        $url_comprovante_view = asset('storage/app/lancamentos-saidas/' . $url_comprovante);
+        $url_comprovante_view = asset('lancamentos-saidas/' . $url_comprovante);
     }
 
     $lancamento_id = retornaValorAntigo($lancamento_id, 'lancamento_id');

@@ -238,22 +238,23 @@ class LancamentoController extends Controller
 
     private function anexarArquivoProfile($request)
     {
-        $namePictureJpg = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/lancamentos-saidas/" . md5($request->lancamento_id) . ".jpg";
+        $prefixo_url = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/lancamentos-saidas/";
+        $namePictureJpg = $prefixo_url . md5($request->lancamento_id) . ".jpg";
         if (file_exists($namePictureJpg)) {
             unlink($namePictureJpg);
         }
 
-        $namePictureJpeg = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/ancamentos-saidas/" . md5($request->lancamento_id) . ".jpeg";
+        $namePictureJpeg = $prefixo_url . md5($request->lancamento_id) . ".jpeg";
         if (file_exists($namePictureJpeg)) {
             unlink($namePictureJpeg);
         }
 
-        $namePicturePng = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/lancamentos-saidas/" . md5($request->lancamento_id) . ".png";
+        $namePicturePng = $prefixo_url . md5($request->lancamento_id) . ".png";
         if (file_exists($namePicturePng)) {
             unlink($namePicturePng);
         }
 
-        $namePicturePdf = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/lancamentos-saidas/" . md5($request->lancamento_id) . ".pdf";
+        $namePicturePdf = $prefixo_url . md5($request->lancamento_id) . ".pdf";
         if (file_exists($namePicturePdf)) {
             unlink($namePicturePdf);
         }
@@ -267,13 +268,18 @@ class LancamentoController extends Controller
         // Define finalmente o nome
         $nameFile = "{$name}.{$extension}";
 
-        $upload = $request->file_lancamento->storeAs('lancamentos-saidas', $nameFile);
-        if (!$upload) {
-            return false;
+        $path = '';
+        if( $request->has('file_lancamento') ) {
+            $path = $request->file('file_lancamento')->store('public/lancamentos/saidas/' . $request->lancamento_id);
         }
 
+//        $upload = $request->file_lancamento->storeAs('lancamentos-saidas', $nameFile);
+//        if (!$upload) {
+//            return false;
+//        }
+
         $lancamento = Lancamento::find($request->lancamento_id);
-        $lancamento->url_comprovante = $nameFile;
+        $lancamento->url_comprovante = $path;
         $lancamento->save();
 
         return true;

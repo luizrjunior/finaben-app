@@ -58,5 +58,14 @@ class Controller extends BaseController
             'MX' => 'MEXICO'
         ];
     }
+
+    public static function getUrl($path)
+    {
+        $url = "";
+        if( !empty($path) && Storage::disk('public')->exists($path) )
+            $url = Storage::url($path);
+        return $url;
+    }
+
 }
 
