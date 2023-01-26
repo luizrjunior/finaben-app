@@ -11,6 +11,27 @@
     $congregacao_id = isset($lancamento->congregacao_id) ? $lancamento->congregacao_id : $session_congregacao_id;
     $uf_lancamento = isset($lancamento->congregacao->uf) ? $lancamento->congregacao->uf : $session_congregacao_uf;
 
+    $url_comprovante_view = "";
+    $namePictureJpg = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/" . md5($lancamento_id) . ".jpg";
+    if (file_exists($namePictureJpg)) {
+        $url_comprovante_view = asset('storage/app/lancamentos-saidas/' . $url_comprovante);
+    }
+
+    $namePictureJpeg = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/" . md5($lancamento_id) . ".jpeg";
+    if (file_exists($namePictureJpeg)) {
+        $url_comprovante_view = asset('storage/app/lancamentos-saidas/' . $url_comprovante);
+    }
+
+    $namePicturePng = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/" . md5($lancamento_id) . ".png";
+    if (file_exists($namePicturePng)) {
+        $url_comprovante_view = asset('storage/app/lancamentos-saidas/' . $url_comprovante);
+    }
+
+    $namePicturePdf = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/" . md5($lancamento_id) . ".pdf";
+    if (file_exists($namePicturePdf)) {
+        $url_comprovante_view = asset('storage/app/lancamentos-saidas/' . $url_comprovante);
+    }
+
     $lancamento_id = retornaValorAntigo($lancamento_id, 'lancamento_id');
     $tipo_lancamento = retornaValorAntigo($tipo_lancamento, 'tipo_lancamento');
     $titulo_lancamento = retornaValorAntigo($titulo_lancamento, 'titulo_lancamento');
@@ -81,7 +102,7 @@
     <section class="content">
         <div class="container-fluid">
             <form id="formCadastroGrupo" class="form-horizontal" method="POST" action="{{ $url }}"
-                  autocomplete="off">
+                  autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-3">
@@ -216,11 +237,15 @@
                                 @if ($lancamento_id != null)
                                     @if ($tipo_lancamento == 'S')
                                 <div class="form-group">
-                                    <label>Comprovante</label>
+                                    <label>Anexar Comprovante <small>(Extensões:png,jpeg,jpg e pdf)</small></label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="customFile">
-                                        <label class="custom-file-label" for="customFile">Escolha o arquivo</label>
+                                        <input type="file" class="custom-file-input {{ $errors->has('file_lancamento') ? 'is-invalid' : '' }}" id="file_lancamento" name="file_lancamento">
+                                        <label class="custom-file-label" for="file_lancamento">Escolha o arquivo</label>
+                                        <span class="error invalid-feedback">{{ $errors->first('file_lancamento') }}</span>
                                     </div>
+                                    @if ($url_comprovante_view != "")
+                                        Comprovante: <a href="{{ $url_comprovante_view }}">Clique aqui.</a>
+                                    @endif
                                 </div>
                                     @endif
                                 @endif

@@ -211,6 +211,72 @@ class LancamentoController extends Controller
         $this->setDataLancamento($lancamento, $request);
         $lancamento->save();
 
+        $this->upload($request);
+
         return redirect('/financeiro/lancamentos/' . $lancamento->id . '/editar')->with('success', $msg);
     }
+
+    private function validateRequestUpload($request)
+    {
+        $this->validate($request, [
+            'file_lancamento' => 'nullable|file|max:5124|mimes:jpeg,jpg,png,pdf',
+        ], self::MESSAGES_ERRORS);
+
+    }
+
+    public function upload(Request $request)
+    {
+        $this->validateRequestUpload($request);
+
+        if ($request->hasFile('file_lancamento') && $request->file('file_lancamento')->isValid()) {
+            $picture = $this->anexarArquivoProfile($request);
+            if (!$picture) {
+                return redirect('/financeiro/lancamentos/' . $request->lancamento_id . '/editar')->with('error', 'Erro ao realizar upload do arquivo.');
+            }
+        }
+    }
+
+    private function anexarArquivoProfile($request)
+    {
+        $namePictureJpg = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/lancamentos-saidas/" . md5($request->lancamento_id) . ".jpg";
+        if (file_exists($namePictureJpg)) {
+            unlink($namePictureJpg);
+        }
+
+        $namePictureJpeg = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/ancamentos-saidas/" . md5($request->lancamento_id) . ".jpeg";
+        if (file_exists($namePictureJpeg)) {
+            unlink($namePictureJpeg);
+        }
+
+        $namePicturePng = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/lancamentos-saidas/" . md5($request->lancamento_id) . ".png";
+        if (file_exists($namePicturePng)) {
+            unlink($namePicturePng);
+        }
+
+        $namePicturePdf = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/lancamentos-saidas/" . md5($request->lancamento_id) . ".pdf";
+        if (file_exists($namePicturePdf)) {
+            unlink($namePicturePdf);
+        }
+
+        // Define um aleatório para o arquivo baseado no timestamps atual
+        $name = md5($request->lancamento_id);
+
+        // Recupera a extensão do arquivo
+        $extension = $request->file_lancamento->extension();
+
+        // Define finalmente o nome
+        $nameFile = "{$name}.{$extension}";
+
+        $upload = $request->file_lancamento->storeAs('lancamentos-saidas', $nameFile);
+        if (!$upload) {
+            return false;
+        }
+
+        $lancamento = Lancamento::find($request->lancamento_id);
+        $lancamento->url_comprovante = $nameFile;
+        $lancamento->save();
+
+        return true;
+    }
+
 }
