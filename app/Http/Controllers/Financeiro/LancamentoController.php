@@ -14,10 +14,13 @@ use Illuminate\Support\Facades\Session;
 
 class LancamentoController extends Controller
 {
+    //The file must not be greater than 24 kilobytes.
     const MESSAGES_ERRORS = [
         'congregacao_id.required' => 'A Congregação precisa ser selecionada.',
         'data_lancamento.required' => 'O campo Data precisa ser informado.',
         'valor_lancamento.required' => 'O campo Valor precisa ser informado.',
+        'file_lancamento.mimes' => 'O Comprovante deve ser um arquivo do tipo: jpeg, jpg, png ou pdf.',
+        'file_lancamento.max' => 'O Arquivo do Comprovante não deve ter mais de 5124 kilobytes.',
     ];
 
     public function __construct()
@@ -209,9 +212,8 @@ class LancamentoController extends Controller
 
         $lancamento = Lancamento::find($request->lancamento_id);
         $this->setDataLancamento($lancamento, $request);
+        $this->upload($request, $lancamento);
         $lancamento->save();
-
-        $this->upload($request);
 
         return redirect('/financeiro/lancamentos/' . $lancamento->id . '/editar')->with('success', $msg);
     }
@@ -224,64 +226,32 @@ class LancamentoController extends Controller
 
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request, $lancamento)
     {
         $this->validateRequestUpload($request);
 
         if ($request->hasFile('file_lancamento') && $request->file('file_lancamento')->isValid()) {
-            $picture = $this->anexarArquivoProfile($request);
+            $picture = $this->anexarArquivoProfile($request, $lancamento);
             if (!$picture) {
                 return redirect('/financeiro/lancamentos/' . $request->lancamento_id . '/editar')->with('error', 'Erro ao realizar upload do arquivo.');
             }
         }
     }
 
-    private function anexarArquivoProfile($request)
+    private function anexarArquivoProfile($request, $lancamento)
     {
-        $prefixo_url = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/public/lancamentos-saidas/";
-        $namePictureJpg = $prefixo_url . md5($request->lancamento_id) . ".jpg";
-        if (file_exists($namePictureJpg)) {
-            unlink($namePictureJpg);
+        if ($lancamento->url_comprovante != "") {
+            $url_arquivo_comprovante = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/" . $lancamento->url_comprovante;
+            if (file_exists($url_arquivo_comprovante)) {
+                unlink($url_arquivo_comprovante);
+            }
         }
 
-        $namePictureJpeg = $prefixo_url . md5($request->lancamento_id) . ".jpeg";
-        if (file_exists($namePictureJpeg)) {
-            unlink($namePictureJpeg);
-        }
-
-        $namePicturePng = $prefixo_url . md5($request->lancamento_id) . ".png";
-        if (file_exists($namePicturePng)) {
-            unlink($namePicturePng);
-        }
-
-        $namePicturePdf = $prefixo_url . md5($request->lancamento_id) . ".pdf";
-        if (file_exists($namePicturePdf)) {
-            unlink($namePicturePdf);
-        }
-
-        // Define um aleatório para o arquivo baseado no timestamps atual
-        $name = md5($request->lancamento_id);
-
-        // Recupera a extensão do arquivo
-        $extension = $request->file_lancamento->extension();
-
-        // Define finalmente o nome
-        $nameFile = "{$name}.{$extension}";
-
-        $path = '';
+        $path_file_lancamento = '';
         if( $request->has('file_lancamento') ) {
-            $path = $request->file('file_lancamento')->store('public/lancamentos/saidas/' . $request->lancamento_id);
+            $path_file_lancamento = $request->file('file_lancamento')->store('public/lancamentos/saidas/' . $request->lancamento_id);
         }
-
-//        $upload = $request->file_lancamento->storeAs('lancamentos-saidas', $nameFile);
-//        if (!$upload) {
-//            return false;
-//        }
-
-        $lancamento = Lancamento::find($request->lancamento_id);
-        $lancamento->url_comprovante = $path;
-        $lancamento->save();
-
+        $lancamento->url_comprovante = $path_file_lancamento;
         return true;
     }
 

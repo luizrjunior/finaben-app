@@ -173,10 +173,9 @@
                                         <thead>
                                         <tr>
                                             <th>#</th>
-{{--                                            <th>Criado em</th>--}}
                                             <th>Data</th>
-                                            <th>Categoria</th>
                                             <th>Tipo</th>
+                                            <th>Categoria</th>
                                             <th>Valor</th>
                                             <th>Ações</th>
                                         </tr>
@@ -185,8 +184,10 @@
                                         @if (count($lancamentos) > 0)
                                             @foreach ($lancamentos as $lancamento)
                                                 @php
+                                                    $bg_span = "btn btn-success";
                                                     $tipo = "ENTRADA";
                                                     if ($lancamento->tipo == "S") {
+                                                        $bg_span = "btn btn-danger";
                                                         $tipo = "SAÍDA";
                                                         $valor_total_saidas += $lancamento->valor;
                                                     } else {
@@ -204,7 +205,6 @@
                                                 @endphp
                                                 <tr>
                                                     <td>#</td>
-{{--                                                    <td align="center">{{ date('d/m/Y H:i:s', strtotime($lancamento->created_at)) }}</td>--}}
                                                     <td>
                                                         <a>{{ $lancamento->congregacao->nome . " / " . $lancamento->congregacao->uf }}</a>
                                                         <br/>
@@ -212,8 +212,10 @@
                                                             Lançado em {{ date('d/m/Y', strtotime($lancamento->data)) }}
                                                         </small>
                                                     </td>
+                                                    <td>
+                                                        <span class="{{ $bg_span }}">{{ $tipo }}</span>
+                                                    </td>
                                                     <td>{{ $lancamento->categoria->nome }}</td>
-                                                    <td>{{ $tipo }}</td>
                                                     <td align="right">R$ {{ numberFormatFinaBen($lancamento->valor) }}</td>
                                                     <td align="center">
                                                         <button type="button" class="btn btn-info btn-sm"

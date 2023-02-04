@@ -5,34 +5,23 @@
     $titulo_lancamento = isset($lancamento->titulo) ? $lancamento->titulo : null;
     $data_lancamento = isset($lancamento->data) ? \DateTime::createFromFormat('Y-m-d', $lancamento->data)->format('d/m/Y') : null;
     $valor_lancamento = isset($lancamento->valor) ? "R$ " . numberFormatFinaBen($lancamento->valor) : "R$ 0,00";
-    $url_comprovante = isset($lancamento->url_comprovante) ? getUrl($lancamento->url_comprovante) : null;
+    $url_comprovante = isset($lancamento->url_comprovante) ? $lancamento->url_comprovante : null;
     $observacao = isset($lancamento->observacao) ? $lancamento->observacao : null;
     $categoria_lancamento_id = isset($lancamento->categoria_lancamento_id) ? $lancamento->categoria_lancamento_id : null;
     $congregacao_id = isset($lancamento->congregacao_id) ? $lancamento->congregacao_id : $session_congregacao_id;
     $uf_lancamento = isset($lancamento->congregacao->uf) ? $lancamento->congregacao->uf : $session_congregacao_uf;
 
-    dd($url_comprovante);
-
-    $prefixo_url = str_replace("public", "", $_SERVER['DOCUMENT_ROOT']) . "storage/app/lancamentos-saidas/";
-    $namePictureJpg = $prefixo_url . md5($lancamento_id) . ".jpg";
     $url_comprovante_view = "";
-    if (file_exists($namePictureJpg)) {
-        $url_comprovante_view = asset('lancamentos-saidas/' . $url_comprovante);
-    }
+    $status_imagem_comprovante = false;
 
-    $namePictureJpeg = $prefixo_url . md5($lancamento_id) . ".jpeg";
-    if (file_exists($namePictureJpeg)) {
-        $url_comprovante_view = asset('lancamentos-saidas/' . $url_comprovante);
-    }
-
-    $namePicturePng = $prefixo_url . md5($lancamento_id) . ".png";
-    if (file_exists($namePicturePng)) {
-        $url_comprovante_view = asset('lancamentos-saidas/' . $url_comprovante);
-    }
-
-    $namePicturePdf = $prefixo_url . md5($lancamento_id) . ".pdf";
-    if (file_exists($namePicturePdf)) {
-        $url_comprovante_view = asset('lancamentos-saidas/' . $url_comprovante);
+    $url_arquivo_comprovante = $_SERVER['DOCUMENT_ROOT'] . "/storage" . str_replace("public", "", $url_comprovante);
+    if (file_exists($url_arquivo_comprovante)) {
+        $url_comprovante_view = asset(str_replace("public", "storage", $url_comprovante));
+        $array_extensao = ["png", "jpg", "jpeg"];
+        $extensao_comprovante = pegarExtensaoArquivo($url_comprovante);
+        if (in_array($extensao_comprovante, $array_extensao)) {
+            $status_imagem_comprovante = true;
+        }
     }
 
     $lancamento_id = retornaValorAntigo($lancamento_id, 'lancamento_id');
@@ -240,14 +229,13 @@
                                 @if ($lancamento_id != null)
                                     @if ($tipo_lancamento == 'S')
                                 <div class="form-group">
-                                    <label>Anexar Comprovante <small>(Extensões:png,jpeg,jpg e pdf)</small></label>
+                                    <label>Anexar Comprovante <small>(Extensões:png, jpeg, jpg ou pdf)</small></label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input {{ $errors->has('file_lancamento') ? 'is-invalid' : '' }}" id="file_lancamento" name="file_lancamento">
-                                        <label class="custom-file-label" for="file_lancamento">Escolha o arquivo</label>
+                                        <input type="file" class="{{ $errors->has('file_lancamento') ? 'is-invalid' : '' }}" id="file_lancamento" name="file_lancamento">
                                         <span class="error invalid-feedback">{{ $errors->first('file_lancamento') }}</span>
                                     </div>
                                     @if ($url_comprovante_view != "")
-                                        Comprovante: <a href="{{ $url_comprovante_view }}">Clique aqui.</a>
+                                        Comprovante: <a href="{{ $url_comprovante_view }}" target="_blank">Clique aqui.</a>
                                     @endif
                                 </div>
                                     @endif
@@ -284,6 +272,26 @@
                             </div>
                         </div>
                     </div>
+                    @if ($status_imagem_comprovante)
+                    <div class="col-md-6">
+                        <div class="card card-widget">
+                            <div class="card-header">
+                                <h3 class="card-title">Comprovante do Lançamento</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <img class="img-fluid pad" src="{{ $url_comprovante_view }}" alt="Photo">
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </form>
         </div><!-- /.container-fluid -->
