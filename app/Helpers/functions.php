@@ -41,5 +41,24 @@ if (!function_exists('numberFormatFinaBen')) {
     }
 }
 
+if (!function_exists('pegarExtensaoArquivo')) {
+
+    /**
+     * Pegar Url da Imagem
+     * @param $path
+     * @return string
+     */
+    function pegarExtensaoArquivo($path)
+    {
+        $var = $path;
+        $ultimos1 = substr($var, -4);
+        $ultimos = str_replace(".", "", $ultimos1);
+
+        return $ultimos;
+    }
+}
+
+
+
 
 
