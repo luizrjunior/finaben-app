@@ -39,8 +39,8 @@ class LancamentoController extends Controller
         $session_congregacao_id = Session::get('session_congregacao_id');
         $session_congregacao_uf = Session::get('session_congregacao_uf');
         $session_disabled = "disabled";
-
-        if (auth()->user()->hasAnyRoles('Administrator_Master', 'Administrador_Geral', 'Tesoureiro_Geral', 'Conselho_Fiscal', 'Bispo_Geral')) {
+//, 'Administrador_Geral', 'Tesoureiro_Geral', 'Conselho_Fiscal', 'Bispo_Geral'
+        if (auth()->user()->hasAnyRoles('Administrator_Master') || auth()->user()->hasAnyRoles('Administrador_Geral') ||auth()->user()->hasAnyRoles('Tesoureiro_Geral') ||auth()->user()->hasAnyRoles('Conselho_Fiscal') ||auth()->user()->hasAnyRoles('Bispo_Geral')) {
             $session_congregacao_id = null;
             $uf_session = null;
             $session_disabled = "";
