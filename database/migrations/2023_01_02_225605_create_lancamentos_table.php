@@ -27,7 +27,7 @@ class CreateLancamentosTable extends Migration
             /**
              * CATEGORIA DE LANÇAMENTO FK
             */
-            $table->integer('categoria_lancamento_id')->unsigned();
+            $table->integer('categoria_lancamento_id')->unsigned()->nullable();
             $table->foreign('categoria_lancamento_id')
                 ->references('id')
                 ->on('categorias_lancamentos')
