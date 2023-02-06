@@ -219,7 +219,15 @@
                                                     <td>
                                                         <span class="{{ $bg_span }}">{{ $tipo }}</span>
                                                     </td>
-                                                    <td>{{ $nome_categoria }}</td>
+                                                    <td>
+                                                        {{ $nome_categoria }}
+                                                        @if ($lancamento->titulo != "")
+                                                        <br/>
+                                                        <small>
+                                                            Titulo: {{ $lancamento->titulo }}
+                                                        </small>
+                                                        @endif
+                                                    </td>
                                                     <td align="right">R$ {{ numberFormatFinaBen($lancamento->valor) }}</td>
                                                     <td align="center">
                                                         <button type="button" class="btn btn-info btn-sm"
