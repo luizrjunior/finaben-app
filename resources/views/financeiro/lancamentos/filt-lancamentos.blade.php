@@ -193,14 +193,16 @@
                                                     } else {
                                                         $valor_total_entradas += $lancamento->valor;
                                                     }
-                                                    if (in_array($lancamento->categoria->nome, $array_categ_entradas_calculo)) {
-                                                        $valor_total_entradas_lancadas += $lancamento->valor;
-                                                    }
-                                                    if (in_array($lancamento->categoria->nome, $array_categ_saidas_calculo)) {
-                                                        $valor_total_saidas_lancadas += $lancamento->valor;
-                                                    }
-                                                    if ($lancamento->categoria->nome == 'OFERTA DE MISSÕES') {
-                                                        $valor_total_ofertas_missoes_lancadas += $lancamento->valor;
+                                                    if ($lancamento->categoria_lancamento_id != "") {
+                                                        if (in_array($lancamento->categoria->nome, $array_categ_entradas_calculo)) {
+                                                            $valor_total_entradas_lancadas += $lancamento->valor;
+                                                        }
+                                                        if (in_array($lancamento->categoria->nome, $array_categ_saidas_calculo)) {
+                                                            $valor_total_saidas_lancadas += $lancamento->valor;
+                                                        }
+                                                        if ($lancamento->categoria->nome == 'OFERTA DE MISSÕES') {
+                                                            $valor_total_ofertas_missoes_lancadas += $lancamento->valor;
+                                                        }
                                                     }
                                                 @endphp
                                                 <tr>
