@@ -193,7 +193,9 @@
                                                     } else {
                                                         $valor_total_entradas += $lancamento->valor;
                                                     }
+                                                    $nome_categoria = "SEM CATEGORIA";
                                                     if ($lancamento->categoria_lancamento_id != "") {
+                                                        $nome_categoria = $lancamento->categoria->nome;
                                                         if (in_array($lancamento->categoria->nome, $array_categ_entradas_calculo)) {
                                                             $valor_total_entradas_lancadas += $lancamento->valor;
                                                         }
@@ -217,7 +219,7 @@
                                                     <td>
                                                         <span class="{{ $bg_span }}">{{ $tipo }}</span>
                                                     </td>
-                                                    <td>{{ $lancamento->categoria->nome }}</td>
+                                                    <td>{{ $nome_categoria }}</td>
                                                     <td align="right">R$ {{ numberFormatFinaBen($lancamento->valor) }}</td>
                                                     <td align="center">
                                                         <button type="button" class="btn btn-info btn-sm"
