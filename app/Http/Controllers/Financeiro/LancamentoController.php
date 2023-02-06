@@ -70,7 +70,7 @@ class LancamentoController extends Controller
             ->format('Y-m-d');
 
         $lancamentos = Lancamento::select('lancamentos.*')
-            ->join('categorias_lancamentos as categ', 'lancamentos.categoria_lancamento_id', 'categ.id')
+            ->leftJoin('categorias_lancamentos as categ', 'lancamentos.categoria_lancamento_id', 'categ.id')
             ->join('congregacoes as congr', 'lancamentos.congregacao_id', 'congr.id')
             ->where(function ($query) use ($data) {
                 $query->where('lancamentos.data', '>=', $data['data_inicio_psq']);
