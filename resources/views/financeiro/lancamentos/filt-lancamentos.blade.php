@@ -260,7 +260,7 @@
                             $valor_total_perc_dizimo = (($valor_total_entradas_lancadas * $perc_dizimo) / 100);
                             $valor_total_perc_congiap = (($valor_total_entradas_lancadas * $perc_congiap) / 100);
                             $valor_total_perc_missoes = $valor_total_ofertas_missoes_lancadas + (($valor_total_entradas_lancadas * $perc_missoes) / 100);
-                            $valor_total_percentuais = $valor_total_perc_ministerio + $valor_total_perc_dizimo + $valor_total_perc_congiap + $valor_total_perc_fap +$valor_total_perc_missoes;
+                            $valor_total_percentuais = $valor_total_perc_ministerio + $valor_total_perc_dizimo + $valor_total_perc_congiap + $valor_total_perc_missoes;
                             $valor_saldo = $valor_total_percentuais - $valor_total_saidas_lancadas;
                             $color_label = "danger";
                             if ($valor_saldo == 0.00) {
