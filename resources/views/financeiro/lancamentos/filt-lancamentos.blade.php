@@ -259,7 +259,6 @@
                             $valor_total_perc_ministerio = (($valor_total_entradas_lancadas * $perc_ministerio) / 100);
                             $valor_total_perc_dizimo = (($valor_total_entradas_lancadas * $perc_dizimo) / 100);
                             $valor_total_perc_congiap = (($valor_total_entradas_lancadas * $perc_congiap) / 100);
-                            //$valor_total_perc_fap = (($valor_total_entradas_lancadas * $perc_fap) / 100);
                             $valor_total_perc_missoes = $valor_total_ofertas_missoes_lancadas + (($valor_total_entradas_lancadas * $perc_missoes) / 100);
                             $valor_total_percentuais = $valor_total_perc_ministerio + $valor_total_perc_dizimo + $valor_total_perc_congiap + $valor_total_perc_fap +$valor_total_perc_missoes;
                             $valor_saldo = $valor_total_percentuais - $valor_total_saidas_lancadas;
@@ -292,7 +291,6 @@
                                             <th>10% MINISTÉRIO</th>
                                             <th>10% DÍZIMO</th>
                                             <th>5% CONGIAP</th>
-                                            <!-- th>3% FAP</th -->
                                             <th>OFERTAS DE MISSÕES + 3%</th>
                                             <th>TOTAL</th>
                                         </tr>
@@ -303,7 +301,6 @@
                                             <td align="center">R$ {{ numberFormatFinaBen($valor_total_perc_ministerio) }}</td>
                                             <td align="center">R$ {{ numberFormatFinaBen($valor_total_perc_dizimo) }}</td>
                                             <td align="center">R$ {{ numberFormatFinaBen($valor_total_perc_congiap) }}</td>
-                                            <!-- td align="center">R$ {{ //numberFormatFinaBen($valor_total_perc_fap) }}</td -->
                                             <td align="center">R$ {{ numberFormatFinaBen($valor_total_perc_missoes) }}</td>
                                             <td align="right"><span class="text-primary">R$ {{ numberFormatFinaBen($valor_total_percentuais) }}</span></td>
                                         </tr>
