@@ -5,7 +5,7 @@
     $urlLocalizar = url('/financeiro/lancamentos');
 
     $array_categ_entradas_calculo = ['DIZIMO','OFERTA','OFERTA ESPECIAL'];
-    $array_categ_saidas_calculo = ['10% DÍZIMO','10% MINISTÉRIO','5% CONGIAP','3% MISSÕES','3% FAP'];
+    $array_categ_saidas_calculo = ['10% DÍZIMO','10% MINISTÉRIO','5% CONGIAP','3% MISSÕES'];
 
     $valor_total_entradas = 0;
     $valor_total_saidas = 0;
@@ -22,8 +22,8 @@
     $valor_total_perc_congiap = 0;
     $perc_missoes = 3;
     $valor_total_perc_missoes = 0;
-    $perc_fap = 3;
-    $valor_total_perc_fap = 0;
+    //$perc_fap = 3;
+    //$valor_total_perc_fap = 0;
 @endphp
 
 @section('title', 'FINABEN')
@@ -259,7 +259,7 @@
                             $valor_total_perc_ministerio = (($valor_total_entradas_lancadas * $perc_ministerio) / 100);
                             $valor_total_perc_dizimo = (($valor_total_entradas_lancadas * $perc_dizimo) / 100);
                             $valor_total_perc_congiap = (($valor_total_entradas_lancadas * $perc_congiap) / 100);
-                            $valor_total_perc_fap = (($valor_total_entradas_lancadas * $perc_fap) / 100);
+                            //$valor_total_perc_fap = (($valor_total_entradas_lancadas * $perc_fap) / 100);
                             $valor_total_perc_missoes = $valor_total_ofertas_missoes_lancadas + (($valor_total_entradas_lancadas * $perc_missoes) / 100);
                             $valor_total_percentuais = $valor_total_perc_ministerio + $valor_total_perc_dizimo + $valor_total_perc_congiap + $valor_total_perc_fap +$valor_total_perc_missoes;
                             $valor_saldo = $valor_total_percentuais - $valor_total_saidas_lancadas;
@@ -292,7 +292,7 @@
                                             <th>10% MINISTÉRIO</th>
                                             <th>10% DÍZIMO</th>
                                             <th>5% CONGIAP</th>
-                                            <th>3% FAP</th>
+                                            <!-- th>3% FAP</th -->
                                             <th>OFERTAS DE MISSÕES + 3%</th>
                                             <th>TOTAL</th>
                                         </tr>
@@ -303,7 +303,7 @@
                                             <td align="center">R$ {{ numberFormatFinaBen($valor_total_perc_ministerio) }}</td>
                                             <td align="center">R$ {{ numberFormatFinaBen($valor_total_perc_dizimo) }}</td>
                                             <td align="center">R$ {{ numberFormatFinaBen($valor_total_perc_congiap) }}</td>
-                                            <td align="center">R$ {{ numberFormatFinaBen($valor_total_perc_fap) }}</td>
+                                            <!-- td align="center">R$ {{ //numberFormatFinaBen($valor_total_perc_fap) }}</td -->
                                             <td align="center">R$ {{ numberFormatFinaBen($valor_total_perc_missoes) }}</td>
                                             <td align="right"><span class="text-primary">R$ {{ numberFormatFinaBen($valor_total_percentuais) }}</span></td>
                                         </tr>
