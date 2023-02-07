@@ -40,7 +40,7 @@ class CongregacaoController extends Controller
 
         $data = $request->except('_token');
         $data['name_psq'] = isset($data['name_psq']) ? $data['name_psq'] : null;
-        $data['uf_psq'] = isset($data['uf_psq']) ? $data['uf_psq'] : null;
+        $data['congregacao_uf_psq'] = isset($data['congregacao_uf_psq']) ? $data['congregacao_uf_psq'] : null;
         $data['totalPage'] = isset($data['totalPage']) ? $data['totalPage'] : $this->session_total_page;
 
         $array_estados_congregacoes = $this->array_estados_congregacoes;
@@ -57,8 +57,8 @@ class CongregacaoController extends Controller
             if ($data['name_psq']) {
                 $query->where('name', 'LIKE', "%" . $data['name_psq'] . "%");
             }
-            if ($data['uf_psq']) {
-                $query->where('uf', $data['uf_psq']);
+            if ($data['congregacao_uf_psq']) {
+                $query->where('uf', $data['congregacao_uf_psq']);
             }
         })->orderBy('uf')->orderBy('nome')->paginate($data['totalPage']);
     }
@@ -153,7 +153,7 @@ class CongregacaoController extends Controller
 
     public function carregar(Request $request)
     {
-        $uf = $request->uf_psq;
+        $uf = $request->congregacao_uf_psq;
         $congregacoes = Congregacao::where('uf', $uf)->pluck('nome', 'id')->all();
 
         return response()->json($congregacoes, 200);

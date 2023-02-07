@@ -58,11 +58,11 @@
                                            class="form-control" value="{{ $data['name_psq'] }}" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <label for="uf_psq">UF</label>
-                                    <select id="uf_psq" name="uf_psq" class="form-control custom-select">
+                                    <label for="congregacao_uf_psq">UF</label>
+                                    <select id="congregacao_uf_psq" name="congregacao_uf_psq" class="form-control custom-select">
                                         <option value="" selected> - - TODOS - - </option>
                                         @foreach($array_estados_congregacoes as $key => $value)
-                                            <option value="{{ $key }}" @if ($data['uf_psq'] == $key) selected @endif>{{ $value }}</option>
+                                            <option value="{{ $key }}" @if ($data['congregacao_uf_psq'] == $key) selected @endif>{{ $value }}</option>
                                         @endforeach
                                     </select>
                                 </div>

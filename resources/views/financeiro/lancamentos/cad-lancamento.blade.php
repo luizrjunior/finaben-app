@@ -1,6 +1,7 @@
 @php
     $lancamento = isset($lancamento) ? $lancamento : null;
     $lancamento_id = isset($lancamento->id) ? $lancamento->id : null;
+    $status_lancamento = isset($lancamento->status) ? $lancamento->status : '0';
     $tipo_lancamento = isset($lancamento->tipo) ? $lancamento->tipo : 'E';
     $titulo_lancamento = isset($lancamento->titulo) ? $lancamento->titulo : null;
     $data_lancamento = isset($lancamento->data) ? \DateTime::createFromFormat('Y-m-d', $lancamento->data)->format('d/m/Y') : null;
@@ -40,13 +41,25 @@
     $disabled = "";
 
     $ds_tipo = "entrada";
+    $ds_data = "do Recebimento";
+    $disabled_titulo_lancamento = "";
+    $disabled_categoria_lancamento_id = "";
+    $disabled_status_lancamento = "disabled";
     if ($tipo_lancamento == "S") {
         $ds_tipo = "saida";
+        $ds_data = "de Pagamento";
+        $disabled_status_lancamento = "autofocus";
+    }
+    if ($categoria_lancamento_id == 7) {
+        $disabled_status_lancamento = "disabled";
+        $disabled_categoria_lancamento_id = "disabled";
+        $disabled_titulo_lancamento =  "disabled";
     }
 
     $urlAdicionar = url('/financeiro/lancamentos/' . $ds_tipo . '/adicionar');
     $urlVoltar = url('/financeiro/lancamentos');
     $url = url('/financeiro/lancamentos/inserir');
+    $urlQuitar = url('/financeiro/lancamentos/quitar');
 
     if ($lancamento_id != null) {
         $breadcrumb = 'Editar';
@@ -94,7 +107,7 @@
     <section class="content">
         <div class="container-fluid">
             <form id="formCadastroGrupo" class="form-horizontal" method="POST" action="{{ $url }}"
-                  autocomplete="off" enctype="multipart/form-data">
+                  autocomplete="on" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-3">
@@ -151,7 +164,7 @@
                         <!-- Default box -->
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Cadastro de Lançamento</h3>
+                                <h3 class="card-title">Cadastro do Lançamento</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                             title="Collapse">
@@ -178,15 +191,6 @@
                                        value="{{ $tipo_lancamento }}">
 
                                 <div class="form-group">
-                                    <label>Titulo <small>(Opcional)</small></label>
-                                    <input
-                                        class="form-control {{ $errors->has('titulo_lancamento') ? 'is-invalid' : '' }}"
-                                        type="text" id="titulo_lancamento" name="titulo_lancamento"
-                                        value="{{ $titulo_lancamento }}" autofocus>
-                                    <span
-                                        class="error invalid-feedback">{{ $errors->first('titulo_lancamento') }}</span>
-                                </div>
-                                <div class="form-group">
                                     <label for="tipo_lancamento">Tipo  <span class="text-red">*</span></label>
                                     <select id="tipo_lancamento" name="tipo_lancamento"
                                             class="form-control custom-select" disabled>
@@ -195,11 +199,21 @@
                                         <option value="S" @if ($tipo_lancamento == 'S') selected @endif>SAÍDA</option>
                                     </select>
                                 </div>
+                                    <div class="form-group">
+                                        <label for="status_lancamento">Situação  <span class="text-red">*</span></label>
+                                        <select id="status_lancamento" name="status_lancamento"
+                                                class="form-control custom-select" {{ $disabled_status_lancamento }}>
+                                            <option value=""> -- SELECIONE --</option>
+                                            <option value="0" @if ($status_lancamento == '0') selected @endif>NOVO</option>
+                                            <option value="1" @if ($status_lancamento == '1') selected @endif>PENDENTE</option>
+                                            <option value="2" @if ($status_lancamento == '2') selected @endif>QUITADO</option>
+                                        </select>
+                                    </div>
                                 <div class="form-group">
-                                    <label for="categoria_lancamento_id">Categoria  <span class="text-red">*</span></label>
+                                    <label for="categoria_lancamento_id">Categoria</label>
                                     <select id="categoria_lancamento_id" name="categoria_lancamento_id"
-                                            class="form-control custom-select">
-                                        <option value=""> - - SELECIONE - -</option>
+                                            class="form-control custom-select" {{ $disabled_categoria_lancamento_id }}>
+                                        <option value="">SEM CATEGORIA</option>
                                         @foreach ($categorias as $categoria)
                                             @php
                                                 $selected = "";
@@ -209,11 +223,10 @@
                                             @endphp
                                             <option value="{{ $categoria->id }}" {{ $selected }}>{{ $categoria->nome }}</option>
                                         @endforeach
-                                        <option value="">SEM CATEGORIA</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Data <span class="text-red">*</span></label>
+                                    <label>Data {{ $ds_data }}<span class="text-red">*</span></label>
                                     <input type="text" id="data_lancamento" name="data_lancamento"
                                            class="form-control {{ $errors->has('data_lancamento') ? 'is-invalid' : '' }}"
                                            value="{{ $data_lancamento }}">
@@ -226,6 +239,15 @@
                                            value="{{ $valor_lancamento }}">
                                     <span class="error invalid-feedback">{{ $errors->first('valor_lancamento') }}</span>
                                 </div>
+                                <div class="form-group">
+                                    <label>Titulo <small>(Opcional)</small></label>
+                                    <input
+                                        class="form-control {{ $errors->has('titulo_lancamento') ? 'is-invalid' : '' }}"
+                                        type="text" id="titulo_lancamento" name="titulo_lancamento"
+                                        value="{{ $titulo_lancamento }}" {{ $disabled_titulo_lancamento }}>
+                                    <span
+                                        class="error invalid-feedback">{{ $errors->first('titulo_lancamento') }}</span>
+                                </div>
                                 @if ($lancamento_id != null)
                                     @if ($tipo_lancamento == 'S')
                                 <div class="form-group">
@@ -234,7 +256,7 @@
                                         <input type="file" class="{{ $errors->has('file_lancamento') ? 'is-invalid' : '' }}" id="file_lancamento" name="file_lancamento">
                                         <span class="error invalid-feedback">{{ $errors->first('file_lancamento') }}</span>
                                     </div>
-                                    @if ($url_comprovante_view != "")
+                                    @if ($url_comprovante != "")
                                         Comprovante: <a href="{{ $url_comprovante_view }}" target="_blank">Clique aqui.</a>
                                     @endif
                                 </div>
@@ -268,6 +290,10 @@
                                        onclick="return validarFormLancamento();" {{ $disabled_submit }}>
                                 <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
                                        onclick="location.href='{{ $urlAdicionar }}'">
+                                @if ($session_disabled == "")
+                                <input type="button" value="Quitar" class="btn btn-info"
+                                       onclick="location.href='{{ $urlQuitar }}'">
+                                @endif
                                 <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
                             </div>
                         </div>

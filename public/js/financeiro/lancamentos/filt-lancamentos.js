@@ -1,7 +1,12 @@
 function validar() {
-    $("#uf_psq").prop('disabled', false);
+    $("#congregacao_uf_psq").prop('disabled', false);
     $("#congregacao_id_psq").prop('disabled', false);
     return true;
+}
+
+function lancarSaldoPendenteParaSede() {
+    validar();
+    $("#formAdicionarPercentualSede").submit();
 }
 
 $(document).ready(function () {
@@ -28,7 +33,10 @@ $(document).ready(function () {
     $("#tipo_psq").change(function () {
         carregarInputCategoriasPsq();
     });
-    $("#uf_psq").change(function () {
-        carregarInputCongregacoes("congregacao_id_psq", "uf_psq");
+    $("#congregacao_uf_psq").change(function () {
+        carregarInputCongregacoes("congregacao_id_psq", "congregacao_uf_psq");
+    });
+    $("#btnLancarSaldoPendenteSede").click(function () {
+        lancarSaldoPendenteParaSede();
     });
 });

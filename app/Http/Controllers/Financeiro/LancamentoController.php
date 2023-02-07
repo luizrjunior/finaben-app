@@ -53,7 +53,7 @@ class LancamentoController extends Controller
         }
 
         $data_inicial_psq = date('01/m/Y');
-        $data_termino_psq = date('t/m/Y');
+        $data_termino_psq = date('d/m/Y');
 
         $this->session_total_page = 30;
 
@@ -62,7 +62,7 @@ class LancamentoController extends Controller
         $data['data_final_psq'] = isset($data['data_final_psq']) ? $data['data_final_psq'] : $data_termino_psq;
         $data['tipo_psq'] = isset($data['tipo_psq']) ? $data['tipo_psq'] : null;
         $data['categoria_lancamento_id_psq'] = isset($data['categoria_lancamento_id_psq']) ? $data['categoria_lancamento_id_psq'] : null;
-        $data['uf_psq'] = isset($data['uf_psq']) ? $data['uf_psq'] : $session_congregacao_uf;
+        $data['congregacao_uf_psq'] = isset($data['congregacao_uf_psq']) ? $data['congregacao_uf_psq'] : $session_congregacao_uf;
         $data['congregacao_id_psq'] = isset($data['congregacao_id_psq']) ? $data['congregacao_id_psq'] : $session_congregacao_id;
         $data['totalPage'] = isset($data['totalPage']) ? $data['totalPage'] : $this->session_total_page;
 
@@ -87,8 +87,8 @@ class LancamentoController extends Controller
                 if ($data['categoria_lancamento_id_psq']) {
                     $query->where('lancamentos.categoria_lancamento_id', $data['categoria_lancamento_id_psq']);
                 }
-                if ($data['uf_psq']) {
-                    $query->where('congr.uf', $data['uf_psq']);
+                if ($data['congregacao_uf_psq']) {
+                    $query->where('congr.uf', $data['congregacao_uf_psq']);
                 }
                 if ($data['congregacao_id_psq']) {
                     $query->where('congr.id', $data['congregacao_id_psq']);
@@ -121,8 +121,10 @@ class LancamentoController extends Controller
         parent::setSessionVariables();
 
         $tipo = "E";
+        $categoria_lancamento_negativo = 6;
         if (Session::get('session_tipo_lancamento') == "S") {
             $tipo = "S";
+            $categoria_lancamento_negativo = 7;
         }
 
         $session_congregacao_id = Session::get('session_congregacao_id');
@@ -130,10 +132,32 @@ class LancamentoController extends Controller
 
         $array_estados_congregacoes = $this->array_estados_congregacoes;
 
-        $categorias = CategoriaLancamento::where('tipo', $tipo)->get();
+        $categorias = CategoriaLancamento::where('tipo', $tipo)->where('id', '<>', $categoria_lancamento_negativo)->get();
         $congregacoes = Congregacao::where('uf', $session_congregacao_uf)->get();
         $lancamento = new Lancamento();
         $lancamento->tipo = $tipo;
+
+        return view('financeiro.lancamentos.cad-lancamento',
+            compact('lancamento', 'categorias', 'array_estados_congregacoes', 'congregacoes', 'session_congregacao_uf', 'session_congregacao_id'));
+    }
+
+    public function adicionarSaidaPercentualSede(Request $request)
+    {
+        parent::setSessionVariables();
+
+        $session_congregacao_id = $request->congregacao_id_sede;
+        $session_congregacao_uf = $request->congregacao_uf_sede;
+
+        $array_estados_congregacoes = $this->array_estados_congregacoes;
+
+        $categorias = CategoriaLancamento::where('tipo', 'S')->get();
+        $congregacoes = Congregacao::where('uf', $session_congregacao_uf)->get();
+        $lancamento = new Lancamento();
+        $lancamento->tipo = 'S';
+        $lancamento->congregacao_id = $request->congregacao_id_sede;
+        $lancamento->categoria_lancamento_id = $request->categoria_lancamento_id_sede;
+        $lancamento->valor = $this->retornaValorFormatado($request->valor_lancamento_sede);
+        $lancamento->titulo = $request->titulo_lancamento_sede;
 
         return view('financeiro.lancamentos.cad-lancamento',
             compact('lancamento', 'categorias', 'array_estados_congregacoes', 'congregacoes', 'session_congregacao_uf', 'session_congregacao_id'));
@@ -149,6 +173,7 @@ class LancamentoController extends Controller
             'congregacao_id' => 'required',
             'data_lancamento' => 'required|date_format:d/m/Y|after_or_equal:today',
             'tipo_lancamento' => 'required',
+            'status_lancamento' => 'required',
             'valor_lancamento' => 'required',
         ], self::MESSAGES_ERRORS);
 
@@ -165,14 +190,23 @@ class LancamentoController extends Controller
     private function setDataLancamento($lancamento, $request)
     {
         $data_lancamento_format = \DateTime::createFromFormat('d/m/Y', $request->data_lancamento)->format('Y-m-d');
+        if ($request->lancamento_id == '') {
+            if ($request->categoria_lancamento_id == 7) {
+                $request->status_lancamento = 1;//PENDENTE
+            }
+            if ($request->tipo_lancamento == 'E') {
+                $request->status_lancamento = 2;//QUITADO
+            }
+        }
 
         $lancamento->congregacao_id = $request->congregacao_id;
         $lancamento->categoria_lancamento_id = $request->categoria_lancamento_id;
+        $lancamento->status = $request->status_lancamento;
         $lancamento->tipo = $request->tipo_lancamento;
         $lancamento->data = $data_lancamento_format;
         $lancamento->valor = (float)$this->retornaValorFormatado($request->valor_lancamento);
         $lancamento->titulo = $request->titulo_lancamento;
-        $lancamento->observacao = 'terttg';
+        $lancamento->observacao = '';
         $lancamento->url_comprovante = $request->url_comprovante;
     }
 
@@ -190,6 +224,15 @@ class LancamentoController extends Controller
     {
         parent::setSessionVariables();
 
+        $session_disabled = "disabled";
+        if (
+            auth()->user()->hasAnyRoles('Administrator_Master') ||
+            auth()->user()->hasAnyRoles('Administrador_Geral') ||
+            auth()->user()->hasAnyRoles('Tesoureiro_Geral')
+        ) {
+            $session_disabled = "";
+        }
+
         $array_estados_congregacoes = $this->array_estados_congregacoes;
 
         $lancamento = Lancamento::find($id);
@@ -199,7 +242,7 @@ class LancamentoController extends Controller
         $congregacoes = Congregacao::where('uf', $session_congregacao_uf)->get();
 
         return view('financeiro.lancamentos.cad-lancamento',
-            compact('lancamento', 'categorias',  'array_estados_congregacoes', 'congregacoes', 'session_congregacao_uf', 'session_congregacao_id'));
+            compact('lancamento', 'categorias',  'array_estados_congregacoes', 'congregacoes', 'session_congregacao_uf', 'session_congregacao_id', 'session_disabled'));
     }
 
     public function atualizar(Request $request)

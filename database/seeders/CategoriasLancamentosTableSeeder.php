@@ -15,7 +15,7 @@ class CategoriasLancamentosTableSeeder extends Seeder
     public function run()
     {
         //
-        $this->command->info('Inserindo Categoria: DIZIMO');
+        $this->command->info('Inserindo Categoria: DIZIMOS');
         DB::table('categorias_lancamentos')->insert([
             'nome' => 'DIZIMO',
             'tipo' => 'E',
@@ -23,7 +23,7 @@ class CategoriasLancamentosTableSeeder extends Seeder
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         //
-        $this->command->info('Inserindo Categoria: OFERTA');
+        $this->command->info('Inserindo Categoria: OFERTAS');
         DB::table('categorias_lancamentos')->insert([
             'nome' => 'OFERTA',
             'tipo' => 'E',
@@ -31,7 +31,7 @@ class CategoriasLancamentosTableSeeder extends Seeder
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         //
-        $this->command->info('Inserindo Categoria: OFERTA ESPECIAL');
+        $this->command->info('Inserindo Categoria: OFERTAS ESPECIAIS');
         DB::table('categorias_lancamentos')->insert([
             'nome' => 'OFERTA ESPECIAL',
             'tipo' => 'E',
@@ -39,7 +39,7 @@ class CategoriasLancamentosTableSeeder extends Seeder
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         //
-        $this->command->info('Inserindo Categoria: OFERTA DE MISSÕES');
+        $this->command->info('Inserindo Categoria: OFERTAS DE MISSÕES');
         DB::table('categorias_lancamentos')->insert([
             'nome' => 'OFERTA DE MISSÕES',
             'tipo' => 'E',
@@ -47,41 +47,57 @@ class CategoriasLancamentosTableSeeder extends Seeder
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         //
-        $this->command->info('Inserindo Categoria: 10% DÍZIMO');
+        $this->command->info('Inserindo Categoria: VENDAS');
         DB::table('categorias_lancamentos')->insert([
-            'nome' => '10% DÍZIMO',
+            'nome' => 'VENDAS',
+            'tipo' => 'E',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        //
+        $this->command->info('Inserindo Categoria: ENTRADAS PERCENTUAIS SEDE');
+        DB::table('categorias_lancamentos')->insert([
+            'nome' => 'ENTRADAS PERCENTUAIS SEDE',
+            'tipo' => 'E',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        //
+        $this->command->info('Inserindo Categoria: SAIDAS PERCENTUAIS SEDE');
+        DB::table('categorias_lancamentos')->insert([
+            'nome' => 'SAIDAS PERCENTUAIS SEDE',
             'tipo' => 'S',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         //
-        $this->command->info('Inserindo Categoria: 10% MINISTÉRIO');
+        $this->command->info('Inserindo Categoria: ALUGUÉIS');
         DB::table('categorias_lancamentos')->insert([
-            'nome' => '10% MINISTÉRIO',
+            'nome' => 'ALUGUÉIS',
             'tipo' => 'S',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         //
-        $this->command->info('Inserindo Categoria: 5% CONGIAP');
+        $this->command->info('Inserindo Categoria: CONTAS DE ÁGUA');
         DB::table('categorias_lancamentos')->insert([
-            'nome' => '5% CONGIAP',
+            'nome' => 'CONTAS DE ÁGUA',
             'tipo' => 'S',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         //
-        $this->command->info('Inserindo Categoria: 3% MISSÕES');
+        $this->command->info('Inserindo Categoria: CONTAS DE LUZ');
         DB::table('categorias_lancamentos')->insert([
-            'nome' => '3% MISSÕES',
+            'nome' => 'CONTAS DE LUZ',
             'tipo' => 'S',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         //
-        $this->command->info('Inserindo Categoria: 3% FAP');
+        $this->command->info('Inserindo Categoria: COMPRAS');
         DB::table('categorias_lancamentos')->insert([
-            'nome' => '3% FAP',
+            'nome' => 'COMPRAS',
             'tipo' => 'S',
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),

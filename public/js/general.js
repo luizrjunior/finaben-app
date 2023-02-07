@@ -27,7 +27,7 @@ function carregarInputCongregacoes(inputCongregacao, inputUfPsq, value = null) {
     var formURL = top.urlCarregarCongregacoes + '/carregar';
     var postData = {
         _token: $("input[name='_token']").val(),
-        uf_psq: $("#" + inputUfPsq).val()
+        congregacao_uf_psq: $("#" + inputUfPsq).val()
     };
     $.ajax({
         type: "POST",

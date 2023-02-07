@@ -17,6 +17,13 @@ class CreateLancamentosTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             /**
+             * STATUS:
+             * 0 - Novo;
+             * 1 - Pendente;
+             * 2 - Quitado;
+             */
+            $table->integer('status')->unsigned();
+            /**
              * CONGREGACAO FK
             */
             $table->integer('congregacao_id')->unsigned();

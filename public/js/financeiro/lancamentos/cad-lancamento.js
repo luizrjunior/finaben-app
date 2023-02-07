@@ -2,6 +2,9 @@ function validarFormLancamento() {
     $("#uf_lancamento").prop('disabled', false);
     $("#congregacao_id").prop('disabled', false);
     $("#tipo_lancamento").prop('disabled', false);
+    $("#titulo_lancamento").prop('disabled', false);
+    $("#status_lancamento").prop('disabled', false);
+    $("#categoria_lancamento_id").prop('disabled', false);
     return true;
 }
 
