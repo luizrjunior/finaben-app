@@ -8,6 +8,12 @@ function validarFormLancamento() {
     return true;
 }
 
+function quitar() {
+    validarFormLancamento();
+    $('#formCadastroLancamento').attr('action', top.urlQuitarLancamento);
+    $("#formCadastroLancamento").submit();
+}
+
 $(document).ready(function () {
     $("#itemMenuFinanceiro").addClass('menu-open');
     $("#itemMenuLancamentos").addClass('active');
@@ -20,9 +26,15 @@ $(document).ready(function () {
         todayHighLight: true,
         orientation: 'bottom'
     });
+
     $('#valor_lancamento').bind('input', function () {
         guiMoneyMask('valor_lancamento');
     });
+
+    $("#btnQuitarLancamento").click(function () {
+        quitar();
+    });
+
     $("#uf_lancamento").prop('disabled', true);
     $("#congregacao_id").prop('disabled', true);
 });

@@ -5,7 +5,7 @@
     $urlLocalizar = url('/financeiro/lancamentos');
     $urlAdicionarPercentualSede = url('/financeiro/lancamentos/adicionar-saida-percentual-sede');
 
-    $array_categ_entradas_calculo = ['DIZIMO','OFERTA','OFERTA ESPECIAL'];
+    $array_categ_entradas_calculo = ['DIZIMO', 'OFERTA', 'OFERTA ESPECIAL'];
     $array_categ_saidas_calculo = ['SAIDAS PERCENTUAIS SEDE'];
 
     $valor_total_entradas = 0;

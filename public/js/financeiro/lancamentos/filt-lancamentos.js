@@ -21,6 +21,7 @@ $(document).ready(function () {
         todayHighLight: true,
         orientation: 'bottom'
     });
+
     //Date picker
     $("#data_final_psq").mask("99/99/9999");
     $('#data_final_psq').datepicker({
@@ -30,12 +31,15 @@ $(document).ready(function () {
         todayHighLight: true,
         orientation: 'bottom'
     });
+
     $("#tipo_psq").change(function () {
         carregarInputCategoriasPsq();
     });
+
     $("#congregacao_uf_psq").change(function () {
         carregarInputCongregacoes("congregacao_id_psq", "congregacao_uf_psq");
     });
+
     $("#btnLancarSaldoPendenteSede").click(function () {
         lancarSaldoPendenteParaSede();
     });

@@ -75,6 +75,7 @@
     <x-slot name="javascript">
         <script type="text/javascript">
             top.urlCarregarCongregacoes = '{{ url('/acl/congregacoes') }}';
+            top.urlQuitarLancamento = '{{ $urlQuitar }}';
         </script>
         <script type="text/javascript" src="{{ url('/js/plugins/guiMoneyMask.js') }}"></script>
         <script type="text/javascript" src="{{ url('/js/plugins/jquery.maskedinput.js') }}"></script>
@@ -106,7 +107,7 @@
     </x-slot>
     <section class="content">
         <div class="container-fluid">
-            <form id="formCadastroGrupo" class="form-horizontal" method="POST" action="{{ $url }}"
+            <form id="formCadastroLancamento" class="form-horizontal" method="POST" action="{{ $url }}"
                   autocomplete="on" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -130,9 +131,10 @@
                                     <label for="uf_lancamento">UF Congregação <span class="text-red">*</span></label>
                                     <select id="uf_lancamento" name="uf_lancamento"
                                             class="form-control custom-select {{ $errors->has('uf_lancamento') ? 'is-invalid' : '' }}">
-                                        <option value="" selected> - - SELECIONE - - </option>
+                                        <option value="" selected> - - SELECIONE - -</option>
                                         @foreach($array_estados_congregacoes as $key => $value)
-                                            <option value="{{ $key }}" @if ($uf_lancamento == $key) selected @endif>{{ $value }}</option>
+                                            <option value="{{ $key }}"
+                                                    @if ($uf_lancamento == $key) selected @endif>{{ $value }}</option>
                                         @endforeach
                                     </select>
                                     <span class="error invalid-feedback">{{ $errors->first('uf_lancamento') }}</span>
@@ -187,11 +189,9 @@
 
                                 <input type="hidden" id="lancamento_id" name="lancamento_id"
                                        value="{{ $lancamento_id }}">
-                                <input type="hidden" id="tipo_lancamento" name="tipo_lancamento"
-                                       value="{{ $tipo_lancamento }}">
 
                                 <div class="form-group">
-                                    <label for="tipo_lancamento">Tipo  <span class="text-red">*</span></label>
+                                    <label for="tipo_lancamento">Tipo <span class="text-red">*</span></label>
                                     <select id="tipo_lancamento" name="tipo_lancamento"
                                             class="form-control custom-select" disabled>
                                         <option value=""> -- SELECIONE --</option>
@@ -199,16 +199,18 @@
                                         <option value="S" @if ($tipo_lancamento == 'S') selected @endif>SAÍDA</option>
                                     </select>
                                 </div>
-                                    <div class="form-group">
-                                        <label for="status_lancamento">Situação  <span class="text-red">*</span></label>
-                                        <select id="status_lancamento" name="status_lancamento"
-                                                class="form-control custom-select" {{ $disabled_status_lancamento }}>
-                                            <option value=""> -- SELECIONE --</option>
-                                            <option value="0" @if ($status_lancamento == '0') selected @endif>NOVO</option>
-                                            <option value="1" @if ($status_lancamento == '1') selected @endif>PENDENTE</option>
-                                            <option value="2" @if ($status_lancamento == '2') selected @endif>QUITADO</option>
-                                        </select>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="status_lancamento">Situação <span class="text-red">*</span></label>
+                                    <select id="status_lancamento" name="status_lancamento"
+                                            class="form-control custom-select" {{ $disabled_status_lancamento }}>
+                                        <option value=""> -- SELECIONE --</option>
+                                        <option value="0" @if ($status_lancamento == '0') selected @endif>NOVO</option>
+                                        <option value="1" @if ($status_lancamento == '1') selected @endif>PENDENTE
+                                        </option>
+                                        <option value="2" @if ($status_lancamento == '2') selected @endif>QUITADO
+                                        </option>
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <label for="categoria_lancamento_id">Categoria</label>
                                     <select id="categoria_lancamento_id" name="categoria_lancamento_id"
@@ -221,7 +223,8 @@
                                                     $selected = "selected";
                                                 }
                                             @endphp
-                                            <option value="{{ $categoria->id }}" {{ $selected }}>{{ $categoria->nome }}</option>
+                                            <option
+                                                value="{{ $categoria->id }}" {{ $selected }}>{{ $categoria->nome }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -250,23 +253,28 @@
                                 </div>
                                 @if ($lancamento_id != null)
                                     @if ($tipo_lancamento == 'S')
-                                <div class="form-group">
-                                    <label>Anexar Comprovante <small>(Extensões:png, jpeg, jpg ou pdf)</small></label>
-                                    <div class="custom-file">
-                                        <input type="file" class="{{ $errors->has('file_lancamento') ? 'is-invalid' : '' }}" id="file_lancamento" name="file_lancamento">
-                                        <span class="error invalid-feedback">{{ $errors->first('file_lancamento') }}</span>
-                                    </div>
-                                    @if ($url_comprovante != "")
-                                        Comprovante: <a href="{{ $url_comprovante_view }}" target="_blank">Clique aqui.</a>
-                                    @endif
-                                </div>
+                                        <div class="form-group">
+                                            <label>Anexar Comprovante <small>(Extensões:png, jpeg, jpg ou
+                                                    pdf)</small></label>
+                                            <div class="custom-file">
+                                                <input type="file"
+                                                       class="{{ $errors->has('file_lancamento') ? 'is-invalid' : '' }}"
+                                                       id="file_lancamento" name="file_lancamento">
+                                                <span
+                                                    class="error invalid-feedback">{{ $errors->first('file_lancamento') }}</span>
+                                            </div>
+                                            @if ($url_comprovante != "")
+                                                Comprovante: <a href="{{ $url_comprovante_view }}" target="_blank">Clique
+                                                    aqui.</a>
+                                            @endif
+                                        </div>
                                     @endif
                                 @endif
                             </div>
                             <div class="card-footer">
                                 @php
-                                $disabled_submit = "disabled";
-                                $st_permissao_entradas = false;
+                                    $disabled_submit = "disabled";
+                                    $st_permissao_entradas = false;
                                 @endphp
                                 @can('Registrar_Entradas')
                                     @php
@@ -290,33 +298,32 @@
                                        onclick="return validarFormLancamento();" {{ $disabled_submit }}>
                                 <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
                                        onclick="location.href='{{ $urlAdicionar }}'">
-                                @if ($session_disabled == "")
-                                <input type="button" value="Quitar" class="btn btn-info"
-                                       onclick="location.href='{{ $urlQuitar }}'">
+                                @if ($lancamento_id != '' && $tipo_lancamento == 'S' && $session_disabled == "")
+                                    <input type="button" id="btnQuitarLancamento" name="btnQuitarLancamento" value="Quitar" class="btn btn-info">
                                 @endif
                                 <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
                             </div>
                         </div>
                     </div>
                     @if ($status_imagem_comprovante)
-                    <div class="col-md-6">
-                        <div class="card card-widget">
-                            <div class="card-header">
-                                <h3 class="card-title">Comprovante do Lançamento</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                        <div class="col-md-6">
+                            <div class="card card-widget">
+                                <div class="card-header">
+                                    <h3 class="card-title">Comprovante do Lançamento</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <img class="img-fluid pad" src="{{ $url_comprovante_view }}" alt="Photo">
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <img class="img-fluid pad" src="{{ $url_comprovante_view }}" alt="Photo">
-                            </div>
                         </div>
-                    </div>
                     @endif
                 </div>
             </form>

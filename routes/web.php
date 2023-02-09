@@ -71,6 +71,7 @@ Route::group(['prefix' => 'financeiro'], function () {
     Route::get('/lancamentos/{lancamento_id}/editar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'editar']);
     Route::post('/lancamentos/atualizar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'atualizar']);
     Route::post('/lancamentos/adicionar-saida-percentual-sede', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'adicionarSaidaPercentualSede']);
+    Route::post('/lancamentos/quitar', [\App\Http\Controllers\Financeiro\LancamentoController::class, 'quitar']);
 });
 
 require __DIR__.'/auth.php';

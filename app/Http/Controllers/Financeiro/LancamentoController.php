@@ -120,6 +120,16 @@ class LancamentoController extends Controller
     {
         parent::setSessionVariables();
 
+        $session_disabled = "disabled";
+        if (
+            auth()->user()->hasAnyRoles('Administrator_Master') ||
+            auth()->user()->hasAnyRoles('Administrador_Geral') ||
+            auth()->user()->hasAnyRoles('Tesoureiro_Geral')
+        ) {
+            $session_disabled = "";
+        }
+
+
         $tipo = "E";
         $categoria_lancamento_negativo = 6;
         if (Session::get('session_tipo_lancamento') == "S") {
@@ -138,12 +148,21 @@ class LancamentoController extends Controller
         $lancamento->tipo = $tipo;
 
         return view('financeiro.lancamentos.cad-lancamento',
-            compact('lancamento', 'categorias', 'array_estados_congregacoes', 'congregacoes', 'session_congregacao_uf', 'session_congregacao_id'));
+            compact('lancamento', 'categorias', 'array_estados_congregacoes', 'congregacoes', 'session_congregacao_uf', 'session_congregacao_id', 'session_disabled'));
     }
 
     public function adicionarSaidaPercentualSede(Request $request)
     {
         parent::setSessionVariables();
+
+        $session_disabled = "disabled";
+        if (
+            auth()->user()->hasAnyRoles('Administrator_Master') ||
+            auth()->user()->hasAnyRoles('Administrador_Geral') ||
+            auth()->user()->hasAnyRoles('Tesoureiro_Geral')
+        ) {
+            $session_disabled = "";
+        }
 
         $session_congregacao_id = $request->congregacao_id_sede;
         $session_congregacao_uf = $request->congregacao_uf_sede;
@@ -160,7 +179,7 @@ class LancamentoController extends Controller
         $lancamento->titulo = $request->titulo_lancamento_sede;
 
         return view('financeiro.lancamentos.cad-lancamento',
-            compact('lancamento', 'categorias', 'array_estados_congregacoes', 'congregacoes', 'session_congregacao_uf', 'session_congregacao_id'));
+            compact('lancamento', 'categorias', 'array_estados_congregacoes', 'congregacoes', 'session_congregacao_uf', 'session_congregacao_id', 'session_disabled'));
     }
 
     public function inserir(Request $request)
@@ -190,13 +209,8 @@ class LancamentoController extends Controller
     private function setDataLancamento($lancamento, $request)
     {
         $data_lancamento_format = \DateTime::createFromFormat('d/m/Y', $request->data_lancamento)->format('Y-m-d');
-        if ($request->lancamento_id == '') {
-            if ($request->categoria_lancamento_id == 7) {
-                $request->status_lancamento = 1;//PENDENTE
-            }
-            if ($request->tipo_lancamento == 'E') {
-                $request->status_lancamento = 2;//QUITADO
-            }
+        if ($request->lancamento_id == '' && $request->tipo_lancamento == 'S') {
+            $request->status_lancamento = 1;//PENDENTE
         }
 
         $lancamento->congregacao_id = $request->congregacao_id;
@@ -302,6 +316,38 @@ class LancamentoController extends Controller
         }
         $lancamento->url_comprovante = $path_file_lancamento;
         return true;
+    }
+
+    public function quitar(Request $request)
+    {
+        if (Gate::denies('Manter_Lancamentos')) {
+            return redirect('/permissao-negada');
+        }
+
+        $this->validate($request, [
+            'congregacao_id' => 'required',
+            'tipo_lancamento' => 'required',
+            'valor_lancamento' => 'required',
+        ], self::MESSAGES_ERRORS);
+
+        $msg = "Lançamento quitado com Sucesso!";
+
+        $request->status_lancamento = 2;
+
+        $lancamento = Lancamento::find($request->lancamento_id);
+        $this->setDataLancamento($lancamento, $request);
+        $lancamento->save();
+
+        $request->tipo_lancamento = 'E';
+        $request->congregacao_id = 1;
+        $request->categoria_lancamento_id = 6;
+        $request->data_lancamento_id = date('d/m/Y');
+
+        $lancamento_entrada = new Lancamento();
+        $this->setDataLancamento($lancamento_entrada, $request);
+        $lancamento_entrada->save();
+
+        return redirect('/financeiro/lancamentos/' . $lancamento->id . '/editar')->with('success', $msg);
     }
 
 }
