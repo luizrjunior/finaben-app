@@ -18,7 +18,7 @@ class LancamentoController extends Controller
     const MESSAGES_ERRORS = [
         'congregacao_id.required' => 'A Congregação precisa ser selecionada.',
         'data_lancamento.required' => 'O campo Data precisa ser informado.',
-        'valor_lancamento.required' => 'O campo Valor precisa ser informado.',
+        'valor_lancamento.different' => 'O campo Valor precisa ser informado.',
         'file_lancamento.mimes' => 'O Comprovante deve ser um arquivo do tipo: jpeg, jpg, png ou pdf.',
         'file_lancamento.max' => 'O Arquivo do Comprovante não deve ter mais de 5124 kilobytes.',
     ];
@@ -190,12 +190,11 @@ class LancamentoController extends Controller
 
         $this->validate($request, [
             'congregacao_id' => 'required',
-            'data_lancamento' => 'required|date_format:d/m/Y|after_or_equal:today',
+            'data_lancamento' => 'required|date_format:d/m/Y',
             'tipo_lancamento' => 'required',
             'status_lancamento' => 'required',
-            'valor_lancamento' => 'required',
+            'valor_lancamento' => 'different:valor_lancamento_validate',
         ], self::MESSAGES_ERRORS);
-
 
         $msg = "Lançamento cadastrado com Sucesso!";
 
@@ -267,8 +266,10 @@ class LancamentoController extends Controller
 
         $this->validate($request, [
             'congregacao_id' => 'required',
+            'data_lancamento' => 'required|date_format:d/m/Y',
             'tipo_lancamento' => 'required',
-            'valor_lancamento' => 'required',
+            'status_lancamento' => 'required',
+            'valor_lancamento' => 'different:valor_lancamento_validate',
         ], self::MESSAGES_ERRORS);
 
         $msg = "Lançamento alterado com Sucesso!";

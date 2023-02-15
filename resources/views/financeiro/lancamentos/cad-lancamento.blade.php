@@ -189,6 +189,8 @@
 
                                 <input type="hidden" id="lancamento_id" name="lancamento_id"
                                        value="{{ $lancamento_id }}">
+                                <input type="hidden" id="valor_lancamento_validate" name="valor_lancamento_validate"
+                                       value="R$ 0,00">
 
                                 <div class="form-group">
                                     <label for="tipo_lancamento">Tipo <span class="text-red">*</span></label>
