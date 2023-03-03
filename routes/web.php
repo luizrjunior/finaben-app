@@ -54,6 +54,7 @@ Route::group(['prefix' => 'acl'], function () {
     Route::post('/congregacoes/carregar', [\App\Http\Controllers\Acl\CongregacaoController::class, 'carregar']);
 
     Route::post('/congregacoes-tem-usuarios/salvar', [\App\Http\Controllers\Acl\CongregacaoTemUsuariosController::class, 'salvar']);
+    Route::post('/congregacoes-tem-usuarios/salvar-congregacao-usuario', [\App\Http\Controllers\Acl\CongregacaoTemUsuariosController::class, 'salvarCongregacaoUsuario']);
 });
 
 Route::group(['prefix' => 'financeiro'], function () {

@@ -16,6 +16,7 @@ class CongregacaoTemUsuariosController extends Controller
             . 'você pode verificar isso?',
     ];
     const MESSAGE_INSERT_SUCCESS = "Usuário(s) adicionado(s)/removido(s) com sucesso!";
+    const MESSAGE_SAVE_SUCCESS = "Congregação do Usuário salvo com sucesso!";
 
     /**
      * Method Construtor
@@ -80,4 +81,21 @@ class CongregacaoTemUsuariosController extends Controller
 
         return response()->json($permissions, 200);
     }
+
+    public function salvarCongregacaoUsuario(Request $request)
+    {
+        $usuario_id = $request->usuario_id;
+        $congregacao_id = $request->congregacao_id;
+
+        CongregacaoTemUsuario::where('usuario_id', $usuario_id)->delete();
+
+        $congregacaoTemUsuario = new CongregacaoTemUsuario();
+        $congregacaoTemUsuario->congregacao_id = $congregacao_id;
+        $congregacaoTemUsuario->usuario_id = $usuario_id;
+        $congregacaoTemUsuario->save();
+
+        return redirect('/usuarios/' . $usuario_id . '/editar')
+            ->with('success', self::MESSAGE_SAVE_SUCCESS);
+    }
+
 }

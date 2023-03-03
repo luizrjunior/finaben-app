@@ -6,6 +6,9 @@
     $senha_usuario = null;
     $confirm_senha_usuario = null;
 
+    $congregacao_uf = isset($congregacao_usuario->uf) ? $congregacao_usuario->uf : null;
+    $congregacao_id = isset($congregacao_usuario->id) ? $congregacao_usuario->id : null;
+
     $usuario_id = retornaValorAntigo($usuario_id, 'usuario_id');
     $nome_usuario = retornaValorAntigo($nome_usuario, 'nome_usuario');
     $email_usuario = retornaValorAntigo($email_usuario, 'email_usuario');
@@ -19,6 +22,7 @@
     $urlAdicionar = url('/usuarios/adicionar');
     $urlVoltar = url('/usuarios');
     $url = url('/usuarios/inserir');
+    $urlSalvarCongregacao = url('/acl/congregacoes-tem-usuarios/salvar-congregacao-usuario');
 
     if ($usuario_id != null) {
         $breadcrumb = 'Editar';
@@ -35,6 +39,9 @@
 
 <x-app-layout>
     <x-slot name="javascript">
+        <script type="text/javascript">
+            top.urlCarregarCongregacoes = '{{ url('/acl/congregacoes') }}';
+        </script>
         <script src="{{ asset('/js/usuarios/cad-usuario.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function () {
@@ -42,7 +49,7 @@
                 $("#email_usuario").prop('disabled', true);
                 @endif
 
-                $("#checkTodos").click(function(){
+                $("#checkTodos").click(function () {
                     $('input:checkbox').not(this).prop('checked', this.checked);
                 });
             })
@@ -152,13 +159,83 @@
                                 @endif
                             </div>
                             <div class="card-footer">
-                                <input type="submit" value="Salvar" class="btn btn-primary" {{ $disabled }} onclick="return validarFormUsuario();">
+                                <input type="submit" value="Salvar" class="btn btn-primary"
+                                       {{ $disabled }} onclick="return validarFormUsuario();">
                                 <input type="button" value="{{ $btnAdicionar }}" class="btn btn-warning"
                                        onclick="location.href='{{ $urlAdicionar }}'">
                                 <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
                             </div>
                         </div>
                     </form>
+                    @if ($usuario_id != "")
+                        <form id="formCongregacaoUsuario" class="form-horizontal" method="POST" action="{{ $urlSalvarCongregacao }}"
+                              autocomplete="off">
+                        @csrf
+                            <input type="hidden" id="usuario_id" name="usuario_id" value="{{ $usuario_id }}">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Congregação do Usuário</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                                title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove"
+                                                title="Remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="uf_congregacao">UF Congregação <span
+                                                class="text-red">*</span></label>
+                                        <select id="uf_congregacao" name="uf_congregacao"
+                                                class="form-control custom-select {{ $errors->has('uf_congregacao') ? 'is-invalid' : '' }}">
+                                            <option value="" selected> - - SELECIONE - -</option>
+                                            @foreach($array_estados_congregacoes as $key => $value)
+                                                @php
+                                                    $selected = "";
+                                                    if ($congregacao_uf == $key) {
+                                                        $selected = "selected";
+                                                    }
+                                                @endphp
+                                                <option value="{{ $key }}" {{ $selected }}>{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span
+                                            class="error invalid-feedback">{{ $errors->first('uf_congregacao') }}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="congregacao_id">Congregação <span class="text-red">*</span></label>
+                                        <select id="congregacao_id" name="congregacao_id"
+                                                class="form-control custom-select {{ $errors->has('congregacao_id') ? 'is-invalid' : '' }}">
+                                            <option value="" selected> -- SELECIONE UMA UF --</option>
+                                            @foreach ($congregacoes as $congregacao)
+                                                @php
+                                                    $selected = "";
+                                                    if ($congregacao_id == $congregacao->id) {
+                                                        $selected = "selected";
+                                                    }
+                                                @endphp
+                                                <option
+                                                    value="{{ $congregacao->id }}" {{ $selected }}>{{ $congregacao->nome }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span
+                                            class="error invalid-feedback">{{ $errors->first('congregacao_id') }}</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <input type="submit" value="Salvar" class="btn btn-primary"
+                                           {{ $disabled }} onclick="return validarFormUsuario();">
+                                </div>
+                            </div>
+                        </form>
+
+                    @endif
                 </div>
 
                 @if ($usuario_id != "")

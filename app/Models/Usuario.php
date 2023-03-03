@@ -27,4 +27,9 @@ class Usuario extends Model implements AuditableContract
         return $this->belongsToMany(\App\Models\Role::class, 'users_has_roles', 'user_id', 'role_id');
     }
 
+    public function congregacao()
+    {
+        return $this->belongsToMany(\App\Models\Congregacao::class, 'congregacoes_tem_usuarios', 'usuario_id', 'congregacao_id');
+    }
+
 }

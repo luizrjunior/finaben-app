@@ -5,4 +5,7 @@ function validarFormUsuario() {
 
 $(document).ready(function () {
     $("#itemMenuUsuarios").addClass('active');
+    $("#uf_congregacao").change(function () {
+        carregarInputCongregacoes("congregacao_id", "uf_congregacao");
+    });
 });

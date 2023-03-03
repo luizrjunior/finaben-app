@@ -6,6 +6,7 @@ use Gate;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\Usuario;
+use App\Models\Congregacao;
 use App\Http\Controllers\Controller;
 
 class UsuarioController extends Controller
@@ -110,10 +111,13 @@ class UsuarioController extends Controller
 
     public function editar($id)
     {
+        parent::setSessionVariables();
+
         if (Gate::denies('Manter_Usuarios')) {
             return redirect('/permissao-negada');
         }
 
+        $array_estados_congregacoes = $this->array_estados_congregacoes;
         $roles = $this->retornaGrupos();
         $perfis_usuario = [];
 
@@ -123,8 +127,11 @@ class UsuarioController extends Controller
             $perfis_usuario[] = $userHasRole->id;
         }
 
+        $congregacao_usuario = $usuario->congregacao[0];
+        $congregacoes = Congregacao::where('uf', $congregacao_usuario->uf)->get();
+
         return view('usuarios.cad-usuario',
-            compact('usuario', 'roles', 'perfis_usuario'));
+            compact('usuario', 'roles', 'perfis_usuario', 'array_estados_congregacoes', 'congregacoes', 'congregacao_usuario'));
     }
 
     private function retornaGrupos()
