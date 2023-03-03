@@ -360,7 +360,7 @@
                                         <button type="button" class="btn btn-danger" id="btnLancarSaldoPendenteSede" name="btnLancarSaldoPendenteSede"
                                                 title="Lançar Saldo Pendente Sede"
                                                 onclick="location.href='{{ $urlAdicionarEntrada }}'">
-                                            <i class="fas fa-minus"></i> Lançar Saldo Pendente para Sede
+                                            Lançar Saldo Pendente para Sede
                                         </button>
                                     @endif
                                 @endif

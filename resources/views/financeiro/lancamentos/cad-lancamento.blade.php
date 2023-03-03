@@ -44,7 +44,7 @@
     $ds_data = "do Recebimento";
     $disabled_titulo_lancamento = "";
     $disabled_categoria_lancamento_id = "";
-    $disabled_status_lancamento = "disabled";
+    $disabled_status_lancamento = "";
     if ($tipo_lancamento == "S") {
         $ds_tipo = "saida";
         $ds_data = "de Pagamento";
@@ -108,7 +108,7 @@
     <section class="content">
         <div class="container-fluid">
             <form id="formCadastroLancamento" class="form-horizontal" method="POST" action="{{ $url }}"
-                  autocomplete="on" enctype="multipart/form-data">
+                  autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-3">
@@ -131,7 +131,7 @@
                                     <label for="uf_lancamento">UF Congregação <span class="text-red">*</span></label>
                                     <select id="uf_lancamento" name="uf_lancamento"
                                             class="form-control custom-select {{ $errors->has('uf_lancamento') ? 'is-invalid' : '' }}">
-                                        <option value="" selected> - - SELECIONE - -</option>
+                                        <option value=""> - - SELECIONE - -</option>
                                         @foreach($array_estados_congregacoes as $key => $value)
                                             <option value="{{ $key }}"
                                                     @if ($uf_lancamento == $key) selected @endif>{{ $value }}</option>
@@ -143,7 +143,7 @@
                                     <label for="congregacao_id">Congregação <span class="text-red">*</span></label>
                                     <select id="congregacao_id" name="congregacao_id"
                                             class="form-control custom-select {{ $errors->has('congregacao_id') ? 'is-invalid' : '' }}">
-                                        <option value="" selected> -- SELECIONE UMA UF --</option>
+                                        <option value=""> -- SELECIONE UMA UF --</option>
                                         @foreach ($congregacoes as $congregacao)
                                             @php
                                                 $selected = "";
