@@ -339,14 +339,16 @@ class LancamentoController extends Controller
         $this->setDataLancamento($lancamento, $request);
         $lancamento->save();
 
-        $request->tipo_lancamento = 'E';
-        $request->congregacao_id = 1;
-        $request->categoria_lancamento_id = 6;
-        $request->data_lancamento_id = date('d/m/Y');
+        if ($lancamento->tipo == 'S' && $lancamento->categoria_lancamento_id == '7') {
+            $request->tipo_lancamento = 'E';
+            $request->congregacao_id = 1;
+            $request->categoria_lancamento_id = 6;
+            $request->data_lancamento_id = date('d/m/Y');
 
-        $lancamento_entrada = new Lancamento();
-        $this->setDataLancamento($lancamento_entrada, $request);
-        $lancamento_entrada->save();
+            $lancamento_entrada = new Lancamento();
+            $this->setDataLancamento($lancamento_entrada, $request);
+            $lancamento_entrada->save();
+        }
 
         return redirect('/financeiro/lancamentos/' . $lancamento->id . '/editar')->with('success', $msg);
     }
