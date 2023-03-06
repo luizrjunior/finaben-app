@@ -8,7 +8,7 @@
     $nome_grupo = retornaValorAntigo($nome_grupo, 'nome_grupo');
     $descrissao_grupo = retornaValorAntigo($descrissao_grupo, 'descrissao_grupo');
 
-    $breadcrumb = 'Adicionar Novo';
+    $breadcrumb = 'Adicionar';
     $btnAdicionar = 'Limpar';
     $disabled = "";
 
@@ -18,7 +18,7 @@
 
     if ($grupo_id != null) {
         $breadcrumb = 'Editar';
-        $btnAdicionar = 'Adicionar Novo';
+        $btnAdicionar = 'Adicionar';
         $url = url('/acl/grupos/atualizar');
         if ($grupo_id == 1) {
             $disabled = "disabled";

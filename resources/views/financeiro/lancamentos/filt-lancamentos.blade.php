@@ -141,14 +141,14 @@
                                 <input type="submit" value="Filtrar" class="btn btn-primary"
                                        onclick="return validar();">
                                 @can('Registrar_Entradas')
-                                    <button type="button" class="btn btn-success" title="Adicionar Nova Entrada"
+                                    <button type="button" class="btn btn-success" title="Adicionar Entrada"
                                             onclick="location.href='{{ $urlAdicionarEntrada }}'"><i
                                             class="fas fa-plus"></i>
                                         Entrada
                                     </button>
                                 @endcan
                                 @can('Registrar_Saidas')
-                                    <button type="button" class="btn btn-danger" title="Adicionar Nova Saída"
+                                    <button type="button" class="btn btn-danger" title="Adicionar Saída"
                                             onclick="location.href='{{ $urlAdicionarSaida }}'"><i
                                             class="fas fa-plus"></i>
                                         Saída

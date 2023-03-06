@@ -8,7 +8,7 @@
     $nome_congregacao = retornaValorAntigo($nome_congregacao, 'nome_congregacao');
     $uf_congregacao = retornaValorAntigo($uf_congregacao, 'uf_congregacao');
 
-    $breadcrumb = 'Adicionar Novo';
+    $breadcrumb = 'Adicionar';
     $btnAdicionar = 'Limpar';
     $disabled = "";
 
@@ -18,7 +18,7 @@
 
     if ($congregacao_id != null) {
         $breadcrumb = 'Editar';
-        $btnAdicionar = 'Adicionar Novo';
+        $btnAdicionar = 'Adicionar';
         $url = url('/acl/congregacoes/atualizar');
     }
 @endphp

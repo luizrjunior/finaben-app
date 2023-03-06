@@ -12,7 +12,7 @@
     $descrissao_permissao = retornaValorAntigo($descrissao_permissao, 'descrissao_permissao');
     $url_permissao = retornaValorAntigo($url_permissao, 'url_permissao');
 
-    $breadcrumb = 'Adicionar Novo';
+    $breadcrumb = 'Adicionar';
     $btnAdicionar = 'Limpar';
     $disabled = "";
 
@@ -22,7 +22,7 @@
 
     if ($permissao_id != null) {
         $breadcrumb = 'Editar';
-        $btnAdicionar = 'Adicionar Novo';
+        $btnAdicionar = 'Adicionar';
         $url = url('/acl/permissoes/atualizar');
         if ($permissao_id == 1) {
             $disabled = "disabled";

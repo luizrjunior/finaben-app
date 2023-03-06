@@ -36,7 +36,7 @@
     $congregacao_id = retornaValorAntigo($congregacao_id, 'congregacao_id');
     $uf_lancamento = retornaValorAntigo($uf_lancamento, 'uf_lancamento');
 
-    $breadcrumb = 'Adicionar Novo';
+    $breadcrumb = 'Adicionar';
     $btnAdicionar = 'Limpar';
     $disabled = "";
 
@@ -63,7 +63,7 @@
 
     if ($lancamento_id != null) {
         $breadcrumb = 'Editar';
-        $btnAdicionar = 'Adicionar Novo';
+        $btnAdicionar = 'Adicionar';
         $url = url('/financeiro/lancamentos/atualizar');
     }
 @endphp

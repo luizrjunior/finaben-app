@@ -86,7 +86,7 @@
                         </div>
                         <div class="card-footer">
                             <input type="submit" value="Filtrar" class="btn btn-primary">
-                            <input type="button" value="Adicionar Nova Categoria" class="btn btn-warning"
+                            <input type="button" value="Adicionar Categoria" class="btn btn-warning"
                                    onclick="location.href='{{ $urlAdicionar }}'">
                             <a href="{{ $urlFechar }}" class="btn btn-secondary">Fechar</a>
                         </div>

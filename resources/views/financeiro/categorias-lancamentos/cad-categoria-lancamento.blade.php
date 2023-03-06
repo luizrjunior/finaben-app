@@ -8,7 +8,7 @@
     $nome_categoria = retornaValorAntigo($nome_categoria, 'nome_categoria');
     $tipo_categoria = retornaValorAntigo($tipo_categoria, 'tipo_categoria');
 
-    $breadcrumb = 'Adicionar Nova';
+    $breadcrumb = 'Adicionar';
     $btnAdicionar = 'Limpar';
     $disabled = "";
 
@@ -18,7 +18,7 @@
 
     if ($categoria_id != null) {
         $breadcrumb = 'Editar';
-        $btnAdicionar = 'Adicionar Nova';
+        $btnAdicionar = 'Adicionar';
         $url = url('/financeiro/categorias-lancamentos/atualizar');
     }
 @endphp

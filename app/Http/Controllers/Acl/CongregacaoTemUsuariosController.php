@@ -87,7 +87,7 @@ class CongregacaoTemUsuariosController extends Controller
     public function salvarCongregacaoUsuario(Request $request)
     {
         $this->validate($request, [
-            'congregacao_uf' => 'required',
+            'uf_congregacao' => 'required',
             'congregacao_id' => 'required',
         ], self::MESSAGES_ERRORS);
 

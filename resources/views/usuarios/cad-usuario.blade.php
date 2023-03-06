@@ -18,7 +18,7 @@
     $congregacao_uf = retornaValorAntigo($congregacao_uf, 'congregacao_usuario_uf');
     $congregacao_id = retornaValorAntigo($congregacao_id, 'congregacao_usuario_id');
 
-    $breadcrumb = 'Adicionar Novo';
+    $breadcrumb = 'Adicionar';
     $btnAdicionar = 'Limpar';
     $disabled = "";
 
@@ -29,7 +29,7 @@
 
     if ($usuario_id != null) {
         $breadcrumb = 'Editar';
-        $btnAdicionar = 'Adicionar Novo';
+        $btnAdicionar = 'Adicionar';
         $url = url('/usuarios/atualizar');
         if ($usuario_id == 1) {
             $disabled = "disabled";
@@ -195,10 +195,11 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="uf_congregacao">UF Congregação <span
+                                        <label for="uf_congregacao">Estado (UF) <span
                                                 class="text-red">*</span></label>
                                         <select id="uf_congregacao" name="uf_congregacao"
                                                 class="form-control custom-select {{ $errors->has('uf_congregacao') ? 'is-invalid' : '' }}">
+                                            <option value=""> - - SELECIONE - - </option>
                                             @foreach($array_estados_congregacoes as $key => $value)
                                                 @php
                                                     $selected = "";
@@ -216,6 +217,7 @@
                                         <label for="congregacao_id">Congregação <span class="text-red">*</span></label>
                                         <select id="congregacao_id" name="congregacao_id"
                                                 class="form-control custom-select {{ $errors->has('congregacao_id') || $errors->has('congregacao_usuario_id') ? 'is-invalid' : '' }}">
+                                            <option value=""> - - SELECIONE UM ESTADO (UF) - - </option>
                                             @foreach ($congregacoes as $congregacao)
                                                 @php
                                                     $selected = "";
@@ -236,6 +238,7 @@
                                 <div class="card-footer">
                                     <input type="submit" value="Salvar" class="btn btn-primary"
                                            {{ $disabled }} onclick="return validarFormUsuario();">
+                                    <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
                                 </div>
                             </div>
                         </form>
