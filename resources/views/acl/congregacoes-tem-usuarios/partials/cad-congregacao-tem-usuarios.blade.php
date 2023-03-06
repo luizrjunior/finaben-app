@@ -90,6 +90,7 @@
                 <button type="submit" class="btn btn-primary" onclick="validar()" {{ $disabled }}>
                     Salvar
                 </button>
+                <a href="{{ $urlVoltar }}" class="btn btn-secondary">Voltar</a>
             </div>
         </div>
     </div>

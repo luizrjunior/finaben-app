@@ -65,14 +65,16 @@ class CongregacaoController extends Controller
 
     public function adicionar()
     {
+        parent::setSessionVariables();
         if (Gate::denies('Manter_Congregacoes')) {
             return redirect('/permissao-negada');
         }
+        $array_estados_congregacoes = $this->array_estados_congregacoes;
 
         $congregacao = new Congregacao();
 
         return view('acl.congregacoes.cad-congregacao',
-            compact('congregacao'));
+            compact('congregacao', 'array_estados_congregacoes'));
     }
 
     public function inserir(Request $request)
@@ -103,9 +105,11 @@ class CongregacaoController extends Controller
 
     public function editar($id)
     {
+        parent::setSessionVariables();
         if (Gate::denies('Manter_Congregacoes')) {
             return redirect('/permissao-negada');
         }
+        $array_estados_congregacoes = $this->array_estados_congregacoes;
 
         $usuarios = $this->retornarUsuarios();
         $congregacao = Congregacao::find($id);
@@ -117,7 +121,7 @@ class CongregacaoController extends Controller
         }
 
         return view('acl.congregacoes.cad-congregacao',
-            compact('congregacao', 'usuarios', 'usuarios_congregacao'));
+            compact('congregacao', 'usuarios', 'usuarios_congregacao', 'array_estados_congregacoes'));
     }
 
     private function retornarUsuarios()

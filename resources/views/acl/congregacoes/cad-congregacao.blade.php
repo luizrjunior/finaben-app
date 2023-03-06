@@ -104,33 +104,9 @@
                                     <label for="uf_congregacao">UF <span class="text-red">*</span></label>
                                     <select id="uf_congregacao" name="uf_congregacao" class="form-control custom-select {{ $errors->has('uf_congregacao') ? 'is-invalid' : '' }}">
                                         <option value="" selected> -- SELECIONE -- </option>
-                                        <option value="ac" @if ($uf_congregacao == 'ac') selected @endif>Acre</option>
-                                        <option value="al" @if ($uf_congregacao == 'al') selected @endif>Alagoas</option>
-                                        <option value="am" @if ($uf_congregacao == 'am') selected @endif>Amazonas</option>
-                                        <option value="ap" @if ($uf_congregacao == 'ap') selected @endif>Amapá</option>
-                                        <option value="ba" @if ($uf_congregacao == 'ba') selected @endif>Bahia</option>
-                                        <option value="ce" @if ($uf_congregacao == 'ce') selected @endif>Ceará</option>
-                                        <option value="df" @if ($uf_congregacao == 'df') selected @endif>Distrito Federal</option>
-                                        <option value="es" @if ($uf_congregacao == 'es') selected @endif>Espírito Santo</option>
-                                        <option value="go" @if ($uf_congregacao == 'go') selected @endif>Goiás</option>
-                                        <option value="ma" @if ($uf_congregacao == 'ma') selected @endif>Maranhão</option>
-                                        <option value="mt" @if ($uf_congregacao == 'mt') selected @endif>Mato Grosso</option>
-                                        <option value="ms" @if ($uf_congregacao == 'ms') selected @endif>Mato Grosso do Sul</option>
-                                        <option value="mg" @if ($uf_congregacao == 'mg') selected @endif>Minas Gerais</option>
-                                        <option value="pa" @if ($uf_congregacao == 'pa') selected @endif>Pará</option>
-                                        <option value="pb" @if ($uf_congregacao == 'pb') selected @endif>Paraíba</option>
-                                        <option value="pr" @if ($uf_congregacao == 'pr') selected @endif>Paraná</option>
-                                        <option value="pe" @if ($uf_congregacao == 'pe') selected @endif>Pernambuco</option>
-                                        <option value="pi" @if ($uf_congregacao == 'pi') selected @endif>Piauí</option>
-                                        <option value="rj" @if ($uf_congregacao == 'rj') selected @endif>Rio de Janeiro</option>
-                                        <option value="rn" @if ($uf_congregacao == 'rn') selected @endif>Rio Grande do Norte</option>
-                                        <option value="ro" @if ($uf_congregacao == 'ro') selected @endif>Rondônia</option>
-                                        <option value="rs" @if ($uf_congregacao == 'rs') selected @endif>Rio Grande do Sul</option>
-                                        <option value="rr" @if ($uf_congregacao == 'rr') selected @endif>Roraima</option>
-                                        <option value="sc" @if ($uf_congregacao == 'sc') selected @endif>Santa Catarina</option>
-                                        <option value="se" @if ($uf_congregacao == 'se') selected @endif>Sergipe</option>
-                                        <option value="sp" @if ($uf_congregacao == 'sp') selected @endif>São Paulo</option>
-                                        <option value="to" @if ($uf_congregacao == 'to') selected @endif>Tocantins</option>
+                                        @foreach($array_estados_congregacoes as $key => $value)
+                                            <option value="{{ $key }}" @if ($uf_congregacao == $key) selected @endif>{{ $value }}</option>
+                                        @endforeach
                                     </select>
                                     <span class="error invalid-feedback">{{ $errors->first('uf_congregacao') }}</span>
                                 </div>
