@@ -95,7 +95,7 @@
                             </div>
                             <div class="card-footer">
                                 <input type="submit" value="Filtrar" class="btn btn-primary">
-                                <input type="button" value="Adicionar Congregação" class="btn btn-warning"
+                                <input type="button" value="Adicionar" class="btn btn-warning"
                                        onclick="location.href='{{ $urlAdicionar }}'">
                                 <a href="{{ $urlFechar }}" class="btn btn-secondary">Fechar</a>
                             </div>
