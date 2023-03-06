@@ -215,7 +215,7 @@
                                     <div class="form-group">
                                         <label for="congregacao_id">Congregação <span class="text-red">*</span></label>
                                         <select id="congregacao_id" name="congregacao_id"
-                                                class="form-control custom-select {{ $errors->has('congregacao_usuario_id') ? 'is-invalid' : '' }}">
+                                                class="form-control custom-select {{ $errors->has('congregacao_id') || $errors->has('congregacao_usuario_id') ? 'is-invalid' : '' }}">
                                             @foreach ($congregacoes as $congregacao)
                                                 @php
                                                     $selected = "";
@@ -227,6 +227,8 @@
                                                     value="{{ $congregacao->id }}" {{ $selected }}>{{ $congregacao->nome }}</option>
                                             @endforeach
                                         </select>
+                                        <span
+                                            class="error invalid-feedback">{{ $errors->first('congregacao_id') }}</span>
                                         <span
                                             class="error invalid-feedback">{{ $errors->first('congregacao_usuario_id') }}</span>
                                     </div>

@@ -155,8 +155,6 @@ class UsuarioController extends Controller
 
         $this->validarRequestAtualizar($request);
 
-//        dd($request->all());
-
         $usuario = Usuario::find($request->usuario_id);
         $usuario->name = $request->nome_usuario;
         $usuario->email = $request->email_usuario;

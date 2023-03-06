@@ -14,6 +14,8 @@ class CongregacaoTemUsuariosController extends Controller
     const MESSAGES_ERRORS = [
         'usuario_ids.required' => 'Pelo menos 01 Usuário precisa ser marcada. Por favor, '
             . 'você pode verificar isso?',
+        'congregacao_uf.required' => 'O campo UF é de seleção obrigatória.',
+        'congregacao_id.required' => 'O campo Congregação é de seleção obrigatória.',
     ];
     const MESSAGE_INSERT_SUCCESS = "Usuário(s) adicionado(s)/removido(s) com sucesso!";
     const MESSAGE_SAVE_SUCCESS = "Congregação do Usuário salvo com sucesso!";
@@ -84,6 +86,11 @@ class CongregacaoTemUsuariosController extends Controller
 
     public function salvarCongregacaoUsuario(Request $request)
     {
+        $this->validate($request, [
+            'congregacao_uf' => 'required',
+            'congregacao_id' => 'required',
+        ], self::MESSAGES_ERRORS);
+
         $usuario_id = $request->usuario_id;
         $congregacao_id = $request->congregacao_id;
 
