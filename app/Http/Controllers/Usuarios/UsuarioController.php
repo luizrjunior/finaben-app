@@ -23,6 +23,8 @@ class UsuarioController extends Controller
         'senha_usuario.required' => 'O campo Senha precisa ser informado.',
         'senha_usuario.max' => 'Ops, o campo Senha não precisa ter mais que 20 caracteres.',
 
+        'congregacao_usuario_id.required' => 'O campo Congregação precisa ser informado.',
+
         'confirm_senha_usuario.required' => 'O campo Repetir Senha precisa ser informado.',
         'confirm_senha_usuario.same' => 'O campo Repetir Senha não corresponde ao campo Senha.',
     ];
@@ -127,8 +129,13 @@ class UsuarioController extends Controller
             $perfis_usuario[] = $userHasRole->id;
         }
 
-        $congregacao_usuario = $usuario->congregacao[0];
-        $congregacoes = Congregacao::where('uf', $congregacao_usuario->uf)->get();
+        $congregacao_usuario = [];
+        $congregacoes = [];
+
+        if (count($usuario->congregacao) > 0) {
+            $congregacao_usuario = $usuario->congregacao[0];
+            $congregacoes = Congregacao::where('uf', $congregacao_usuario->uf)->get();
+        }
 
         return view('usuarios.cad-usuario',
             compact('usuario', 'roles', 'perfis_usuario', 'array_estados_congregacoes', 'congregacoes', 'congregacao_usuario'));
@@ -148,6 +155,8 @@ class UsuarioController extends Controller
 
         $this->validarRequestAtualizar($request);
 
+//        dd($request->all());
+
         $usuario = Usuario::find($request->usuario_id);
         $usuario->name = $request->nome_usuario;
         $usuario->email = $request->email_usuario;
@@ -162,6 +171,7 @@ class UsuarioController extends Controller
         $this->validate($request, [
             'nome_usuario' => 'required|string|max:190',
             'email_usuario' => 'required|string|email|max:190|unique:users,email,' . $request->usuario_id,
+            'congregacao_usuario_id' => 'required',
         ], self::MESSAGES_ERRORS);
     }
 }

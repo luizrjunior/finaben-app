@@ -15,6 +15,9 @@
     $senha_usuario = retornaValorAntigo($senha_usuario, 'senha_usuario');
     $confirm_senha_usuario = retornaValorAntigo($confirm_senha_usuario, 'confirm_senha_usuario');
 
+    $congregacao_uf = retornaValorAntigo($congregacao_uf, 'congregacao_usuario_uf');
+    $congregacao_id = retornaValorAntigo($congregacao_id, 'congregacao_usuario_id');
+
     $breadcrumb = 'Adicionar Novo';
     $btnAdicionar = 'Limpar';
     $disabled = "";
@@ -108,6 +111,8 @@
                                 @endif
 
                                 <input type="hidden" id="usuario_id" name="usuario_id" value="{{ $usuario_id }}">
+                                <input type="hidden" id="congregacao_usuario_uf" name="congregacao_usuario_uf" value="{{ $congregacao_uf }}">
+                                <input type="hidden" id="congregacao_usuario_id" name="congregacao_usuario_id" value="{{ $congregacao_id }}">
 
                                 <div class="form-group">
                                     <label for="nome_usuario" class="control-label">Nome <span class="text-red">*</span></label>
@@ -194,7 +199,6 @@
                                                 class="text-red">*</span></label>
                                         <select id="uf_congregacao" name="uf_congregacao"
                                                 class="form-control custom-select {{ $errors->has('uf_congregacao') ? 'is-invalid' : '' }}">
-                                            <option value="" selected> - - SELECIONE - -</option>
                                             @foreach($array_estados_congregacoes as $key => $value)
                                                 @php
                                                     $selected = "";
@@ -211,8 +215,7 @@
                                     <div class="form-group">
                                         <label for="congregacao_id">Congregação <span class="text-red">*</span></label>
                                         <select id="congregacao_id" name="congregacao_id"
-                                                class="form-control custom-select {{ $errors->has('congregacao_id') ? 'is-invalid' : '' }}">
-                                            <option value="" selected> -- SELECIONE UMA UF --</option>
+                                                class="form-control custom-select {{ $errors->has('congregacao_usuario_id') ? 'is-invalid' : '' }}">
                                             @foreach ($congregacoes as $congregacao)
                                                 @php
                                                     $selected = "";
@@ -225,7 +228,7 @@
                                             @endforeach
                                         </select>
                                         <span
-                                            class="error invalid-feedback">{{ $errors->first('congregacao_id') }}</span>
+                                            class="error invalid-feedback">{{ $errors->first('congregacao_usuario_id') }}</span>
                                     </div>
                                 </div>
                                 <div class="card-footer">
