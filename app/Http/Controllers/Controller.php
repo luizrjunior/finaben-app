@@ -55,7 +55,8 @@ class Controller extends BaseController
             'SP' => 'SÃO PAULO',
             'SE' => 'SERGIPE',
             'TO' => 'TOCANTINS',
-            'MX' => 'MEXICO'
+            'MX' => 'MEXICO',
+            'MI' => 'MINISTERIAL'
         ];
     }
 
