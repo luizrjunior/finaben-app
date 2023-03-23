@@ -318,7 +318,12 @@
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
-                                            <th span="6">ENTRADAS: <span class="text-success">R$ {{ numberFormatFinaBen($valor_total_entradas_lancadas) }} (100%)</span>
+                                            <th span="6">
+                                                ENTRADAS de OFERTA DE MISSÕES:
+                                                <span class="text-success">R$ {{ numberFormatFinaBen($valor_total_ofertas_missoes_lancadas) }}</span>
+                                                <br />
+                                                ENTRADAS de DIZIMO, OFERTA e OFERTA ESPECIAL:
+                                                <span class="text-success">R$ {{ numberFormatFinaBen($valor_total_entradas_lancadas) }}</span>
                                             </th>
                                         </tr>
                                         <tr>
