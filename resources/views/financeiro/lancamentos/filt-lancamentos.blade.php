@@ -291,9 +291,9 @@
                         $valor_total_perc_congiap = (($valor_total_entradas_lancadas * $perc_congiap) / 100);
                         $valor_total_perc_missoes = $valor_total_ofertas_missoes_lancadas + (($valor_total_entradas_lancadas * $perc_missoes) / 100);
                         $valor_total_percentuais = $valor_total_perc_ministerio + $valor_total_perc_dizimo + $valor_total_perc_congiap + $valor_total_perc_missoes;
-                        $valor_saldo = $valor_total_percentuais - $valor_total_saidas_lancadas;
+                        $valor_saldo = $valor_total_saidas_lancadas - $valor_total_percentuais;
                         $color_label = "danger";
-                        if ($valor_saldo <= 0.00) {
+                        if ($valor_saldo <= 0) {
                             $color_label = "primary";
                         }
                     @endphp
@@ -356,8 +356,13 @@
                             </div>
                             <!-- card-body -->
                             <div class="card-footer text-right">
-                                <p>Saldo @if ($valor_saldo > 0.00) Pendente @endif: <span
-                                        class="text-{{ $color_label }}"><b>R$ {{ numberFormatFinaBen($valor_saldo) }}</b></span>
+                                <p>Saldo @if ($valor_saldo > 0.00) Pendente @endif:
+                                    @php
+                                    if ($valor_saldo < 0) {
+                                        $valor_saldo = 0;
+                                    }
+                                    @endphp
+                                    <span class="text-{{ $color_label }}"><b>R$ {{ numberFormatFinaBen($valor_saldo) }}</b></span>
                                 </p>
                                 @if ( $data['congregacao_id_psq'] != "")
                                     @if ($valor_saldo > 0.00)
